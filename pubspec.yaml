@@ -1,5 +1,7 @@
 name: json_api_document
 version: 0.0.1
+author: f3ath <f3ath@example.com>
+homepage: https://example.com
 description: JSON API Document model
 dev_dependencies:
   test: ^0.12.32
