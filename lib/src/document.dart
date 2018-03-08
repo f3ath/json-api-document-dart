@@ -2,10 +2,6 @@ import 'error_object.dart';
 import 'link.dart';
 import 'utils.dart';
 
-a() {
-  throw new Error();
-}
-
 class Document {
   static const version = '1.0';
   final Map<String, dynamic> _json = {};
