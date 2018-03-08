@@ -10,7 +10,7 @@ class Document {
   /// [meta] - meta information
   /// [self] = self link
   /// [related] - related link
-  Document.nullData(
+  Document.fromNull(
       {bool version = false,
       Map<String, dynamic> meta,
       Link self,

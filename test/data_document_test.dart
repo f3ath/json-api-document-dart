@@ -4,12 +4,12 @@ import 'package:test/test.dart';
 void main() {
   group('Null Data', () {
     test('Minimal', () {
-      expect(new Document.nullData().toJson(), equals({'data': null}),
+      expect(new Document.fromNull().toJson(), equals({'data': null}),
           reason: 'Minimal Null-Data Document');
     });
 
     test('Extended', () {
-      var document = new Document.nullData(
+      var document = new Document.fromNull(
           version: true,
           meta: {'purpose': 'test document'},
           self: new Link('/articles/1/relationships/author'),
@@ -33,7 +33,7 @@ void main() {
     });
 
     test('Meta fields are validated', () {
-      expect(() => new Document.nullData(meta: {'invalid key': 'foo'}),
+      expect(() => new Document.fromNull(meta: {'invalid key': 'foo'}),
           throwsArgumentError);
     });
   });
