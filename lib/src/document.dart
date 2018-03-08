@@ -1,5 +1,10 @@
+import 'error_object.dart';
 import 'link.dart';
 import 'utils.dart';
+
+a() {
+  throw new Error();
+}
 
 class Document {
   static const version = '1.0';
@@ -22,12 +27,25 @@ class Document {
             related: related,
             version: version);
 
+  Document.fromErrors(List<ErrorObject> errors,
+      {Link self,
+      Link related,
+      bool version = false,
+      Map<String, dynamic> meta})
+      : this._(
+            errors: errors,
+            meta: meta,
+            self: self,
+            related: related,
+            version: version);
+
   Document.fromMeta(Map<String, dynamic> meta,
       {Link self, Link related, bool version = false})
       : this._(meta: meta, self: self, related: related, version: version);
 
   Document._(
-      {PrimaryData data,
+      {List<ErrorObject> errors,
+      PrimaryData data,
       Map<String, dynamic> meta,
       Link self,
       Link related,
@@ -35,18 +53,21 @@ class Document {
     if (data != null) {
       _json['data'] = data.json;
     }
+    if (errors != null) {
+      _json['errors'] = new List.unmodifiable(errors.map((e) => e.json));
+    }
     if (version) {
       _json['jsonapi'] = const {'version': Document.version};
     }
     if (meta != null) {
       _json['meta'] = createMeta(meta);
     }
-    final links = {'self': self, 'related': related};
-    final linksObject = new Map.fromIterable(
-        links.keys.where((k) => links[k] != null),
-        value: (k) => links[k].json);
-    if (linksObject.isNotEmpty) {
-      _json['links'] = new Map.unmodifiable(linksObject);
+    final possibleLinks = {'self': self, 'related': related};
+    final links = new Map.fromIterable(
+        possibleLinks.keys.where((k) => possibleLinks[k] != null),
+        value: (k) => possibleLinks[k].json);
+    if (links.isNotEmpty) {
+      _json['links'] = new Map.unmodifiable(links);
     }
   }
 
