@@ -1,5 +1,7 @@
 import 'error_object.dart';
 import 'link.dart';
+import 'primary_data.dart';
+import 'resource_identifier.dart';
 import 'utils.dart';
 
 class Document {
@@ -11,11 +13,11 @@ class Document {
   /// [meta] - meta information
   /// [self] = self link
   /// [related] - related link
-  Document.fromNull(
-      {bool version = false,
-      Map<String, dynamic> meta,
+  Document.nullData(
+      {Map<String, dynamic> meta,
       Link self,
-      Link related})
+      Link related,
+      bool version = false})
       : this._(
             data: const PrimaryData(),
             meta: meta,
@@ -24,10 +26,10 @@ class Document {
             version: version);
 
   Document.fromErrors(List<ErrorObject> errors,
-      {Link self,
+      {Map<String, dynamic> meta,
+      Link self,
       Link related,
-      bool version = false,
-      Map<String, dynamic> meta})
+      bool version = false})
       : this._(
             errors: errors,
             meta: meta,
@@ -38,6 +40,18 @@ class Document {
   Document.fromMeta(Map<String, dynamic> meta,
       {Link self, Link related, bool version = false})
       : this._(meta: meta, self: self, related: related, version: version);
+
+  Document.fromResourceIdentifier(ResourceIdentifier identifier,
+      {Map<String, dynamic> meta,
+      Link self,
+      Link related,
+      bool version = false})
+      : this._(
+            data: identifier,
+            meta: meta,
+            self: self,
+            related: related,
+            version: version);
 
   Document._(
       {List<ErrorObject> errors,
@@ -68,10 +82,4 @@ class Document {
   }
 
   toJson() => new Map.unmodifiable(_json);
-}
-
-class PrimaryData {
-  get json => null;
-
-  const PrimaryData();
 }
