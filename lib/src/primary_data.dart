@@ -1,5 +1,4 @@
 class PrimaryData {
-  get json => null;
-
   const PrimaryData();
+  dynamic toJson() => null;
 }

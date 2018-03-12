@@ -2,9 +2,7 @@ import 'link.dart';
 import 'utils.dart';
 
 class ErrorObject {
-  final _json = {};
-
-  Map<String, dynamic> get json => new Map.unmodifiable(_json);
+  Map<String, dynamic> _json;
 
   ErrorObject(
       {String id,
@@ -16,34 +14,29 @@ class ErrorObject {
       String pointer,
       String parameter,
       Map<String, dynamic> meta}) {
-    if (id != null) {
-      _json['id'] = id;
-    }
+    _json = removeNulls({
+      'id': id,
+      'status': status,
+      'code': code,
+      'title': title,
+      'detail': detail,
+    });
     if (about != null) {
-      _json['links'] = {'about': about.json};
-    }
-    if (status != null) {
-      _json['status'] = status;
-    }
-    if (code != null) {
-      _json['code'] = code;
-    }
-    if (title != null) {
-      _json['title'] = title;
-    }
-    if (detail != null) {
-      _json['detail'] = detail;
-    }
-    final sourceMembers = {'pointer': pointer, 'parameter': parameter};
-
-    final source = new Map.fromIterable(
-        sourceMembers.keys.where((k) => sourceMembers[k] != null),
-        value: (k) => sourceMembers[k]);
-    if (source.isNotEmpty) {
-      _json['source'] = new Map.unmodifiable(source);
+      _json['links'] = {'about': about};
     }
     if (meta != null) {
       _json['meta'] = createMeta(meta);
     }
+    final source = removeNulls({
+      'pointer': pointer,
+      'parameter': parameter,
+    });
+
+    if (source.isNotEmpty) {
+      _json['source'] = new Map.unmodifiable(source);
+    }
+    _json = new Map.unmodifiable(_json);
   }
+
+  toJson() => _json;
 }

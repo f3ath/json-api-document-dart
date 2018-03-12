@@ -1,6 +1,7 @@
 import 'error_object.dart';
 import 'link.dart';
 import 'primary_data.dart';
+import 'resource.dart';
 import 'resource_identifier.dart';
 import 'utils.dart';
 
@@ -13,58 +14,89 @@ class Document {
   /// [meta] - meta information
   /// [self] = self link
   /// [related] - related link
-  Document.nullData(
-      {Map<String, dynamic> meta,
-      Link self,
-      Link related,
-      bool version = false})
-      : this._(
+  Document.nullData({
+    Map<String, dynamic> meta,
+    Link self,
+    Link related,
+    bool version = false,
+  })
+      : this._internal(
             data: const PrimaryData(),
             meta: meta,
             self: self,
             related: related,
             version: version);
 
-  Document.fromErrors(List<ErrorObject> errors,
-      {Map<String, dynamic> meta,
-      Link self,
-      Link related,
-      bool version = false})
-      : this._(
+  Document.fromErrors(
+    List<ErrorObject> errors, {
+    Map<String, dynamic> meta,
+    Link self,
+    Link related,
+    bool version = false,
+  })
+      : this._internal(
             errors: errors,
             meta: meta,
             self: self,
             related: related,
             version: version);
 
-  Document.fromMeta(Map<String, dynamic> meta,
-      {Link self, Link related, bool version = false})
-      : this._(meta: meta, self: self, related: related, version: version);
+  Document.fromMeta(
+    Map<String, dynamic> meta, {
+    Link self,
+    Link related,
+    bool version = false,
+  })
+      : this._internal(
+          meta: meta,
+          self: self,
+          related: related,
+          version: version,
+        );
 
-  Document.fromResourceIdentifier(ResourceIdentifier identifier,
-      {Map<String, dynamic> meta,
-      Link self,
-      Link related,
-      bool version = false})
-      : this._(
-            data: identifier,
-            meta: meta,
-            self: self,
-            related: related,
-            version: version);
+  Document.fromResourceIdentifier(
+    ResourceIdentifier identifier, {
+    Map<String, dynamic> meta,
+    Link self,
+    Link related,
+    bool version = false,
+  })
+      : this._internal(
+          data: identifier,
+          meta: meta,
+          self: self,
+          related: related,
+          version: version,
+        );
 
-  Document._(
-      {List<ErrorObject> errors,
-      PrimaryData data,
-      Map<String, dynamic> meta,
-      Link self,
-      Link related,
-      bool version = false}) {
+  Document.fromResource(
+    Resource resource, {
+    Map<String, dynamic> meta,
+    Link self,
+    Link related,
+    bool version = false,
+  })
+      : this._internal(
+          data: resource,
+          meta: meta,
+          self: self,
+          related: related,
+          version: version,
+        );
+
+  Document._internal({
+    List<ErrorObject> errors,
+    PrimaryData data,
+    Map<String, dynamic> meta,
+    Link self,
+    Link related,
+    bool version = false,
+  }) {
     if (data != null) {
-      _json['data'] = data.json;
+      _json['data'] = data;
     }
     if (errors != null) {
-      _json['errors'] = new List.unmodifiable(errors.map((e) => e.json));
+      _json['errors'] = new List.unmodifiable(errors);
     }
     if (version) {
       _json['jsonapi'] = const {'version': Document.version};
@@ -72,10 +104,8 @@ class Document {
     if (meta != null) {
       _json['meta'] = createMeta(meta);
     }
-    final possibleLinks = {'self': self, 'related': related};
-    final links = new Map.fromIterable(
-        possibleLinks.keys.where((k) => possibleLinks[k] != null),
-        value: (k) => possibleLinks[k].json);
+
+    final links = removeNulls({'self': self, 'related': related});
     if (links.isNotEmpty) {
       _json['links'] = new Map.unmodifiable(links);
     }

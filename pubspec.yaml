@@ -4,3 +4,4 @@ author: f3ath <f3ath@lamak.ru>
 description: JSON API Document model
 dev_dependencies:
   test: ^0.12.32
+  json_matcher: ^0.1.0
