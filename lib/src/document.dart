@@ -3,6 +3,7 @@ import 'link.dart';
 import 'primary_data.dart';
 import 'resource.dart';
 import 'resource_identifier.dart';
+import 'resurce_identifier_list.dart';
 import 'utils.dart';
 
 class Document {
@@ -78,6 +79,21 @@ class Document {
   })
       : this._internal(
           data: resource,
+          meta: meta,
+          self: self,
+          related: related,
+          version: version,
+        );
+
+  Document.fromResourceIdentifierList(
+    List<ResourceIdentifier> identifiers, {
+    Map<String, dynamic> meta,
+    Link self,
+    Link related,
+    bool version = false,
+  })
+      : this._internal(
+          data: new ResourceIdentifierList(identifiers),
           meta: meta,
           self: self,
           related: related,
