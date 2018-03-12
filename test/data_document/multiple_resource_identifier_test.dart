@@ -16,9 +16,9 @@ void main() {
         ],
         version: true,
         meta: {'purpose': 'test document'},
-        self: new Link('/articles/1/relationships/author'),
+        self: new Link('/purchases/1/relationships/cart'),
         related: new Link.object(
-            '/articles/1/author', {'purpose': 'test related link'}));
+            '/purchases/1/cart', {'purpose': 'test related link'}));
     expect(
         document,
         encodesToJson({
@@ -29,9 +29,9 @@ void main() {
           'jsonapi': {'version': '1.0'},
           'meta': {'purpose': 'test document'},
           'links': {
-            'self': '/articles/1/relationships/author',
+            'self': '/purchases/1/relationships/cart',
             'related': {
-              'href': '/articles/1/author',
+              'href': '/purchases/1/cart',
               'meta': {'purpose': 'test related link'}
             }
           }

@@ -4,18 +4,18 @@ import 'package:test/test.dart';
 
 void main() {
   test('Minimal', () {
-    final document = new Document.fromResource(new Resource('apples', '1'));
-    expect(
-        document,
-        encodesToJson({
-          'data': {'type': 'apples', 'id': '1'}
-        }));
+    final document = new Document.fromResourceList([]);
+    expect(document, encodesToJson({'data': []}));
   });
 
   test('Extended', () {
-    final document = new Document.fromResource(
-        new Resource('apples', '1',
-            attributes: {'color': 'red', 'sort': 'Fuji'}),
+    final document = new Document.fromResourceList(
+        [
+          new Resource('apples', '1',
+              attributes: {'color': 'red', 'sort': 'Fuji'}),
+          new Resource('apples', '2',
+              attributes: {'color': 'yellow', 'sort': 'Honeycrisp'}),
+        ],
         version: true,
         meta: {'purpose': 'test document'},
         self: new Link('/purchases/1/relationships/cart'),
@@ -24,11 +24,18 @@ void main() {
     expect(
         document,
         encodesToJson({
-          'data': {
-            'type': 'apples',
-            'id': '1',
-            'attributes': {'color': 'red', 'sort': 'Fuji'}
-          },
+          'data': [
+            {
+              'type': 'apples',
+              'id': '1',
+              'attributes': {'color': 'red', 'sort': 'Fuji'}
+            },
+            {
+              'type': 'apples',
+              'id': '2',
+              'attributes': {'color': 'yellow', 'sort': 'Honeycrisp'}
+            },
+          ],
           'jsonapi': {'version': '1.0'},
           'meta': {'purpose': 'test document'},
           'links': {
@@ -43,8 +50,7 @@ void main() {
 
   test('Meta fields are validated', () {
     expect(
-        () => new Document.fromResource(new Resource('apples', '1'),
-            meta: {'invalid key': 'foo'}),
+        () => new Document.fromResourceList([], meta: {'invalid key': 'foo'}),
         throwsArgumentError);
   });
 }
