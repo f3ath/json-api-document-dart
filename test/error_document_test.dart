@@ -1,4 +1,5 @@
 import 'package:json_api_document/json_api_document.dart';
+import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -18,8 +19,8 @@ void main() {
       'purpose': 'test'
     }, version: true);
     expect(
-        doc.toJson(),
-        equals({
+        doc,
+        encodesToJson({
           'errors': [
             {
               'id': '1',

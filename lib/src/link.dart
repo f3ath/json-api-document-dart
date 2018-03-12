@@ -1,10 +1,12 @@
 import 'utils.dart';
 
 class Link {
-  final json;
+  final _json;
 
-  Link(String url) : json = url;
+  Link(String url) : _json = url;
 
   Link.object(String href, Map<String, dynamic> meta)
-      : json = new Map.unmodifiable({'href': href, 'meta': createMeta(meta)});
+      : _json = new Map.unmodifiable({'href': href, 'meta': createMeta(meta)});
+
+  toJson() => _json;
 }

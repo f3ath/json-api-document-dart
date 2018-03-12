@@ -5,3 +5,4 @@ description: JSON API Document model
 homepage: https://github.com/f3ath/json-api-dart
 dev_dependencies:
   test: ^0.12.32
+  json_matcher: ^0.1.0
