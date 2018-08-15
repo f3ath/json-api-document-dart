@@ -5,8 +5,7 @@ import 'package:test/test.dart';
 void main() {
   test('Minimal', () {
     const expected = const {
-      'meta': const {
-        'foo': 'bar'}
+      'meta': const {'foo': 'bar'}
     };
 
     final doc = new Document.fromMeta({'foo': 'bar'});
@@ -15,8 +14,7 @@ void main() {
   });
 
   test('Extended', () {
-    var document = new Document.fromMeta(
-        {'purpose': 'test document'},
+    var document = new Document.fromMeta({'purpose': 'test document'},
         version: true,
         self: new Link('/articles/1/relationships/author'),
         related: new Link.object(
@@ -41,5 +39,4 @@ void main() {
     expect(() => new Document.fromMeta({'invalid key': 'foo'}),
         throwsArgumentError);
   });
-
 }

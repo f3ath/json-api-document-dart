@@ -11,18 +11,12 @@ class Document {
   static const version = '1.0';
   final Map<String, dynamic> _json = {};
 
-  /// JSON API Document
-  /// [version] - include JSON API version information
-  /// [meta] - meta information
-  /// [self] = self link
-  /// [related] - related link
   Document.nullData({
     Map<String, dynamic> meta,
     Link self,
     Link related,
     bool version = false,
-  })
-      : this._internal(
+  }) : this._internal(
             data: const PrimaryData(),
             meta: meta,
             self: self,
@@ -35,8 +29,7 @@ class Document {
     Link self,
     Link related,
     bool version = false,
-  })
-      : this._internal(
+  }) : this._internal(
             errors: errors,
             meta: meta,
             self: self,
@@ -48,8 +41,7 @@ class Document {
     Link self,
     Link related,
     bool version = false,
-  })
-      : this._internal(
+  }) : this._internal(
           meta: meta,
           self: self,
           related: related,
@@ -62,8 +54,7 @@ class Document {
     Link self,
     Link related,
     bool version = false,
-  })
-      : this._internal(
+  }) : this._internal(
           data: identifier,
           meta: meta,
           self: self,
@@ -77,8 +68,7 @@ class Document {
     Link self,
     Link related,
     bool version = false,
-  })
-      : this._internal(
+  }) : this._internal(
           data: resource,
           meta: meta,
           self: self,
@@ -92,8 +82,7 @@ class Document {
     Link self,
     Link related,
     bool version = false,
-  })
-      : this._internal(
+  }) : this._internal(
           data: new ResourceIdentifierList(identifiers),
           meta: meta,
           self: self,
@@ -107,8 +96,7 @@ class Document {
     Link self,
     Link related,
     bool version = false,
-  })
-      : this._internal(
+  }) : this._internal(
           data: new ResourceList(resources),
           meta: meta,
           self: self,
