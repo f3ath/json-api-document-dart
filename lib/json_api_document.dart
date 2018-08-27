@@ -1,5 +1,5 @@
+export 'src/jsonapi.dart';
 export 'src/document.dart';
-export 'src/link.dart';
-export 'src/resource_identifier.dart';
-export 'src/resource.dart';
-export 'src/error_object.dart';
+export 'src/meta.dart';
+export 'src/naming.dart';
+export 'src/strict_naming.dart';

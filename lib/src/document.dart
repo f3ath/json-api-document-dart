@@ -1,135 +1,22 @@
-import 'error_object.dart';
-import 'link.dart';
-import 'primary_data.dart';
-import 'resource.dart';
-import 'resource_identifier.dart';
-import 'resurce_identifier_list.dart';
-import 'resurce_list.dart';
-import 'utils.dart';
+import 'dart:collection';
+
+import 'package:json_api_document/json_api_document.dart';
 
 class Document {
-  static const version = '1.0';
-  final Map<String, dynamic> _json = {};
+  final Naming naming;
+  final Meta meta;
+  final JsonApi jsonapi;
 
-  Document.nullData({
-    Map<String, dynamic> meta,
-    Link self,
-    Link related,
-    bool version = false,
-  }) : this._internal(
-            data: const PrimaryData(),
-            meta: meta,
-            self: self,
-            related: related,
-            version: version);
+  Document({Naming this.naming = const StrictNaming()})
+      : meta = Meta(naming),
+        jsonapi = JsonApi(naming) {}
 
-  Document.fromErrors(
-    List<ErrorObject> errors, {
-    Map<String, dynamic> meta,
-    Link self,
-    Link related,
-    bool version = false,
-  }) : this._internal(
-            errors: errors,
-            meta: meta,
-            self: self,
-            related: related,
-            version: version);
+  bool get isValid => meta.isNotEmpty;
 
-  Document.fromMeta(
-    Map<String, dynamic> meta, {
-    Link self,
-    Link related,
-    bool version = false,
-  }) : this._internal(
-          meta: meta,
-          self: self,
-          related: related,
-          version: version,
-        );
-
-  Document.fromResourceIdentifier(
-    ResourceIdentifier identifier, {
-    Map<String, dynamic> meta,
-    Link self,
-    Link related,
-    bool version = false,
-  }) : this._internal(
-          data: identifier,
-          meta: meta,
-          self: self,
-          related: related,
-          version: version,
-        );
-
-  Document.fromResource(
-    Resource resource, {
-    Map<String, dynamic> meta,
-    Link self,
-    Link related,
-    bool version = false,
-  }) : this._internal(
-          data: resource,
-          meta: meta,
-          self: self,
-          related: related,
-          version: version,
-        );
-
-  Document.fromResourceIdentifierList(
-    List<ResourceIdentifier> identifiers, {
-    Map<String, dynamic> meta,
-    Link self,
-    Link related,
-    bool version = false,
-  }) : this._internal(
-          data: new ResourceIdentifierList(identifiers),
-          meta: meta,
-          self: self,
-          related: related,
-          version: version,
-        );
-
-  Document.fromResourceList(
-    List<Resource> resources, {
-    Map<String, dynamic> meta,
-    Link self,
-    Link related,
-    bool version = false,
-  }) : this._internal(
-          data: new ResourceList(resources),
-          meta: meta,
-          self: self,
-          related: related,
-          version: version,
-        );
-
-  Document._internal({
-    List<ErrorObject> errors,
-    PrimaryData data,
-    Map<String, dynamic> meta,
-    Link self,
-    Link related,
-    bool version = false,
-  }) {
-    if (data != null) {
-      _json['data'] = data;
+  UnmodifiableMapView toJson() {
+    if (meta.isEmpty) {
+      throw StateError('Document is invalid');
     }
-    if (errors != null) {
-      _json['errors'] = new List.unmodifiable(errors);
-    }
-    if (version) {
-      _json['jsonapi'] = const {'version': Document.version};
-    }
-    if (meta != null) {
-      _json['meta'] = createMeta(meta);
-    }
-
-    final links = removeNulls({'self': self, 'related': related});
-    if (links.isNotEmpty) {
-      _json['links'] = new Map.unmodifiable(links);
-    }
+    return Map.unmodifiable({'meta': meta, 'jsonapi': jsonapi});
   }
-
-  toJson() => new Map.unmodifiable(_json);
 }
