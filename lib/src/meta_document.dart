@@ -11,7 +11,7 @@ class MetaDocument {
   var _selfLink;
 
   MetaDocument(Map<String, dynamic> meta,
-      {Naming this.naming = const StrictNaming()})
+      {Naming this.naming = StrictNaming.instance})
       : meta = Meta(naming, meta) {}
 
   get jsonapi => _jsonapi;
