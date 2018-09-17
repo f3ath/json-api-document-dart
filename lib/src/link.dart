@@ -1,10 +1,12 @@
+import 'package:json_api_document/json_api_document.dart';
+
 import 'meta.dart';
 
-class Link {
+class Link<N extends Naming> {
   final String href;
-  final Meta meta;
+  final Meta<N> meta;
 
-  Link(String this.href, Meta this.meta);
+  Link(String this.href, {Meta<N> this.meta});
 
   toJson() => {'href': href, 'meta': meta};
 }

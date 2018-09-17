@@ -2,46 +2,20 @@ import 'meta.dart';
 import 'link.dart';
 import 'jsonapi.dart';
 import 'naming.dart';
-import 'strict_naming.dart';
 
-class MetaDocument {
-  final Naming naming;
+class MetaDocument<N extends Naming> {
   final Meta meta;
-  JsonApi _jsonapi;
-  var _selfLink;
+  final JsonApi jsonapi;
+  final Link self;
 
-  MetaDocument(Map<String, dynamic> meta,
-      {Naming this.naming = StrictNaming.instance})
-      : meta = Meta(naming, meta) {}
-
-  get jsonapi => _jsonapi;
-
-  get selfLink => _selfLink;
+  MetaDocument(Meta<N> this.meta, {JsonApi<N> this.jsonapi, Link<N> this.self}) {
+    if (meta == null) throw ArgumentError();
+  }
 
   toJson() {
     final Map<String, dynamic> j = {'meta': meta};
-    if (_jsonapi != null) j['jsonapi'] = _jsonapi;
-    if (_selfLink != null) j['links'] = {'self': _selfLink};
+    if (jsonapi != null) j['jsonapi'] = jsonapi;
+    if (self != null) j['links'] = {'self': self};
     return j;
   }
-
-  void includeJsonApi(String version, [Map<String, dynamic> meta]) {
-    _jsonapi = JsonApi(version, meta != null ? Meta(this.naming, meta) : null);
-  }
-
-  void removeJsonApi() {
-    _jsonapi = null;
-  }
-
-  void setSelfLink(String url, [Map<String, dynamic> meta]) {
-    if (meta != null)
-      _selfLink = new Link(url, Meta(naming, meta));
-    else
-      _selfLink = url;
-  }
-
-  void removeSelfLink() {
-    _selfLink = null;
-  }
 }
-

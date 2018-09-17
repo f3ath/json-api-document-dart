@@ -1,41 +1,27 @@
 import 'package:json_api_document/json_api_document.dart';
 
+class Meta<N extends Naming> {
+  final Map<String, dynamic> _meta;
 
-class Meta {
-  final Naming naming;
-  final _meta = Map<String, dynamic>();
-
-  Meta(Naming this.naming, Map<String, dynamic> meta) {
-    setAll(meta);
+  Meta(Map<String, dynamic> meta) : _meta = Map.from(meta) {
+    if (meta.isEmpty) throw ArgumentError();
+    final naming = Naming.get(N);
+    meta.keys.forEach(naming.enforce);
   }
+
+  Meta._(Map<String, dynamic> this._meta);
+
+  Meta<N> operator |(Meta<N> other) =>
+      Meta(Map<String, dynamic>()..addAll(other._meta)..addAll(_meta));
 
   operator [](String key) => _meta[key];
 
-  void operator []=(String key, dynamic val) {
-    if (!naming.allows(key)) {
-      throw ArgumentError('Member name "$key" is not allowed by naming rules');
-    }
-    _meta[key] = val;
-  }
+  toJson() => Map.from(_meta);
 
-  bool get isEmpty => _meta.isEmpty;
-
-  bool get isNotEmpty => _meta.isNotEmpty;
-
-  toJson() => Map.unmodifiable(_meta);
-
-  void remove(String key) {
-    _meta.remove(key);
-    if (_meta.isEmpty) throw StateError('Meta object can not be empty');
-  }
-
-  void replaceWith(Map<String, dynamic> other) {
-    if (other.isEmpty) throw ArgumentError();
-    _meta.clear();
-    setAll(other);
-  }
-
-  void setAll(Map<String, dynamic> other) {
-    other.forEach((k, v) => this[k] = v);
+  Meta<N> remove(String key) {
+    final copy = Map<String, dynamic>.from(_meta);
+    copy.remove(key);
+    if (copy.length == 0) throw StateError('Can not remove last element');
+    return Meta._<N>(copy);
   }
 }

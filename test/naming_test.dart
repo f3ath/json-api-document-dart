@@ -2,7 +2,7 @@ import 'package:json_api_document/json_api_document.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const naming = StandardNaming.instance;
+  const naming = const Naming();
   final expectNotToBeAllowed =
       (String name) => expect(naming.allows(name), equals(false));
   final expectToBeAllowed =
@@ -31,9 +31,5 @@ void main() {
   });
   test('"-" and "_" are allowed inside', () {
     ['o-o', 'O_O', 'o-_-o'].forEach(expectToBeAllowed);
-  });
-  test('Singleton', () {
-    expect(StandardNaming.instance == new StandardNaming(), equals(true));
-    expect(new StandardNaming() == new StandardNaming(), equals(true));
   });
 }

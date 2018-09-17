@@ -1,38 +1,33 @@
 import 'package:json_api_document/json_api_document.dart';
-import 'package:json_api_document/src/meta.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Meta', () {
-    Meta meta;
-    setUp(() {
-      meta = Meta(StrictNaming(), {'foo': 'bar'});
+
+    test('can not be created empty', () {
+      expect(() => Meta({}), throwsArgumentError);
     });
-    test('checks member naming on assignment', () {
-      expect(() => meta[''] = 'foo', throwsArgumentError);
+
+    test('can merge', () {
+      final first = Meta({'a': 'first', 'b': 'first'});
+      final second = Meta({'b': 'second', 'c': 'second'});
+      final merged = first | second;
+      expect(merged['a'], equals('first'));
+      expect(merged['b'], equals('first'));
+      expect(merged['c'], equals('second'));
     });
+
+    test('enforces naming', () {
+      expect(() => Meta({'': true}), throwsArgumentError);
+    });
+
+    test('can remove an item', () {
+      expect(Meta({'a': true, 'b':true}).remove('a')['a'], equals(null));
+    });
+
     test('encodes to JSON', () {
-      expect(meta, encodesToJson({"foo": "bar"}));
-    });
-    test('can add and remove members', () {
-      meta['a'] = true;
-      expect(meta['a'], equals(true));
-      meta.remove('foo');
-      expect(meta['foo'], equals(null));
-    });
-    test('can not become empty', () {
-      expect(() => meta.remove('foo'), throwsStateError);
-    });
-    test('values can be replaced', () {
-      meta.replaceWith({'a': 'b'});
-      expect(meta, encodesToJson({"a": "b"}));
-    });
-    test('values can not be replaced by an empty map', () {
-      expect(() => meta.replaceWith({}), throwsArgumentError);
-    });
-    test('values can not be replaced by invalid values', () {
-      expect(() => meta.replaceWith({'': true}), throwsArgumentError);
+      expect(Meta({'foo': 'bar'}), encodesToJson({"foo": "bar"}));
     });
   });
 }
