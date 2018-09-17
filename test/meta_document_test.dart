@@ -1,5 +1,5 @@
 import 'package:json_api_document/json_api_document.dart';
-import 'package:json_api_document/src/jsonapi.dart';
+import 'package:json_api_document/src/api.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:test/test.dart';
@@ -14,7 +14,7 @@ void main() {
     test('minimal', () {
       final doc = MetaDocument(Meta({'foo': 'bar'}));
       expect(doc.meta, TypeMatcher<Meta>());
-      expect(doc.jsonapi, equals(null));
+      expect(doc.api, equals(null));
       expect(doc.self, equals(null));
       expect(
           doc,
@@ -25,10 +25,9 @@ void main() {
 
     test('full', () {
       final doc = MetaDocument(Meta({'foo': 'bar'}),
-          jsonapi: JsonApi('1.0', meta: Meta({'a': 'b'})),
-          self: Link('http://self', meta: Meta({'c': 'd'})));
+          api: Api('1.0', meta: Meta({'a': 'b'})), self: Link('http://self'));
       expect(doc.meta, TypeMatcher<Meta>());
-      expect(doc.jsonapi, TypeMatcher<JsonApi>());
+      expect(doc.api, TypeMatcher<Api>());
       expect(doc.self, TypeMatcher<Link>());
       expect(
           doc,
@@ -39,10 +38,7 @@ void main() {
               "meta": {"a": "b"}
             },
             "links": {
-              "self": {
-                "href": "http://self",
-                "meta": {"c": "d"}
-              }
+              "self": "http://self",
             }
           }));
     });

@@ -3,10 +3,20 @@ import 'package:json_api_document/json_api_document.dart';
 import 'meta.dart';
 
 class Link<N extends Naming> {
-  final String href;
+  final String url;
+  final isObject = false;
+  final Meta<N> meta = null;
+
+  Link(String this.url);
+
+  toJson() => url;
+}
+
+class LinkObject<N extends Naming> extends Link<N> {
+  final isObject = true;
   final Meta<N> meta;
 
-  Link(String this.href, {Meta<N> this.meta});
+  LinkObject(String url, {Meta<N> this.meta}) : super(url);
 
-  toJson() => {'href': href, 'meta': meta};
+  toJson() => {'href': url, 'meta': meta};
 }
