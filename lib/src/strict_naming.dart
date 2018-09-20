@@ -1,4 +1,4 @@
-import 'naming.dart';
+part of '../json_api_document.dart';
 
 /// Strict naming rules
 class StrictNaming extends Naming {

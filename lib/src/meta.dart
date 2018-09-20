@@ -1,10 +1,9 @@
-import 'package:json_api_document/json_api_document.dart';
+part of '../json_api_document.dart';
 
 class Meta<N extends Naming> {
   final Map<String, dynamic> _meta;
 
   Meta(Map<String, dynamic> meta) : _meta = Map.from(meta) {
-    if (meta.isEmpty) throw ArgumentError();
     final naming = Naming.get(N);
     meta.keys.forEach(naming.enforce);
   }
@@ -19,9 +18,6 @@ class Meta<N extends Naming> {
   toJson() => Map.from(_meta);
 
   Meta<N> remove(String key) {
-    final copy = Map<String, dynamic>.from(_meta);
-    copy.remove(key);
-    if (copy.length == 0) throw StateError('Can not remove last element');
-    return Meta._<N>(copy);
+    return Meta._<N>(Map<String, dynamic>.from(_meta)..remove(key));
   }
 }

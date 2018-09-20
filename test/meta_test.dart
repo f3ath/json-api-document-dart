@@ -5,8 +5,8 @@ import 'package:test/test.dart';
 void main() {
   group('Meta', () {
 
-    test('can not be created empty', () {
-      expect(() => Meta({}), throwsArgumentError);
+    test('can be created empty', () {
+      expect(Meta({}), encodesToJson({}));
     });
 
     test('can merge', () {

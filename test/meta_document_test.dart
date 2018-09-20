@@ -1,7 +1,4 @@
 import 'package:json_api_document/json_api_document.dart';
-import 'package:json_api_document/src/api.dart';
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/meta.dart';
 import 'package:test/test.dart';
 import 'package:json_matcher/json_matcher.dart';
 

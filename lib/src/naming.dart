@@ -1,4 +1,4 @@
-import 'package:json_api_document/json_api_document.dart';
+part of '../json_api_document.dart';
 
 /// JSON API Document naming rules
 class Naming {
