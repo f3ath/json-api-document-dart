@@ -6,5 +6,6 @@ part 'src/meta_document.dart';
 part 'src/link.dart';
 part 'src/meta.dart';
 part 'src/naming.dart';
+part 'src/resource_identifier.dart';
 part 'src/strict_naming.dart';
 part 'src/document.dart';
