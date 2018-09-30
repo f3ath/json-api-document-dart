@@ -1,10 +1,14 @@
-part of '../json_api_document.dart';
+import 'api.dart';
+import 'document.dart';
+import 'error_object.dart';
+import 'link.dart';
+import 'meta.dart';
 
-class ErrorDocument<N extends Naming> extends Document<N> {
+class ErrorDocument extends Document {
   final List<ErrorObject> _errors;
 
-  ErrorDocument(List<ErrorObject<N>> this._errors,
-      {Meta<N> meta, Api<N> api, Link<N> self})
+  ErrorDocument(List<ErrorObject> this._errors,
+      {Meta meta, Api api, Link self})
       : super(meta: meta, api: api, self: self);
 
   get errors => List.from(_errors);

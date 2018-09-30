@@ -1,20 +1,20 @@
-part of '../json_api_document.dart';
+import 'meta.dart';
 
-class Link<N extends Naming> {
+class Link {
   final String url;
   final isObject = false;
-  final Meta<N> meta = null;
+  final Meta meta = null;
 
   Link(String this.url);
 
   toJson() => url;
 }
 
-class LinkObject<N extends Naming> extends Link<N> {
+class LinkObject extends Link {
   final isObject = true;
-  final Meta<N> meta;
+  final Meta meta;
 
-  LinkObject(String url, {Meta<N> this.meta}) : super(url);
+  LinkObject(String url, {Meta this.meta}) : super(url);
 
   toJson() => {'href': url, 'meta': meta};
 }

@@ -1,22 +1,23 @@
-part of '../json_api_document.dart';
+import 'api.dart';
+import 'document.dart';
+import 'link.dart';
+import 'meta.dart';
+import 'resource_identifier.dart';
 
-class DataDocument<N extends Naming> extends Document<N> {
+class DataDocument extends Document {
   dynamic _data;
 
-  DataDocument.fromNull({Meta<N> meta, Api<N> api, Link<N> self})
+  DataDocument.fromNull({Meta meta, Api api, Link self})
       : super(meta: meta, api: api, self: self) {
     _data = null;
   }
 
-  DataDocument.fromResourceIdentifier(ResourceIdentifier<N> this._data,
-      {Meta<N> meta, Api<N> api, Link<N> self})
+  DataDocument.fromResourceIdentifier(ResourceIdentifier this._data,
+      {Meta meta, Api api, Link self})
       : super(meta: meta, api: api, self: self) {}
 
-  DataDocument.fromResourceIdentifierList(
-      List<ResourceIdentifier<N>> this._data,
-      {Meta<N> meta,
-      Api<N> api,
-      Link<N> self})
+  DataDocument.fromResourceIdentifierList(List<ResourceIdentifier> this._data,
+      {Meta meta, Api api, Link self})
       : super(meta: meta, api: api, self: self) {}
 
   toJson() => super.toJson()..['data'] = _data;

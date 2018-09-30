@@ -1,27 +1,28 @@
-part of '../json_api_document.dart';
+import 'link.dart';
+import 'meta.dart';
 
-class ErrorObject<N extends Naming> {
+class ErrorObject {
   final String id;
-  final Link<N> about;
+  final Link about;
   final String status;
   final String code;
   final String title;
   final String detail;
   final String pointer;
   final String parameter;
-  final Meta<N> meta;
+  final Meta meta;
   final _json = Map<String, dynamic>();
 
   ErrorObject(
       {String this.id,
-      Link<N> this.about,
+      Link this.about,
       String this.status,
       String this.code,
       String this.title,
       String this.detail,
       String this.pointer,
       String this.parameter,
-      Meta<N> this.meta}) {
+      Meta this.meta}) {
     if (id != null) _json['id'] = id;
     if (status != null) _json['status'] = status;
     if (code != null) _json['code'] = code;

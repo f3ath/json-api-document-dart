@@ -1,4 +1,4 @@
-import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/src/naming.dart';
 import 'package:test/test.dart';
 
 void main() {

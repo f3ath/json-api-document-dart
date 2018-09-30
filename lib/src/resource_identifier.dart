@@ -1,12 +1,12 @@
-part of '../json_api_document.dart';
+import 'naming.dart';
 
-class ResourceIdentifier<N extends Naming> {
+class ResourceIdentifier {
   final String type;
   final String id;
 
   ResourceIdentifier(String this.type, String this.id) {
     if (id == null || id.isEmpty) throw ArgumentError();
-    Naming.get(N).enforce(type);
+    (const Naming()).enforce(type);
   }
 
   toJson() => {'type': type, 'id': id};

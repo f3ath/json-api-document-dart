@@ -1,23 +1,22 @@
-part of '../json_api_document.dart';
+import 'naming.dart';
 
-class Meta<N extends Naming> {
+class Meta {
   final Map<String, dynamic> _meta;
 
   Meta(Map<String, dynamic> meta) : _meta = Map.from(meta) {
-    final naming = Naming.get(N);
-    meta.keys.forEach(naming.enforce);
+    meta.keys.forEach((const Naming()).enforce);
   }
 
   Meta._(Map<String, dynamic> this._meta);
 
-  Meta<N> operator |(Meta<N> other) =>
+  Meta operator |(Meta other) =>
       Meta(Map<String, dynamic>()..addAll(other._meta)..addAll(_meta));
 
   operator [](String key) => _meta[key];
 
   toJson() => Map.from(_meta);
 
-  Meta<N> remove(String key) {
-    return Meta._<N>(Map<String, dynamic>.from(_meta)..remove(key));
+  Meta remove(String key) {
+    return Meta._(Map<String, dynamic>.from(_meta)..remove(key));
   }
 }

@@ -1,11 +1,13 @@
-part of '../json_api_document.dart';
+import 'api.dart';
+import 'link.dart';
+import 'meta.dart';
 
-abstract class Document<N extends Naming> {
-  final Meta<N> meta;
-  final Api<N> api;
-  final Link<N> self;
+abstract class Document {
+  final Meta meta;
+  final Api api;
+  final Link self;
 
-  Document({Meta<N> this.meta, Api<N> this.api, Link<N> this.self});
+  Document({Meta this.meta, Api this.api, Link this.self});
 
   toJson() {
     final j = Map<String, dynamic>();
