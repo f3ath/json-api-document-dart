@@ -1,8 +1,9 @@
 import 'api.dart';
 import 'document.dart';
+import 'identifier.dart';
 import 'link.dart';
 import 'meta.dart';
-import 'resource_identifier.dart';
+import 'resource.dart';
 
 class DataDocument extends Document {
   dynamic _data;
@@ -12,13 +13,15 @@ class DataDocument extends Document {
     _data = null;
   }
 
-  DataDocument.fromResourceIdentifier(ResourceIdentifier this._data,
+  DataDocument.fromIdentifier(Identifier this._data,
       {Meta meta, Api api, Link self})
       : super(meta: meta, api: api, self: self) {}
 
-  DataDocument.fromResourceIdentifierList(List<ResourceIdentifier> this._data,
+  DataDocument.fromIdentifierList(List<Identifier> this._data,
       {Meta meta, Api api, Link self})
       : super(meta: meta, api: api, self: self) {}
+
+  DataDocument.fromResource(Resource this._data) {}
 
   toJson() => super.toJson()..['data'] = _data;
 }

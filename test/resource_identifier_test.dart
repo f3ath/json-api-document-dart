@@ -4,13 +4,13 @@ import 'package:test/test.dart';
 main() {
   group('ResourceIdentifier', () {
     test('enforces naming rules on type', () {
-      expect(() => ResourceIdentifier('', '42'), throwsArgumentError);
-      expect(() => ResourceIdentifier(null, '42'), throwsArgumentError);
+      expect(() => Identifier('', '42'), throwsArgumentError);
+      expect(() => Identifier(null, '42'), throwsArgumentError);
     });
 
     test('.id can not be empty or null', () {
-      expect(() => ResourceIdentifier('apples', ''), throwsArgumentError);
-      expect(() => ResourceIdentifier('apples', null), throwsArgumentError);
+      expect(() => Identifier('apples', ''), throwsArgumentError);
+      expect(() => Identifier('apples', null), throwsArgumentError);
     });
   });
 }

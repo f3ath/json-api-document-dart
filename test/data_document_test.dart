@@ -34,9 +34,9 @@ main() {
     });
 
     group('with single Resource Identifier primary data', () {
-      final identifier = ResourceIdentifier('apples', '42');
-      final minimal = DataDocument.fromResourceIdentifier(identifier);
-      final full = DataDocument.fromResourceIdentifier(identifier,
+      final identifier = Identifier('apples', '42');
+      final minimal = DataDocument.fromIdentifier(identifier);
+      final full = DataDocument.fromIdentifier(identifier,
           meta: meta, api: api, self: self);
 
       test('minimal', () {
@@ -65,10 +65,10 @@ main() {
     });
 
     group('with multiple Resource Identifier primary data', () {
-      final identifier = ResourceIdentifier('apples', '42');
+      final identifier = Identifier('apples', '42');
       final minimal =
-          DataDocument.fromResourceIdentifierList(<ResourceIdentifier>[]);
-      final full = DataDocument.fromResourceIdentifierList([identifier],
+          DataDocument.fromIdentifierList(<Identifier>[]);
+      final full = DataDocument.fromIdentifierList([identifier],
           meta: meta, api: api, self: self);
 
       test('minimal', () {
@@ -91,5 +91,36 @@ main() {
             }));
       });
     });
+  });
+
+  group('with single Resource primary data', () {
+    final resource = Resource('apples', '42');
+    final minimal = DataDocument.fromResource(resource);
+//    final full = DataDocument.fromResource(resource,
+//        meta: meta, api: api, self: self);
+
+    test('minimal', () {
+      expect(
+          minimal,
+          encodesToJson({
+            "data": {"type": "apples", "id": "42"}
+          }));
+    });
+
+//    test('full', () {
+//      expect(
+//          full,
+//          encodesToJson({
+//            "data": {"type": "apples", "id": "42"},
+//            "meta": {"foo": "bar"},
+//            "jsonapi": {
+//              "version": "1.0",
+//              "meta": {"a": "b"}
+//            },
+//            "links": {
+//              "self": "http://self",
+//            }
+//          }));
+//    });
   });
 }
