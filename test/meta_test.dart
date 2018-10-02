@@ -4,7 +4,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('Meta', () {
-
     test('can not be empty', () {
       expect(() => Meta({}), throwsArgumentError);
     });

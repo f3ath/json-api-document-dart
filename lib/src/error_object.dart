@@ -22,7 +22,8 @@ class ErrorObject {
       String this.detail,
       String this.pointer,
       String this.parameter,
-      Map<String, dynamic> meta}) : meta = Meta.fromMap(meta) {
+      Map<String, dynamic> meta})
+      : meta = Meta.fromMap(meta) {
     if (id != null) _json['id'] = id;
     if (status != null) _json['status'] = status;
     if (code != null) _json['code'] = code;

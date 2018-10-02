@@ -67,8 +67,7 @@ main() {
 
     group('with multiple Resource Identifier primary data', () {
       final identifier = Identifier('apples', '42');
-      final minimal =
-          DataDocument.fromIdentifierList(<Identifier>[]);
+      final minimal = DataDocument.fromIdentifierList(<Identifier>[]);
       final full = DataDocument.fromIdentifierList([identifier],
           meta: meta, api: api, self: self);
 
@@ -80,7 +79,9 @@ main() {
         expect(
             full,
             encodesToJson({
-              "data": [{"type": "apples", "id": "42"}],
+              "data": [
+                {"type": "apples", "id": "42"}
+              ],
               "meta": {"foo": "bar"},
               "jsonapi": {
                 "version": "1.0",

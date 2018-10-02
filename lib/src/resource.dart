@@ -6,7 +6,7 @@ import 'meta.dart';
 import 'naming.dart';
 import 'relationship.dart';
 
-class Resource{
+class Resource {
   final String type;
   final String id;
   final Attributes attributes;

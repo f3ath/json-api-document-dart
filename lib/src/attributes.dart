@@ -14,6 +14,7 @@ class Attributes {
 
   void _enforceNaming(String attr) {
     const Naming().enforce(attr);
-    if (['relationships', 'links', 'type', 'id'].contains(attr)) throw ArgumentError();
+    if (['relationships', 'links', 'type', 'id'].contains(attr))
+      throw ArgumentError();
   }
 }
