@@ -1,12 +1,20 @@
-import 'utils.dart';
+import 'meta.dart';
 
 class Link {
-  final _json;
+  final String url;
+  final isObject = false;
+  final Meta meta = null;
 
-  Link(String url) : _json = url;
+  Link(String this.url);
 
-  Link.object(String href, Map<String, dynamic> meta)
-      : _json = new Map.unmodifiable({'href': href, 'meta': createMeta(meta)});
+  toJson() => url;
+}
 
-  toJson() => _json;
+class LinkObject extends Link {
+  final isObject = true;
+  final Meta meta;
+
+  LinkObject(String url, {Meta this.meta}) : super(url);
+
+  toJson() => {'href': url, 'meta': meta};
 }

@@ -1,42 +1,43 @@
 import 'package:json_api_document/json_api_document.dart';
-import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
+import 'package:json_matcher/json_matcher.dart';
 
 void main() {
-  test('Minimal', () {
-    const expected = const {
-      'meta': const {'foo': 'bar'}
-    };
+  group('Meta Document', () {
+    test('can not be created with null meta', () {
+      expect(() => MetaDocument(null), throwsArgumentError);
+    });
 
-    final doc = new Document.fromMeta({'foo': 'bar'});
+    test('minimal', () {
+      final doc = MetaDocument({'foo': 'bar'});
+      expect(doc.meta, TypeMatcher<Meta>());
+      expect(doc.api, equals(null));
+      expect(doc.self, equals(null));
+      expect(
+          doc,
+          encodesToJson({
+            "meta": {"foo": "bar"}
+          }));
+    });
 
-    expect(doc.toJson(), equals(expected));
-  });
-
-  test('Extended', () {
-    var document = new Document.fromMeta({'purpose': 'test document'},
-        version: true,
-        self: new Link('/articles/1/relationships/author'),
-        related: new Link.object(
-            '/articles/1/author', {'purpose': 'test related link'}));
-    expect(
-        document,
-        encodesToJson({
-          'jsonapi': {'version': '1.0'},
-          'meta': {'purpose': 'test document'},
-          'links': {
-            'self': '/articles/1/relationships/author',
-            'related': {
-              'href': '/articles/1/author',
-              'meta': {'purpose': 'test related link'}
+    test('full', () {
+      final doc = MetaDocument({'foo': 'bar'},
+          api: Api('1.0', meta: {'a': 'b'}), self: Link('http://self'));
+      expect(doc.meta, TypeMatcher<Meta>());
+      expect(doc.api, TypeMatcher<Api>());
+      expect(doc.self, TypeMatcher<Link>());
+      expect(
+          doc,
+          encodesToJson({
+            "meta": {"foo": "bar"},
+            "jsonapi": {
+              "version": "1.0",
+              "meta": {"a": "b"}
+            },
+            "links": {
+              "self": "http://self",
             }
-          }
-        }),
-        reason: 'Minimal Null-Data Document');
-  });
-
-  test('Meta fields are validated', () {
-    expect(() => new Document.fromMeta({'invalid key': 'foo'}),
-        throwsArgumentError);
+          }));
+    });
   });
 }
