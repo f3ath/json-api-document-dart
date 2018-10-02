@@ -8,6 +8,8 @@ class Link {
   Link(String this.url);
 
   toJson() => url;
+
+  static Link fromJson(json) => Link(json);
 }
 
 class LinkObject extends Link {

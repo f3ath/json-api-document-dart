@@ -8,7 +8,7 @@ void main() {
       expect(() => MetaDocument(null), throwsArgumentError);
     });
 
-    test('minimal', () {
+    test('minimal example', () {
       final doc = MetaDocument({'foo': 'bar'});
       expect(doc.meta, TypeMatcher<Meta>());
       expect(doc.api, equals(null));
@@ -20,7 +20,7 @@ void main() {
           }));
     });
 
-    test('full', () {
+    test('full example', () {
       final doc = MetaDocument({'foo': 'bar'},
           api: Api('1.0', meta: {'a': 'b'}), self: Link('http://self'));
       expect(doc.meta, TypeMatcher<Meta>());
@@ -38,6 +38,22 @@ void main() {
               "self": "http://self",
             }
           }));
+    });
+
+    test('can be parsed from json', () {
+      final doc = Document.fromJson({
+        "meta": {"foo": "bar"},
+        "jsonapi": {
+          "version": "1.0",
+          "meta": {"a": "b"}
+        },
+        "links": {
+          "self": "http://self",
+        }
+      });
+
+      expect(doc, TypeMatcher<MetaDocument>());
+      expect(doc.meta.toMap(), equals({"foo": "bar"}));
     });
   });
 }

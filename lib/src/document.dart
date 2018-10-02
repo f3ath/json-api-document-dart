@@ -1,6 +1,7 @@
 import 'api.dart';
 import 'link.dart';
 import 'meta.dart';
+import 'meta_document.dart';
 
 abstract class Document {
   final Meta meta;
@@ -28,5 +29,15 @@ abstract class Document {
 
     if (links.isNotEmpty) j['links'] = links;
     return j;
+  }
+
+  static Document fromJson(Map<String, dynamic> json) {
+    final links = json['links'];
+    final self = links != null ? Link.fromJson(links['self']) : null;
+    if (json.containsKey('meta')) {
+      return MetaDocument(json['meta'],
+          api: Api.fromJson(json['jsonapi']), self: self);
+    }
+    throw CastError();
   }
 }

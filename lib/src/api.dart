@@ -13,4 +13,7 @@ class Api {
     if (meta != null) j['meta'] = meta;
     return j;
   }
+
+  static Api fromJson(Map<String, dynamic> json) =>
+      Api(json['version'], meta: json['meta']);
 }
