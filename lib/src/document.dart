@@ -7,7 +7,8 @@ abstract class Document {
   final Api api;
   final Link self;
 
-  Document({Meta this.meta, Api this.api, Link this.self});
+  Document({Map<String, dynamic> meta, Api this.api, Link this.self})
+      : meta = Meta.fromMap(meta);
 
   toJson() {
     final j = Map<String, dynamic>();

@@ -1,4 +1,5 @@
 export 'src/api.dart';
+export 'src/attributes.dart';
 export 'src/data_document.dart';
 export 'src/document.dart';
 export 'src/error_document.dart';

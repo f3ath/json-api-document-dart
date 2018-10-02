@@ -14,7 +14,7 @@ main() {
         detail: 'We failed',
         pointer: 'pntr',
         parameter: 'prm',
-        meta: Meta({}));
+        meta: {'foo': 'bar'});
 
     test('empty', () {
       expect(empty, encodesToJson({}));
@@ -31,7 +31,7 @@ main() {
             "title": "Not found",
             "detail": "We failed",
             "source": {"pointer": "pntr", "parameter": "prm"},
-            "meta": {}
+            "meta": {'foo': 'bar'}
           }));
     });
   });

@@ -9,8 +9,8 @@ class Naming {
   /// Is [name] allowed by the rules
   bool allows(String name) =>
       _disallowFirst.hasMatch(name) &&
-          _disallowLast.hasMatch(name) &&
-          _allowGlobally.hasMatch(name);
+      _disallowLast.hasMatch(name) &&
+      _allowGlobally.hasMatch(name);
 
   /// Throws ArgumentError if [name] does not comply with the naming rules
   void enforce(String name) {

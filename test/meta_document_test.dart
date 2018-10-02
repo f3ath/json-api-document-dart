@@ -9,7 +9,7 @@ void main() {
     });
 
     test('minimal', () {
-      final doc = MetaDocument(Meta({'foo': 'bar'}));
+      final doc = MetaDocument({'foo': 'bar'});
       expect(doc.meta, TypeMatcher<Meta>());
       expect(doc.api, equals(null));
       expect(doc.self, equals(null));
@@ -21,8 +21,8 @@ void main() {
     });
 
     test('full', () {
-      final doc = MetaDocument(Meta({'foo': 'bar'}),
-          api: Api('1.0', meta: Meta({'a': 'b'})), self: Link('http://self'));
+      final doc = MetaDocument({'foo': 'bar'},
+          api: Api('1.0', meta: {'a': 'b'}), self: Link('http://self'));
       expect(doc.meta, TypeMatcher<Meta>());
       expect(doc.api, TypeMatcher<Api>());
       expect(doc.self, TypeMatcher<Link>());

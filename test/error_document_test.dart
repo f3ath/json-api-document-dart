@@ -7,8 +7,8 @@ main() {
     final one = ErrorObject(id: 'one');
     final two = ErrorObject(id: 'two');
     final empty = ErrorDocument(<ErrorObject>[]);
-    final api = Api('1.0', meta: Meta({'a': 'b'}));
-    final meta = Meta({'foo': 'bar'});
+    final api = Api('1.0', meta: {'a': 'b'});
+    final meta = {'foo': 'bar'};
     final self = Link('http://self');
     final full = ErrorDocument([one, two], meta: meta, api: api, self: self);
 
@@ -44,7 +44,7 @@ main() {
     });
 
     test('.meta contains Meta Object', () {
-      expect(full.meta, equals(meta));
+      expect(full.meta.toMap(), equals(meta));
     });
 
     test('.self contains self Link', () {

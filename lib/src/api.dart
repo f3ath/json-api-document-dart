@@ -5,7 +5,8 @@ class Api {
   final String version;
   final Meta meta;
 
-  Api(String this.version, {Meta this.meta});
+  Api(String this.version, {Map<String, dynamic> meta})
+      : meta = Meta.fromMap(meta);
 
   toJson() {
     final Map<String, dynamic> j = {'version': version};

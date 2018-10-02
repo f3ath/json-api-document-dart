@@ -5,8 +5,12 @@ import 'package:test/test.dart';
 void main() {
   group('Meta', () {
 
-    test('can be created empty', () {
-      expect(Meta({}), encodesToJson({}));
+    test('can not be empty', () {
+      expect(() => Meta({}), throwsArgumentError);
+    });
+
+    test('enforces naming', () {
+      expect(() => Meta({'': true}), throwsArgumentError);
     });
 
     test('can merge', () {
@@ -16,14 +20,6 @@ void main() {
       expect(merged['a'], equals('first'));
       expect(merged['b'], equals('first'));
       expect(merged['c'], equals('second'));
-    });
-
-    test('enforces naming', () {
-      expect(() => Meta({'': true}), throwsArgumentError);
-    });
-
-    test('can remove an item', () {
-      expect(Meta({'a': true, 'b':true}).remove('a')['a'], equals(null));
     });
 
     test('encodes to JSON', () {

@@ -4,8 +4,8 @@ import 'package:test/test.dart';
 
 main() {
   group('Document', () {
-    final api = Api('1.0', meta: Meta({'a': 'b'}));
-    final meta = Meta({'foo': 'bar'});
+    final api = Api('1.0', meta: {'a': 'b'});
+    final meta = {'foo': 'bar'};
     final self = Link('http://self');
 
     group('with Null primary data', () {
