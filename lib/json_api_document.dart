@@ -9,5 +9,5 @@ export 'src/link.dart';
 export 'src/meta.dart';
 export 'src/meta_document.dart';
 export 'src/resource.dart';
-export 'src/to_one.dart';
 export 'src/to_many.dart';
+export 'src/to_one.dart';
