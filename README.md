@@ -5,6 +5,9 @@ The goal of this library is to provide a transparent way to build JSON API Docum
 - A JSON API Document is an immutable value object which can be converted to JSON using `JSON.encode()`
 - All JSON API Documents are guaranteed to comply with [JSON API v1.0](http://jsonapi.org/format/)
 
+## Installation
+From [pub.dartlang.org](https://pub.dartlang.org/packages/json_api_document#-installing-tab-)
+
 ## Documentation
 Documentation is being developed. To get a sense of what the API looks like,
 take a look at the [example](test/specification_example_test.dart):
