@@ -1,8 +1,8 @@
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/meta.dart';
-
 import 'attributes.dart';
+import 'link.dart';
+import 'meta.dart';
 import 'naming.dart';
+import 'relationship.dart';
 
 class Resource {
   final String type;
@@ -10,10 +10,16 @@ class Resource {
   final Attributes attributes;
   final Link self;
   final Meta meta;
+  final Map<String, Relationship> _relationships;
 
   Resource(String this.type, String this.id,
-      {Attributes this.attributes, Link this.self, Map<String, dynamic> meta})
-      : meta = Meta.fromMap(meta) {
+      {Map<String, dynamic> attributes,
+      Link this.self,
+      Map<String, dynamic> meta,
+      Map<String, Relationship> relationships = const {}})
+      : meta = Meta.fromMap(meta),
+        attributes = Attributes.fromMap(attributes),
+        _relationships = relationships {
     if (id != null && id.isEmpty) throw ArgumentError();
     (const Naming()).enforce(type);
   }
@@ -24,6 +30,8 @@ class Resource {
     if (attributes != null) j['attributes'] = attributes;
     if (meta != null) j['meta'] = meta;
     if (self != null) j['links'] = {'self': self};
+    if (_relationships.isNotEmpty) j['relationships'] = _relationships;
+
     return j;
   }
 }

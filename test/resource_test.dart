@@ -19,7 +19,7 @@ main() {
 
     test('may contain attributes', () {
       expect(
-          Resource('apples', '42', attributes: Attributes({'foo': 'bar'})),
+          Resource('apples', '42', attributes: {'foo': 'bar'}),
           encodesToJson({
             "type": "apples",
             "id": "42",
@@ -47,26 +47,45 @@ main() {
           }));
     });
 
-//    test('may contain relationships', () {
-//
-//      expect(
-//          Resource('articles', '1', attributes: Attributes(attributes)),
-//          encodesToJson({
-//            "type": "articles",
-//            "id": "1",
-//            "attributes": {
-//              "title": "Rails is Omakase"
-//            },
-//            "relationships": {
-//              "author": {
-//                "links": {
-//                  "self": "/articles/1/relationships/author",
-//                  "related": "/articles/1/author"
-//                },
-//                "data": { "type": "people", "id": "9" }
-//              }
-//            }
-//          }));
-//    });
+    test('may contain relationships', () {
+      expect(
+          Resource('articles', '1', attributes: {
+            'title': 'Hello world'
+          }, relationships: {
+            'author': ToOne(Identifier('people', '9'),
+                self: Link('/articles/1/relationships/author'),
+                related: Link('/articles/1/author')),
+            'reviewer': ToOne(null),
+            'comments': ToMany(
+                [Identifier('comments', '5'), Identifier('comments', '12')],
+                self: Link('/articles/1/relationships/comments'),
+                related: Link('/articles/1/comments'))
+          }),
+          encodesToJson({
+            "type": "articles",
+            "id": "1",
+            "attributes": {"title": "Hello world"},
+            "relationships": {
+              "author": {
+                "links": {
+                  "self": "/articles/1/relationships/author",
+                  "related": "/articles/1/author"
+                },
+                "data": {"type": "people", "id": "9"}
+              },
+              "reviewer": {"data": null},
+              "comments": {
+                "links": {
+                  "self": "/articles/1/relationships/comments",
+                  "related": "/articles/1/comments"
+                },
+                "data": [
+                  {"type": "comments", "id": "5"},
+                  {"type": "comments", "id": "12"}
+                ]
+              }
+            }
+          }));
+    });
   });
 }
