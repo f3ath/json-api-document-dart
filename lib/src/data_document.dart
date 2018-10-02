@@ -5,22 +5,35 @@ import 'link.dart';
 import 'resource.dart';
 
 class DataDocument extends Document {
-  dynamic _data;
+  final _data;
+  final List<Resource> _included;
 
   DataDocument.fromNull({Map<String, dynamic> meta, Api api, Link self})
-      : super(meta: meta, api: api, self: self) {
-    _data = null;
-  }
+      : _included = [],
+        _data = null,
+        super(meta: meta, api: api, self: self);
 
   DataDocument.fromIdentifier(Identifier this._data,
       {Map<String, dynamic> meta, Api api, Link self})
-      : super(meta: meta, api: api, self: self) {}
+      : _included = [],
+        super(meta: meta, api: api, self: self);
 
   DataDocument.fromIdentifierList(List<Identifier> this._data,
       {Map<String, dynamic> meta, Api api, Link self})
-      : super(meta: meta, api: api, self: self) {}
+      : _included = [],
+        super(meta: meta, api: api, self: self);
 
-  DataDocument.fromResource(Resource this._data) {}
+  DataDocument.fromResource(Resource this._data) : _included = [];
 
-  toJson() => super.toJson()..['data'] = _data;
+  DataDocument.fromResourceList(List<Resource> this._data,
+      {Link self, Link next, Link last, List<Resource> included})
+      : _included = included,
+        super(self: self, next: next, last: last);
+
+  toJson() {
+    final j = super.toJson();
+    j['data'] = _data;
+    if (_included.isNotEmpty) j['included'] = _included;
+    return j;
+  }
 }

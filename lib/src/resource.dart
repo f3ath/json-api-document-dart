@@ -1,10 +1,12 @@
+import 'package:json_api_document/src/identifier.dart';
+
 import 'attributes.dart';
 import 'link.dart';
 import 'meta.dart';
 import 'naming.dart';
 import 'relationship.dart';
 
-class Resource {
+class Resource{
   final String type;
   final String id;
   final Attributes attributes;
@@ -34,4 +36,6 @@ class Resource {
 
     return j;
   }
+
+  Identifier toIdentifier() => Identifier(type, id);
 }

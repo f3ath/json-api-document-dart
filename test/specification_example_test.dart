@@ -1,15 +1,3 @@
-# JSON API Document model
-**Work in progress**
-
-The goal of this library is to provide a transparent way to build JSON API Documents.
-- A JSON API Document is an immutable value object which can be converted to JSON using `JSON.encode()`
-- All JSON API Documents are guaranteed to comply with [JSON API v1.0](http://jsonapi.org/format/)
-
-## Documentation
-Documentation is being developed. To get a sense of what the API looks like,
-take a look at the [example](test/specification_example_test.dart):
-
-```dart
 import 'package:json_api_document/json_api_document.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
@@ -132,5 +120,3 @@ void main() {
         }));
   });
 }
-
-```
