@@ -59,7 +59,8 @@ main() {
             'comments': ToMany(
                 [Identifier('comments', '5'), Identifier('comments', '12')],
                 self: Link('/articles/1/relationships/comments'),
-                related: Link('/articles/1/comments'))
+                related: Link('/articles/1/comments')),
+            'tags': ToMany([])
           }),
           encodesToJson({
             "type": "articles",
@@ -74,6 +75,7 @@ main() {
                 "data": {"type": "people", "id": "9"}
               },
               "reviewer": {"data": null},
+              "tags": {"data": []},
               "comments": {
                 "links": {
                   "self": "/articles/1/relationships/comments",

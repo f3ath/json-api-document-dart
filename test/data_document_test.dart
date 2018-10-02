@@ -6,7 +6,8 @@ main() {
   group('Document', () {
     final api = Api('1.0', meta: {'a': 'b'});
     final meta = {'foo': 'bar'};
-    final self = Link('http://self');
+    final self = Link('/self');
+    final related = Link('/related');
 
     group('with Null primary data', () {
       final minimal = DataDocument.fromNull();
@@ -27,7 +28,7 @@ main() {
                 "meta": {"a": "b"}
               },
               "links": {
-                "self": "http://self",
+                "self": "/self",
               }
             }));
       });
@@ -58,7 +59,7 @@ main() {
                 "meta": {"a": "b"}
               },
               "links": {
-                "self": "http://self",
+                "self": "/self",
               }
             }));
       });
@@ -86,7 +87,7 @@ main() {
                 "meta": {"a": "b"}
               },
               "links": {
-                "self": "http://self",
+                "self": "/self",
               }
             }));
       });
