@@ -54,6 +54,9 @@ void main() {
 
       expect(doc, TypeMatcher<MetaDocument>());
       expect(doc.meta.toMap(), equals({"foo": "bar"}));
+      expect(doc.api.version, equals('1.0'));
+      expect(doc.api.meta.toMap(), equals({"a": "b"}));
+      expect(doc.self.url, equals('http://self'));
     });
   });
 }
