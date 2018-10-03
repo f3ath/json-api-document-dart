@@ -27,16 +27,16 @@ Document makeJsonApiResponse() {
       },
       self: Link('http://example.com/people/9'));
 
-  final person = Identifier('people', '2');
+  final personIdentifier = Identifier('people', '2');
 
   final firstComment = Resource('comments', '5',
       attributes: {'body': 'First!'},
-      relationships: {'author': ToOne(person)},
+      relationships: {'author': ToOne(personIdentifier)},
       self: Link('http://example.com/comments/5'));
 
   final secondComment = Resource('comments', '12',
       attributes: {'body': 'I like XML better'},
-      relationships: {'author': ToOne(dan.toIdentifier())},
+      relationships: {'author': ToOne(Identifier.of(dan))},
       self: Link('http://example.com/comments/12'));
 
   final article = Resource(
@@ -46,12 +46,12 @@ Document makeJsonApiResponse() {
     attributes: {'title': 'JSON API paints my bikeshed!'},
     relationships: {
       'author': ToOne(
-        dan.toIdentifier(),
+        Identifier.of(dan),
         self: Link('http://example.com/articles/1/relationships/author'),
         related: Link('http://example.com/articles/1/author'),
       ),
       'comments': ToMany(
-          [firstComment.toIdentifier(), secondComment.toIdentifier()],
+          [Identifier.of(firstComment), Identifier.of(secondComment)],
           self: Link('http://example.com/articles/1/relationships/comments'),
           related: Link('http://example.com/articles/1/comments'))
     },

@@ -1,5 +1,3 @@
-import 'package:json_api_document/src/identifier.dart';
-
 import 'attributes.dart';
 import 'link.dart';
 import 'meta.dart';
@@ -36,6 +34,4 @@ class Resource {
 
     return j;
   }
-
-  Identifier toIdentifier() => Identifier(type, id);
 }
