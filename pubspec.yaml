@@ -1,6 +1,6 @@
 name: json_api_document
 description: JSON API (or jsonapi, see https://jsonapi.org) implementation in Dart2. Builds JSON API Documents according to the standard.
-version: 0.1.2
+version: 0.2.0
 author: Alexey Karapetov <karapetov@gmail.com>
 homepage: https://github.com/f3ath/json-api-dart
 environment:
