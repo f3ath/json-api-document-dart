@@ -1,10 +1,11 @@
+import 'abstract_identifier.dart';
 import 'attributes.dart';
 import 'link.dart';
 import 'meta.dart';
 import 'naming.dart';
 import 'relationship.dart';
 
-class Resource {
+class Resource implements AbstractIdentifier {
   final String type;
   final String id;
   final Attributes attributes;
@@ -34,4 +35,7 @@ class Resource {
 
     return j;
   }
+
+  bool identifies(Resource resource) =>
+      _relationships.values.any((rel) => rel.identifies(resource));
 }

@@ -1,6 +1,9 @@
+import 'abstract_identifier.dart';
+import 'identifier.dart';
 import 'link.dart';
+import 'resource.dart';
 
-abstract class Relationship {
+abstract class Relationship implements AbstractIdentifier {
   final data;
   final Link self;
   final Link related;
@@ -16,5 +19,13 @@ abstract class Relationship {
     if (links.isNotEmpty) j['links'] = links;
 
     return j;
+  }
+
+  bool identifies(Resource resource) {
+    if (data is Identifier) {
+      return data.identifies(resource);
+    } else {
+      return data.any((Identifier id) => id.identifies(resource));
+    }
   }
 }

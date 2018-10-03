@@ -3,22 +3,21 @@ import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
 main() {
-  group('Document', () {
+  group('DataDocument', () {
     final api = Api('1.0', meta: {'a': 'b'});
     final meta = {'foo': 'bar'};
     final self = Link('/self');
 
     group('with Null primary data', () {
-      final minimal = DataDocument.fromNull();
-      final full = DataDocument.fromNull(meta: meta, api: api, self: self);
-
       test('minimal', () {
-        expect(minimal, encodesToJson({"data": null}));
+        final doc = DataDocument.fromNull();
+        expect(doc, encodesToJson({"data": null}));
       });
 
       test('full', () {
+        final doc = DataDocument.fromNull(meta: meta, api: api, self: self);
         expect(
-            full,
+            doc,
             encodesToJson({
               "data": null,
               "meta": {"foo": "bar"},
@@ -34,22 +33,22 @@ main() {
     });
 
     group('with single Resource Identifier primary data', () {
-      final identifier = Identifier('apples', '42');
-      final minimal = DataDocument.fromIdentifier(identifier);
-      final full = DataDocument.fromIdentifier(identifier,
-          meta: meta, api: api, self: self);
+      final apple = Identifier('apples', '42');
 
       test('minimal', () {
+        final doc = DataDocument.fromIdentifier(apple);
         expect(
-            minimal,
+            doc,
             encodesToJson({
               "data": {"type": "apples", "id": "42"}
             }));
       });
 
       test('full', () {
+        final doc = DataDocument.fromIdentifier(apple,
+            meta: meta, api: api, self: self);
         expect(
-            full,
+            doc,
             encodesToJson({
               "data": {"type": "apples", "id": "42"},
               "meta": {"foo": "bar"},
@@ -65,18 +64,18 @@ main() {
     });
 
     group('with multiple Resource Identifier primary data', () {
-      final identifier = Identifier('apples', '42');
-      final minimal = DataDocument.fromIdentifierList(<Identifier>[]);
-      final full = DataDocument.fromIdentifierList([identifier],
-          meta: meta, api: api, self: self);
+      final apple = Identifier('apples', '42');
 
       test('minimal', () {
-        expect(minimal, encodesToJson({"data": []}));
+        final doc = DataDocument.fromIdentifierList(<Identifier>[]);
+        expect(doc, encodesToJson({"data": []}));
       });
 
       test('full', () {
+        final doc = DataDocument.fromIdentifierList([apple],
+            meta: meta, api: api, self: self);
         expect(
-            full,
+            doc,
             encodesToJson({
               "data": [
                 {"type": "apples", "id": "42"}
@@ -92,36 +91,44 @@ main() {
             }));
       });
     });
-  });
 
-  group('with single Resource primary data', () {
-    final resource = Resource('apples', '42');
-    final minimal = DataDocument.fromResource(resource);
-//    final full = DataDocument.fromResource(resource,
-//        meta: meta, api: api, self: self);
+    group('with single Resource primary data', () {
+      final apple = Resource('apples', '42', attributes: {'color': 'red'});
 
-    test('minimal', () {
-      expect(
-          minimal,
-          encodesToJson({
-            "data": {"type": "apples", "id": "42"}
-          }));
+      test('minimal', () {
+        final doc = DataDocument.fromResource(apple);
+        expect(
+            doc,
+            encodesToJson({
+              "data": {
+                "type": "apples",
+                "id": "42",
+                "attributes": {"color": "red"}
+              }
+            }));
+      });
+
+      test('full', () {
+        final doc =
+            DataDocument.fromResource(apple, meta: meta, api: api, self: self);
+        expect(
+            doc,
+            encodesToJson({
+              "data": {
+                "type": "apples",
+                "id": "42",
+                "attributes": {"color": "red"}
+              },
+              "meta": {"foo": "bar"},
+              "jsonapi": {
+                "version": "1.0",
+                "meta": {"a": "b"}
+              },
+              "links": {
+                "self": "/self",
+              }
+            }));
+      });
     });
-
-//    test('full', () {
-//      expect(
-//          full,
-//          encodesToJson({
-//            "data": {"type": "apples", "id": "42"},
-//            "meta": {"foo": "bar"},
-//            "jsonapi": {
-//              "version": "1.0",
-//              "meta": {"a": "b"}
-//            },
-//            "links": {
-//              "self": "http://self",
-//            }
-//          }));
-//    });
   });
 }
