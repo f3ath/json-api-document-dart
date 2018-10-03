@@ -7,6 +7,7 @@ import 'meta_document.dart';
 abstract class Document {
   /// The top-level meta information
   final Meta meta;
+
   /// The JSON API object
   final Api api;
   final Link self;
