@@ -3,11 +3,10 @@ import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
 main() {
-  group('Document', () {
+  group('Document', ()   {
     final api = Api('1.0', meta: {'a': 'b'});
     final meta = {'foo': 'bar'};
     final self = Link('/self');
-    final related = Link('/related');
 
     group('with Null primary data', () {
       final minimal = DataDocument.fromNull();
