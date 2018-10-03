@@ -1,5 +1,4 @@
-# JSON API Document model
-**Work in progress**
+# JSON API (jsonapi, see https://jsonapi.org) Document model
 
 The goal of this library is to provide a transparent way to build JSON API Documents.
 - A JSON API Document is an immutable value object which can be converted to JSON using `JSON.encode()`
