@@ -1,4 +1,5 @@
 import 'naming.dart';
+import 'resource.dart';
 
 /// A Resource Identifier object.
 ///
@@ -12,6 +13,10 @@ class Identifier {
     if (id == null || id.isEmpty) throw ArgumentError();
     (const Naming()).enforce(type);
   }
+
+  /// Returns Identifier of [resource]
+  static Identifier of(Resource resource) =>
+      Identifier(resource.type, resource.id);
 
   /// Returns the JSON representation.
   Map<String, String> toJson() => {'type': type, 'id': id};
