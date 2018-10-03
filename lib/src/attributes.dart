@@ -1,5 +1,8 @@
 import 'naming.dart';
 
+/// A Resource Attributes object
+///
+/// http://jsonapi.org/format/#document-resource-object-attributes
 class Attributes {
   final Map<String, dynamic> _data;
 
@@ -7,10 +10,12 @@ class Attributes {
     attributes.keys.forEach(_enforceNaming);
   }
 
-  static fromMap(Map<String, dynamic> attributes) =>
-      attributes == null ? null : Attributes(attributes);
+  /// Creates an instance from [json]. If [json] is null, returns null.
+  static Attributes fromJson(Map<String, dynamic> json) =>
+      json == null ? null : Attributes(json);
 
-  toJson() => Map.from(_data);
+  /// Returns the JSON representation.
+  Map<String, dynamic> toJson() => Map.from(_data);
 
   void _enforceNaming(String attr) {
     const Naming().enforce(attr);

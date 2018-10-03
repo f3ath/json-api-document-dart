@@ -12,15 +12,6 @@ void main() {
       expect(() => Meta({'': true}), throwsArgumentError);
     });
 
-    test('can merge', () {
-      final first = Meta({'a': 'first', 'b': 'first'});
-      final second = Meta({'b': 'second', 'c': 'second'});
-      final merged = first | second;
-      expect(merged['a'], equals('first'));
-      expect(merged['b'], equals('first'));
-      expect(merged['c'], equals('second'));
-    });
-
     test('encodes to JSON', () {
       expect(Meta({'foo': 'bar'}), encodesToJson({"foo": "bar"}));
     });

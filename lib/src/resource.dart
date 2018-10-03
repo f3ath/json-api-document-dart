@@ -19,8 +19,8 @@ class Resource {
       Link this.self,
       Map<String, dynamic> meta,
       Map<String, Relationship> relationships = const {}})
-      : meta = Meta.fromMap(meta),
-        attributes = Attributes.fromMap(attributes),
+      : meta = Meta.fromJson(meta),
+        attributes = Attributes.fromJson(attributes),
         _relationships = relationships {
     if (id != null && id.isEmpty) throw ArgumentError();
     (const Naming()).enforce(type);

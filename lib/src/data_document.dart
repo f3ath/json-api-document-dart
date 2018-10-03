@@ -4,6 +4,7 @@ import 'identifier.dart';
 import 'link.dart';
 import 'resource.dart';
 
+/// A Document with top-level primary data
 class DataDocument extends Document {
   final _data;
   final List<Resource> _included;

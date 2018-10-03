@@ -1,5 +1,8 @@
 import 'meta.dart';
 
+/// A Link.
+///
+/// http://jsonapi.org/format/#document-links
 class Link {
   final String url;
   final isObject = false;
@@ -10,13 +13,4 @@ class Link {
   toJson() => url;
 
   static Link fromJson(json) => Link(json);
-}
-
-class LinkObject extends Link {
-  final isObject = true;
-  final Meta meta;
-
-  LinkObject(String url, {Meta this.meta}) : super(url);
-
-  toJson() => {'href': url, 'meta': meta};
 }

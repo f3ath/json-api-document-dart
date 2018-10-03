@@ -44,7 +44,7 @@ main() {
     });
 
     test('.meta contains Meta Object', () {
-      expect(full.meta.toMap(), equals(meta));
+      expect(full.meta.toJson(), equals(meta));
     });
 
     test('.self contains self Link', () {

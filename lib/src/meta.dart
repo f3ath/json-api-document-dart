@@ -1,5 +1,8 @@
 import 'naming.dart';
 
+/// A Meta information object.
+///
+/// http://jsonapi.org/format/#document-meta
 class Meta {
   final Map<String, dynamic> _meta;
 
@@ -8,17 +11,8 @@ class Meta {
     meta.keys.forEach((const Naming()).enforce);
   }
 
-  static Meta fromMap(Map<String, dynamic> map) =>
-      map == null ? null : Meta(map);
-
-  Meta._(Map<String, dynamic> this._meta);
-
-  Meta operator |(Meta other) =>
-      Meta(Map<String, dynamic>()..addAll(other._meta)..addAll(_meta));
-
-  operator [](String key) => _meta[key];
+  static Meta fromJson(Map<String, dynamic> json) =>
+      json == null ? null : Meta(json);
 
   toJson() => Map.from(_meta);
-
-  toMap() => Map.from(_meta);
 }
