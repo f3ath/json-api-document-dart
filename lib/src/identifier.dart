@@ -1,3 +1,4 @@
+import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/naming.dart';
 import 'package:json_api_document/src/resource.dart';
 
@@ -7,9 +8,10 @@ import 'package:json_api_document/src/resource.dart';
 class Identifier {
   final String type;
   final String id;
+  final Meta meta;
 
   /// Both [type] and [id] must be non-empty strings.
-  Identifier(String this.type, String this.id) {
+  Identifier(String this.type, String this.id, [Meta this.meta]) {
     if (id == null || id.isEmpty) throw ArgumentError();
     (const Naming()).enforce(type);
   }
