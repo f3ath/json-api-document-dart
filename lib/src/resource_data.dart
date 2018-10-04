@@ -3,6 +3,7 @@ import 'package:json_api_document/src/resource.dart';
 
 class ResourceData implements PrimaryData {
   final Resource _resource;
+
   ResourceData(Resource this._resource);
 
   @override

@@ -63,7 +63,7 @@ class DataDocument extends Document {
   /// Returns true is the document is compound
   ///
   /// http://jsonapi.org/format/#document-compound-documents
-  bool get isCompound  => _included.isNotEmpty;
+  bool get isCompound => _included.isNotEmpty;
 
   toJson() {
     final j = super.toJson();

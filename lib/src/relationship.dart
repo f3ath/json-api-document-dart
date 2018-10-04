@@ -4,6 +4,7 @@ import 'resource.dart';
 abstract class Relationship {
   final Link self;
   final Link related;
+
   /// Resource linkage
   ///
   /// http://jsonapi.org/format/#document-resource-object-linkage
