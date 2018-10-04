@@ -1,14 +1,15 @@
-import 'abstract_identifier.dart';
-import 'identifier.dart';
 import 'link.dart';
 import 'resource.dart';
 
-abstract class Relationship implements AbstractIdentifier {
-  final data;
+abstract class Relationship {
   final Link self;
   final Link related;
+  /// Resource linkage
+  ///
+  /// http://jsonapi.org/format/#document-resource-object-linkage
+  get data;
 
-  Relationship(this.data, {Link this.self, Link this.related});
+  Relationship({Link this.self, Link this.related});
 
   toJson() {
     final j = Map<String, dynamic>();
@@ -21,11 +22,5 @@ abstract class Relationship implements AbstractIdentifier {
     return j;
   }
 
-  bool identifies(Resource resource) {
-    if (data is Identifier) {
-      return data.identifies(resource);
-    } else {
-      return data.any((Identifier id) => id.identifies(resource));
-    }
-  }
+  bool identifies(Resource resource);
 }

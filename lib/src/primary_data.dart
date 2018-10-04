@@ -1,5 +1,6 @@
 import 'resource.dart';
 
-abstract class AbstractIdentifier {
+abstract class PrimaryData {
   bool identifies(Resource resource);
+  toJson();
 }

@@ -1,11 +1,10 @@
-import 'abstract_identifier.dart';
 import 'naming.dart';
 import 'resource.dart';
 
 /// A Resource Identifier object.
 ///
 /// http://jsonapi.org/format/#document-resource-identifier-objects
-class Identifier implements AbstractIdentifier {
+class Identifier {
   final String type;
   final String id;
 
@@ -22,6 +21,6 @@ class Identifier implements AbstractIdentifier {
   /// Returns the JSON representation.
   Map<String, String> toJson() => {'type': type, 'id': id};
 
-  bool identifies(Resource resource) =>
-      id == resource.id && type == resource.type;
+  /// Returns true if [type] and [id] match those of [resource]
+  identifies(Resource resource) => type == resource.type && id == resource.id;
 }

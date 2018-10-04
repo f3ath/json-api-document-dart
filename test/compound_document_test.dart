@@ -3,16 +3,21 @@ import 'package:test/test.dart';
 
 void main() {
   group('Full linkage', () {
-    test('A document without linked resources is fully linked', () {
+    test('A document without linked resources is fully linked and not compound',
+        () {
       final doc = DataDocument.fromNull();
-      expect(doc.isFullyLinked, equals(true));
+      expect(doc.isCompound, false);
+      expect(doc.isFullyLinked, true);
     });
 
-    test('An empty document with a linked resource is not fully linked', () {
+    test(
+        'An empty document with a linked resource is not fully linked and compound',
+        () {
       final apple = Resource('apples', '1');
       final orange = Resource('oranges', '2');
       final doc = DataDocument.fromResource(apple, included: [orange]);
-      expect(doc.isFullyLinked, equals(false));
+      expect(doc.isCompound, true);
+      expect(doc.isFullyLinked, false);
     });
 
     test('An included resource may be identified by primary data', () {
@@ -24,20 +29,20 @@ void main() {
       expect(
           DataDocument.fromIdentifier(Identifier.of(apple), included: [apple])
               .isFullyLinked,
-          equals(true));
+          true);
 
       expect(
           DataDocument.fromIdentifierList([Identifier.of(apple)],
               included: [apple]).isFullyLinked,
-          equals(true));
+          true);
 
       expect(DataDocument.fromResource(cart, included: [apple]).isFullyLinked,
-          equals(true));
+          true);
 
       expect(
           DataDocument.fromResourceList([cart], included: [apple])
               .isFullyLinked,
-          equals(true));
+          true);
     });
   });
 }
