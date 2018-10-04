@@ -6,6 +6,7 @@ void main() {
     test('enforce general naming rules', () {
       expect(() => Attributes({'-': true}), throwsArgumentError);
     });
+
     test('can not contain certain names', () {
       ['relationships', 'links', 'type', 'id'].forEach((attr) =>
           expect(() => Attributes({attr: true}), throwsArgumentError));

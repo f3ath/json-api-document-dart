@@ -8,3 +8,4 @@ environment:
 dev_dependencies:
   test: "1.3.0"
   json_matcher: ">=0.2.2"
+  pubspec_version: "^0.0.1"

@@ -20,4 +20,7 @@ class Identifier {
 
   /// Returns the JSON representation.
   Map<String, String> toJson() => {'type': type, 'id': id};
+
+  /// Returns true if [type] and [id] match those of [resource]
+  identifies(Resource resource) => type == resource.type && id == resource.id;
 }

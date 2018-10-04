@@ -1,11 +1,16 @@
 import 'link.dart';
+import 'resource.dart';
 
 abstract class Relationship {
-  final data;
   final Link self;
   final Link related;
 
-  Relationship(this.data, {Link this.self, Link this.related});
+  /// Resource linkage
+  ///
+  /// http://jsonapi.org/format/#document-resource-object-linkage
+  get data;
+
+  Relationship({Link this.self, Link this.related});
 
   toJson() {
     final j = Map<String, dynamic>();
@@ -17,4 +22,6 @@ abstract class Relationship {
 
     return j;
   }
+
+  bool identifies(Resource resource);
 }

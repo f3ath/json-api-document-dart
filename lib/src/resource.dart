@@ -1,4 +1,5 @@
 import 'attributes.dart';
+import 'identifier.dart';
 import 'link.dart';
 import 'meta.dart';
 import 'naming.dart';
@@ -34,4 +35,9 @@ class Resource {
 
     return j;
   }
+
+  bool identifies(Resource resource) =>
+      _relationships.values.any((rel) => rel.identifies(resource));
+
+  bool isIdentifiedBy(Identifier identifier) => identifier.identifies(this);
 }
