@@ -1,4 +1,4 @@
-import 'meta.dart';
+import 'package:json_api_document/json_api_document.dart';
 
 /// A JSON API Object.
 ///

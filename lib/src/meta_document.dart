@@ -1,6 +1,6 @@
-import 'api.dart';
-import 'document.dart';
-import 'link.dart';
+import 'package:json_api_document/src/api.dart';
+import 'package:json_api_document/src/document.dart';
+import 'package:json_api_document/src/link.dart';
 
 class MetaDocument extends Document {
   MetaDocument(Map<String, dynamic> meta, {Api api, Link self})

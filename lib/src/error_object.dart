@@ -1,5 +1,5 @@
-import 'link.dart';
-import 'meta.dart';
+import 'package:json_api_document/src/link.dart';
+import 'package:json_api_document/src/meta.dart';
 
 class ErrorObject {
   final String id;

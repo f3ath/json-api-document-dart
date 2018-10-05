@@ -1,4 +1,4 @@
-import 'naming.dart';
+import 'package:json_api_document/src/naming.dart';
 
 /// A Resource Attributes object
 ///

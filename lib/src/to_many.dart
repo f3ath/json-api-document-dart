@@ -1,7 +1,7 @@
-import 'identifier.dart';
-import 'link.dart';
-import 'relationship.dart';
-import 'resource.dart';
+import 'package:json_api_document/src/identifier.dart';
+import 'package:json_api_document/src/link.dart';
+import 'package:json_api_document/src/relationship.dart';
+import 'package:json_api_document/src/resource.dart';
 
 class ToMany extends Relationship {
   final List<Identifier> data;
