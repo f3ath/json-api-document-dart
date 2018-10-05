@@ -1,4 +1,4 @@
-# [JSON API](https://jsonapi.org) Document model and parser
+# [JSON API](http://jsonapi.org) Document model and parser
 
 The goal of this library is to provide a transparent way to build and parse JSON API Documents.
 
