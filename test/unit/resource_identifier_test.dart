@@ -15,18 +15,17 @@ main() {
     });
 
     test('must contain type and id', () {
-      expect(Identifier('apples', '1'), encodesToJson({'type': 'apples', 'id':'1'}));
+      expect(Identifier('apples', '1'),
+          encodesToJson({"type": "apples", "id": "1"}));
     });
 
     test('must contain type id and meta', () {
       expect(
           Identifier('apples', '1', meta: Meta({'count': '10'})),
           encodesToJson({
-            'type': 'apples',
-            'id':'1',
-            'meta': {
-              'count': '10'
-            }
+            "type": "apples",
+            "id": "1",
+            "meta": {"count": "10"}
           }));
     });
   });
