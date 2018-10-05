@@ -8,7 +8,9 @@ class Api {
   final Meta meta;
 
   Api(String this.version, {Map<String, dynamic> meta})
-      : meta = Meta.fromJson(meta);
+      : meta = Meta.fromJson(meta) {
+    if (version == null && meta == null) throw ArgumentError();
+  }
 
   /// Returns the JSON representation.
   Map<String, dynamic> toJson() {
