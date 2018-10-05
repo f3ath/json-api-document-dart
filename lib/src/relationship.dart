@@ -1,5 +1,5 @@
-import 'link.dart';
-import 'resource.dart';
+import 'package:json_api_document/src/link.dart';
+import 'package:json_api_document/src/resource.dart';
 
 abstract class Relationship {
   final Link self;

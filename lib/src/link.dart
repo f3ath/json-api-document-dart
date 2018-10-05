@@ -1,4 +1,4 @@
-import 'meta.dart';
+import 'package:json_api_document/src/meta.dart';
 
 /// A Link.
 ///

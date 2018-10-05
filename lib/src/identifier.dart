@@ -1,5 +1,5 @@
-import 'naming.dart';
-import 'resource.dart';
+import 'package:json_api_document/src/naming.dart';
+import 'package:json_api_document/src/resource.dart';
 
 /// A Resource Identifier object.
 ///

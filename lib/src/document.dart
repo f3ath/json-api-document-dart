@@ -1,7 +1,7 @@
-import 'api.dart';
-import 'link.dart';
-import 'meta.dart';
-import 'meta_document.dart';
+import 'package:json_api_document/src/api.dart';
+import 'package:json_api_document/src/link.dart';
+import 'package:json_api_document/src/meta.dart';
+import 'package:json_api_document/src/meta_document.dart';
 
 /// The base class for MetaDocument, DataDocument, and ErrorDocument.
 abstract class Document {

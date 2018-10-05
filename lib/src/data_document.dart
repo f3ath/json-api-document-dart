@@ -1,14 +1,14 @@
-import 'api.dart';
-import 'document.dart';
-import 'identifier.dart';
-import 'identifier_data.dart';
-import 'identifier_list_data.dart';
-import 'link.dart';
-import 'null_data.dart';
-import 'primary_data.dart';
-import 'resource.dart';
-import 'resource_data.dart';
-import 'resource_list_data.dart';
+import 'package:json_api_document/src/api.dart';
+import 'package:json_api_document/src/document.dart';
+import 'package:json_api_document/src/identifier.dart';
+import 'package:json_api_document/src/identifier_data.dart';
+import 'package:json_api_document/src/identifier_list_data.dart';
+import 'package:json_api_document/src/link.dart';
+import 'package:json_api_document/src/null_data.dart';
+import 'package:json_api_document/src/primary_data.dart';
+import 'package:json_api_document/src/resource.dart';
+import 'package:json_api_document/src/resource_data.dart';
+import 'package:json_api_document/src/resource_list_data.dart';
 
 /// A Document with top-level primary data
 class DataDocument extends Document {

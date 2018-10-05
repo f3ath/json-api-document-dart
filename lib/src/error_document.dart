@@ -1,7 +1,7 @@
-import 'api.dart';
-import 'document.dart';
-import 'error_object.dart';
-import 'link.dart';
+import 'package:json_api_document/src/api.dart';
+import 'package:json_api_document/src/document.dart';
+import 'package:json_api_document/src/error_object.dart';
+import 'package:json_api_document/src/link.dart';
 
 class ErrorDocument extends Document {
   final List<ErrorObject> _errors;
