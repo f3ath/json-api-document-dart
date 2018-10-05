@@ -57,7 +57,11 @@ class DataDocument extends Document {
   ///
   /// http://jsonapi.org/format/#document-compound-documents
   bool get isFullyLinked {
-    return _included.isEmpty || _included.every((res) => data.identifies(res));
+    return _included.isEmpty ||
+        _included.every((res) =>
+            data.identifies(res) ||
+            _included
+                .any((another) => another != res && another.identifies(res)));
   }
 
   /// Returns true is the document is compound
