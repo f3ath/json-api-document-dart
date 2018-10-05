@@ -21,7 +21,13 @@ class Identifier {
       Identifier(resource.type, resource.id);
 
   /// Returns the JSON representation.
-  Map<String, String> toJson() => {'type': type, 'id': id};
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = {'type': type};
+    json['id'] = id;
+    if (meta != null) json['meta'] = meta;
+
+    return json;
+  }
 
   /// Returns true if [type] and [id] match those of [resource]
   identifies(Resource resource) => type == resource.type && id == resource.id;
