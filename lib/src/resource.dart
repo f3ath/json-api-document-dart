@@ -22,6 +22,7 @@ class Resource {
         attributes = Attributes.fromJson(attributes),
         _relationships = relationships {
     if (id != null && id.isEmpty) throw ArgumentError();
+    _relationships.keys.forEach(_enforceRelationshipsNaming);
     (const Naming()).enforce(type);
   }
 
@@ -40,4 +41,9 @@ class Resource {
       _relationships.values.any((rel) => rel.identifies(resource));
 
   bool isIdentifiedBy(Identifier identifier) => identifier.identifies(this);
+
+  void _enforceRelationshipsNaming(String attr) {
+    const Naming().enforce(attr);
+    if (['type', 'id'].contains(attr)) throw ArgumentError();
+  }
 }
