@@ -89,5 +89,16 @@ main() {
             }
           }));
     });
+
+    test('may not contain id or type relationship name', () {
+      expect(
+          () => Resource('articles', '1', attributes: {
+                'title': 'Hello world'
+              }, relationships: {
+                'id': ToOne(null),
+                'type': ToOne(null),
+              }),
+          throwsArgumentError);
+    });
   });
 }
