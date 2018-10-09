@@ -6,10 +6,10 @@ class ResourceListData implements PrimaryData {
 
   ResourceListData(List<Resource> this._resources);
 
-  @override
   bool identifies(Resource another) =>
       _resources.any((res) => res.identifies(another));
 
-  @override
   toJson() => _resources;
+
+  List<Resource> get resources => List.from(_resources);
 }

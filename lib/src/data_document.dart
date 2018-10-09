@@ -1,4 +1,3 @@
-import 'package:json_api_document/src/Included.dart';
 import 'package:json_api_document/src/api.dart';
 import 'package:json_api_document/src/document.dart';
 import 'package:json_api_document/src/identifier.dart';
@@ -14,10 +13,16 @@ import 'package:json_api_document/src/resource_list_data.dart';
 /// A Document with top-level primary data
 class DataDocument extends Document {
   final PrimaryData data;
-  final Included included;
+  final List<Resource> included;
 
-  DataDocument.fromNull({Map<String, dynamic> meta, Api api, Link self})
-      : this._internal(NullData(), meta, api, [], self, null, null);
+  DataDocument.fromNull({
+    Map<String, dynamic> meta,
+    Api api,
+    List<Resource> included = const [],
+    Link self,
+    Link next,
+    Link last,
+  }) : this._internal(NullData(), included, meta, api, self, next, last);
 
   DataDocument.fromIdentifier(
     Identifier identifier, {
@@ -28,7 +33,7 @@ class DataDocument extends Document {
     Link next,
     Link last,
   }) : this._internal(
-            IdentifierData(identifier), meta, api, included, self, next, last);
+            IdentifierData(identifier), included, meta, api, self, next, last);
 
   DataDocument.fromIdentifierList(
     List<Identifier> identifiers, {
@@ -38,7 +43,7 @@ class DataDocument extends Document {
     Link self,
     Link next,
     Link last,
-  }) : this._internal(IdentifierListData(identifiers), meta, api, included,
+  }) : this._internal(IdentifierListData(identifiers), included, meta, api,
             self, next, last);
 
   DataDocument.fromResource(
@@ -50,7 +55,7 @@ class DataDocument extends Document {
     Link next,
     Link last,
   }) : this._internal(
-            ResourceData(resource), meta, api, included, self, next, last);
+            ResourceData(resource), included, meta, api, self, next, last);
 
   DataDocument.fromResourceList(
     List<Resource> resources, {
@@ -61,23 +66,34 @@ class DataDocument extends Document {
     Link next,
     Link last,
   }) : this._internal(
-            ResourceListData(resources), meta, api, included, self, next, last);
+            ResourceListData(resources), included, meta, api, self, next, last);
 
   DataDocument._internal(
     PrimaryData this.data,
+    List<Resource> included,
     Map<String, dynamic> meta,
     Api api,
-    List<Resource> included,
     Link self,
     Link next,
     Link last,
-  )   : included = Included(included),
-        super(meta: meta, api: api, self: self, next: next, last: last);
+  )   : included = List.unmodifiable(included),
+        super(meta: meta, api: api, self: self, next: next, last: last) {
+    final Set<String> seen = Set<String>();
+    final isUnique = (included + data.resources)
+        .every((res) => seen.add(res.type + ':' + res.id));
+    if (!isUnique) throw ArgumentError();
+  }
 
   /// Returns true if the document is fully linked
   ///
   /// http://jsonapi.org/format/#document-compound-documents
-  bool get isFullyLinked => included.isFullyLinkedTo(data);
+  bool get isFullyLinked =>
+      included.isEmpty ||
+      included.every((res) =>
+          data.identifies(res) ||
+          included
+              .where((another) => another != res)
+              .any((another) => another.identifies(res)));
 
   /// Returns true is the document is compound
   ///

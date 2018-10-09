@@ -5,12 +5,13 @@ import 'package:json_api_document/src/resource.dart';
 class IdentifierListData implements PrimaryData {
   final List<Identifier> _identifiers;
 
-  IdentifierListData(List<Identifier> this._identifiers);
+  IdentifierListData(List<Identifier> _identifiers)
+      : _identifiers = List.unmodifiable(_identifiers);
 
-  @override
   bool identifies(Resource resource) => _identifiers.any((identifier) =>
       identifier.type == resource.type && identifier.id == resource.id);
 
-  @override
   toJson() => _identifiers;
+
+  List<Resource> get resources => const [];
 }

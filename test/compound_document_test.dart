@@ -13,18 +13,12 @@ void main() {
 
   group('Compound Document', () {
     test('Document without inluded resources is not compound', () {
-      expect(DataDocument
-          .fromNull()
-          .isCompound, false);
-      expect(DataDocument
-          .fromResource(apple)
-          .isCompound, false);
+      expect(DataDocument.fromNull().isCompound, false);
+      expect(DataDocument.fromResource(apple).isCompound, false);
     });
 
     test('Document with inluded resources is compound', () {
-      expect(DataDocument
-          .fromResource(apple, included: [orange])
-          .isCompound,
+      expect(DataDocument.fromResource(apple, included: [orange]).isCompound,
           true);
     });
   });
@@ -42,42 +36,47 @@ void main() {
 
     test('An included resource may be identified by primary data', () {
       expect(
-          DataDocument
-              .fromIdentifier(Identifier.of(apple), included: [apple])
+          DataDocument.fromIdentifier(Identifier.of(apple), included: [apple])
               .isFullyLinked,
           true);
 
       expect(
-          DataDocument
-              .fromIdentifierList([Identifier.of(apple)],
-              included: [apple])
-              .isFullyLinked,
+          DataDocument.fromIdentifierList([Identifier.of(apple)],
+              included: [apple]).isFullyLinked,
           true);
 
-      expect(DataDocument
-          .fromResource(cart, included: [apple])
-          .isFullyLinked,
+      expect(DataDocument.fromResource(cart, included: [apple]).isFullyLinked,
           true);
 
       expect(
-          DataDocument
-              .fromResourceList([cart], included: [apple])
+          DataDocument.fromResourceList([cart], included: [apple])
               .isFullyLinked,
           true);
     });
 
     test('An included resource may be identified by another included one', () {
       expect(
-          DataDocument
-              .fromResource(user, included: [cart, apple])
+          DataDocument.fromResource(user, included: [cart, apple])
               .isFullyLinked,
           true);
     });
   });
 
   test('Can not include more that one resource with the same type and id', () {
-    expect(() =>
-        DataDocument.fromResource(user, included: [apple, cart, apple]),
+    expect(
+        () => DataDocument.fromResource(user, included: [apple, cart, apple]),
+        throwsArgumentError);
+
+    final sameApple = Resource(apple.type, apple.id);
+
+    expect(
+        () =>
+            DataDocument.fromResource(user, included: [apple, cart, sameApple]),
+        throwsArgumentError);
+
+    final sameUser = Resource(user.type, user.id);
+
+    expect(() => DataDocument.fromResource(user, included: [sameUser]),
         throwsArgumentError);
   });
 }
