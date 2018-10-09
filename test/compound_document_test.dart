@@ -75,9 +75,9 @@ void main() {
     });
   });
 
-//  test('Can not include more that one resource with the same type and id', () {
-//    expect(() =>
-//        DataDocument.fromResource(user, included: [apple, cart, apple]),
-//        throwsArgumentError);
-//  });
+  test('Can not include more that one resource with the same type and id', () {
+    expect(() =>
+        DataDocument.fromResource(user, included: [apple, cart, apple]),
+        throwsArgumentError);
+  });
 }

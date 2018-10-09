@@ -1,3 +1,4 @@
+import 'package:json_api_document/src/Included.dart';
 import 'package:json_api_document/src/api.dart';
 import 'package:json_api_document/src/document.dart';
 import 'package:json_api_document/src/identifier.dart';
@@ -13,7 +14,7 @@ import 'package:json_api_document/src/resource_list_data.dart';
 /// A Document with top-level primary data
 class DataDocument extends Document {
   final PrimaryData data;
-  final List<Resource> _included;
+  final Included included;
 
   DataDocument.fromNull({Map<String, dynamic> meta, Api api, Link self})
       : this._internal(NullData(), meta, api, [], self, null, null);
@@ -70,29 +71,23 @@ class DataDocument extends Document {
     Link self,
     Link next,
     Link last,
-  )   : _included = included,
+  )   : included = Included(included),
         super(meta: meta, api: api, self: self, next: next, last: last);
 
   /// Returns true if the document is fully linked
   ///
   /// http://jsonapi.org/format/#document-compound-documents
-  bool get isFullyLinked {
-    return _included.isEmpty ||
-        _included.every((res) =>
-            data.identifies(res) ||
-            _included
-                .any((another) => another != res && another.identifies(res)));
-  }
+  bool get isFullyLinked => included.isFullyLinkedTo(data);
 
   /// Returns true is the document is compound
   ///
   /// http://jsonapi.org/format/#document-compound-documents
-  bool get isCompound => _included.isNotEmpty;
+  bool get isCompound => included.isNotEmpty;
 
   toJson() {
     final j = super.toJson();
     j['data'] = data;
-    if (_included.isNotEmpty) j['included'] = _included;
+    if (isCompound) j['included'] = included;
     return j;
   }
 }
