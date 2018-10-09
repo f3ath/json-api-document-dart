@@ -16,42 +16,62 @@ class DataDocument extends Document {
   final List<Resource> _included;
 
   DataDocument.fromNull({Map<String, dynamic> meta, Api api, Link self})
-      : _included = [],
-        data = NullData(),
-        super(meta: meta, api: api, self: self);
+      : this._internal(NullData(), meta, api, [], self, null, null);
 
-  DataDocument.fromIdentifier(Identifier identifier,
-      {Map<String, dynamic> meta,
-      Api api,
-      Link self,
-      List<Resource> included = const []})
-      : _included = included,
-        data = IdentifierData(identifier),
-        super(meta: meta, api: api, self: self);
+  DataDocument.fromIdentifier(
+    Identifier identifier, {
+    Map<String, dynamic> meta,
+    Api api,
+    List<Resource> included = const [],
+    Link self,
+    Link next,
+    Link last,
+  }) : this._internal(
+            IdentifierData(identifier), meta, api, included, self, next, last);
 
-  DataDocument.fromIdentifierList(List<Identifier> identifiers,
-      {Map<String, dynamic> meta,
-      Api api,
-      Link self,
-      List<Resource> included = const []})
-      : _included = included,
-        data = IdentifierListData(identifiers),
-        super(meta: meta, api: api, self: self);
+  DataDocument.fromIdentifierList(
+    List<Identifier> identifiers, {
+    Map<String, dynamic> meta,
+    Api api,
+    List<Resource> included = const [],
+    Link self,
+    Link next,
+    Link last,
+  }) : this._internal(IdentifierListData(identifiers), meta, api, included,
+            self, next, last);
 
-  DataDocument.fromResource(Resource resource,
-      {Map<String, dynamic> meta,
-      Api api,
-      Link self,
-      List<Resource> included = const []})
-      : _included = included,
-        data = ResourceData(resource),
-        super(meta: meta, api: api, self: self);
+  DataDocument.fromResource(
+    Resource resource, {
+    Map<String, dynamic> meta,
+    Api api,
+    List<Resource> included = const [],
+    Link self,
+    Link next,
+    Link last,
+  }) : this._internal(
+            ResourceData(resource), meta, api, included, self, next, last);
 
-  DataDocument.fromResourceList(List<Resource> resources,
-      {Link self, Link next, Link last, List<Resource> included = const []})
-      : _included = included,
-        data = ResourceListData(resources),
-        super(self: self, next: next, last: last);
+  DataDocument.fromResourceList(
+    List<Resource> resources, {
+    Map<String, dynamic> meta,
+    Api api,
+    List<Resource> included = const [],
+    Link self,
+    Link next,
+    Link last,
+  }) : this._internal(
+            ResourceListData(resources), meta, api, included, self, next, last);
+
+  DataDocument._internal(
+    PrimaryData this.data,
+    Map<String, dynamic> meta,
+    Api api,
+    List<Resource> included,
+    Link self,
+    Link next,
+    Link last,
+  )   : _included = included,
+        super(meta: meta, api: api, self: self, next: next, last: last);
 
   /// Returns true if the document is fully linked
   ///
