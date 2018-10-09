@@ -4,6 +4,7 @@ import 'package:json_api_document/src/naming.dart';
 ///
 /// http://jsonapi.org/format/#document-resource-object-attributes
 class Attributes {
+  static const prohibited = const ['relationships', 'links', 'type', 'id'];
   final Map<String, dynamic> _data;
 
   Attributes(Map<String, dynamic> attributes) : _data = Map.from(attributes) {
@@ -19,7 +20,6 @@ class Attributes {
 
   void _enforceNaming(String attr) {
     const Naming().enforce(attr);
-    if (['relationships', 'links', 'type', 'id'].contains(attr))
-      throw ArgumentError();
+    if (prohibited.contains(attr)) throw ArgumentError();
   }
 }

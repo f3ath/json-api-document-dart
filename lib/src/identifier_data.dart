@@ -7,10 +7,10 @@ class IdentifierData implements PrimaryData {
 
   IdentifierData(Identifier this._identifier);
 
-  @override
   bool identifies(Resource resource) =>
       _identifier.type == resource.type && _identifier.id == resource.id;
 
-  @override
   toJson() => _identifier.toJson();
+
+  List<Resource> get resources => const [];
 }
