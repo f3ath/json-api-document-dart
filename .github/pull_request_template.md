@@ -2,6 +2,6 @@
 <!-- Describe your change here -->
 
 
-### Checkllist
+### Checklist
 - [ ] CHANGELOG.md is updated
 - [ ] There is a test covering the affected code
