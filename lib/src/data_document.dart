@@ -14,81 +14,127 @@ import 'package:json_api_document/src/resource_list_data.dart';
 class DataDocument extends Document {
   final PrimaryData data;
   final List<Resource> included;
+  final Link related;
+  final Link first;
+  final Link last;
+  final Link prev;
+  final Link next;
 
   DataDocument.fromNull({
-    Map<String, dynamic> meta,
-    Api api,
-    List<Resource> included = const [],
-    Link self,
-    Link next,
-    Link last,
-  }) : this._internal(NullData(), included, meta, api, self, next, last);
-
-  DataDocument.fromIdentifier(
-    Identifier identifier, {
-    Map<String, dynamic> meta,
-    Api api,
-    List<Resource> included = const [],
-    Link self,
-    Link next,
-    Link last,
-  }) : this._internal(
-            IdentifierData(identifier), included, meta, api, self, next, last);
-
-  DataDocument.fromIdentifierList(
-    List<Identifier> identifiers, {
-    Map<String, dynamic> meta,
-    Api api,
-    List<Resource> included = const [],
-    Link self,
-    Link next,
-    Link last,
-  }) : this._internal(IdentifierListData(identifiers), included, meta, api,
-            self, next, last);
-
-  DataDocument.fromResource(
-    Resource resource, {
-    Map<String, dynamic> meta,
-    Api api,
-    List<Resource> included = const [],
-    Link self,
-    Link next,
-    Link last,
-  }) : this._internal(
-            ResourceData(resource), included, meta, api, self, next, last);
-
-  DataDocument.fromResourceList(
-    List<Resource> resources, {
-    Map<String, dynamic> meta,
-    Api api,
-    List<Resource> included = const [],
-    Link self,
-    Link next,
-    Link last,
-  }) : this._internal(
-            ResourceListData(resources), included, meta, api, self, next, last);
-
-  DataDocument._internal(
-    PrimaryData this.data,
     List<Resource> included,
     Map<String, dynamic> meta,
     Api api,
     Link self,
-    Link next,
+    Link related,
+  }) : this._internal(
+          NullData(),
+          included,
+          meta: meta,
+          api: api,
+          self: self,
+          related: related,
+        );
+
+  DataDocument.fromIdentifier(
+    Identifier identifier, {
+    List<Resource> included,
+    Map<String, dynamic> meta,
+    Api api,
+    Link self,
+  }) : this._internal(
+          IdentifierData(identifier),
+          included,
+          meta: meta,
+          api: api,
+          self: self,
+        );
+
+  DataDocument.fromIdentifierList(
+    List<Identifier> identifiers, {
+    List<Resource> included,
+    Map<String, dynamic> meta,
+    Api api,
+    Link self,
+    Link first,
     Link last,
-  )   : included = List.unmodifiable(included),
-        super(meta: meta, api: api, self: self, next: next, last: last) {
-    final Set<String> seen = Set<String>();
-    final isUnique = (included + data.resources)
-        .every((res) => seen.add(res.type + ':' + res.id));
-    if (!isUnique) throw ArgumentError();
+    Link prev,
+    Link next,
+  }) : this._internal(
+          IdentifierListData(identifiers),
+          included,
+          meta: meta,
+          api: api,
+          self: self,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next,
+        );
+
+  DataDocument.fromResource(
+    Resource resource, {
+    List<Resource> included,
+    Map<String, dynamic> meta,
+    Api api,
+    Link self,
+    Link related,
+  }) : this._internal(
+          ResourceData(resource),
+          included,
+          meta: meta,
+          api: api,
+          self: self,
+          related: related,
+        );
+
+  DataDocument.fromResourceList(
+    List<Resource> resources, {
+    List<Resource> included,
+    Map<String, dynamic> meta,
+    Api api,
+    Link self,
+    Link related,
+    Link first,
+    Link last,
+    Link prev,
+    Link next,
+  }) : this._internal(
+          ResourceListData(resources),
+          included,
+          meta: meta,
+          api: api,
+          self: self,
+          related: related,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next,
+        );
+
+  DataDocument._internal(PrimaryData this.data, List<Resource> included,
+      {Map<String, dynamic> meta,
+      Api api,
+      Link self,
+      Link this.related,
+      Link this.first,
+      Link this.last,
+      Link this.prev,
+      Link this.next})
+      : included = included == null ? null : List.unmodifiable(included),
+        super(meta: meta, api: api, self: self) {
+    if (isCompound) {
+      final Set<String> seen = Set<String>();
+      final isUnique = (included + data.resources)
+          .every((res) => seen.add(res.type + ':' + res.id));
+      if (!isUnique) throw ArgumentError();
+    }
   }
 
   /// Returns true if the document is fully linked
   ///
   /// http://jsonapi.org/format/#document-compound-documents
   bool get isFullyLinked =>
-      included.isEmpty ||
+      !isCompound ||
       included.every((res) =>
           data.identifies(res) ||
           included
@@ -98,12 +144,23 @@ class DataDocument extends Document {
   /// Returns true is the document is compound
   ///
   /// http://jsonapi.org/format/#document-compound-documents
-  bool get isCompound => included.isNotEmpty;
+  bool get isCompound => included != null && included.isNotEmpty;
 
   toJson() {
-    final j = super.toJson();
-    j['data'] = data;
-    if (isCompound) j['included'] = included;
-    return j;
+    final json = super.toJson();
+    json['data'] = data;
+    if (isCompound) json['included'] = included;
+
+    final links = {
+      'self': self,
+      'related': related,
+      'first': first,
+      'last': last,
+      'prev': prev,
+      'next': next
+    }..removeWhere((name, link) => link == null);
+    if (links.isNotEmpty) json['links'] = links;
+
+    return json;
   }
 }
