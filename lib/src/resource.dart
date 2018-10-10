@@ -1,5 +1,4 @@
 import 'package:json_api_document/src/attributes.dart';
-import 'package:json_api_document/src/identifier.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/naming.dart';
@@ -11,19 +10,32 @@ class Resource {
   final Attributes attributes;
   final Link self;
   final Meta meta;
-  final Map<String, Relationship> _relationships;
+  final Map<String, Relationship> relationships;
 
   Resource(String this.type, String this.id,
       {Map<String, dynamic> attributes,
       Link this.self,
       Map<String, dynamic> meta,
-      Map<String, Relationship> relationships = const {}})
+      Map<String, Relationship> relationships})
       : meta = Meta.fromJson(meta),
         attributes = Attributes.fromJson(attributes),
-        _relationships = relationships {
+        relationships =
+            relationships == null ? null : Map.unmodifiable(relationships) {
     if (id != null && id.isEmpty) throw ArgumentError();
-    _relationships.keys.forEach(_enforceRelationshipsNaming);
-    (const Naming()).enforce(type);
+    final naming = const Naming();
+    naming.enforce(type);
+    if (relationships != null) {
+      relationships.keys.forEach((String attr) {
+        naming.enforce(attr);
+        if (['type', 'id'].contains(attr)) throw ArgumentError();
+      });
+
+      if (attributes != null) {
+        final fields = Set<String>.of(attributes.keys);
+        final unique = relationships.keys.every(fields.add);
+        if (!unique) throw ArgumentError();
+      }
+    }
   }
 
   toJson() {
@@ -32,18 +44,13 @@ class Resource {
     if (attributes != null) j['attributes'] = attributes;
     if (meta != null) j['meta'] = meta;
     if (self != null) j['links'] = {'self': self};
-    if (_relationships.isNotEmpty) j['relationships'] = _relationships;
+    if (relationships != null && relationships.isNotEmpty)
+      j['relationships'] = relationships;
 
     return j;
   }
 
   bool identifies(Resource resource) =>
-      _relationships.values.any((rel) => rel.identifies(resource));
-
-  bool isIdentifiedBy(Identifier identifier) => identifier.identifies(this);
-
-  void _enforceRelationshipsNaming(String attr) {
-    const Naming().enforce(attr);
-    if (['type', 'id'].contains(attr)) throw ArgumentError();
-  }
+      relationships != null &&
+      relationships.values.any((rel) => rel.identifies(resource));
 }
