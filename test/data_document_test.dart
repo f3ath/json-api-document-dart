@@ -7,6 +7,11 @@ main() {
     final api = Api('1.0', meta: {'a': 'b'});
     final meta = {'foo': 'bar'};
     final self = Link('/self');
+    final related = Link('/related');
+    final first = Link('/first');
+    final last = Link('/last');
+    final prev = Link('/prev');
+    final next = Link('/next');
 
     group('with Null primary data', () {
       test('minimal', () {
@@ -15,7 +20,8 @@ main() {
       });
 
       test('full', () {
-        final doc = DataDocument.fromNull(meta: meta, api: api, self: self);
+        final doc = DataDocument.fromNull(
+            meta: meta, api: api, self: self, related: related);
         expect(
             doc,
             encodesToJson({
@@ -27,6 +33,7 @@ main() {
               },
               "links": {
                 "self": "/self",
+                "related": "/related",
               }
             }));
       });
@@ -72,8 +79,16 @@ main() {
       });
 
       test('full', () {
-        final doc = DataDocument.fromIdentifierList([apple],
-            meta: meta, api: api, self: self);
+        final doc = DataDocument.fromIdentifierList(
+          [apple],
+          meta: meta,
+          api: api,
+          self: self,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next,
+        );
         expect(
             doc,
             encodesToJson({
@@ -87,6 +102,10 @@ main() {
               },
               "links": {
                 "self": "/self",
+                "first": "/first",
+                "last": "/last",
+                "prev": "/prev",
+                "next": "/next",
               }
             }));
       });
@@ -109,8 +128,13 @@ main() {
       });
 
       test('full', () {
-        final doc =
-            DataDocument.fromResource(apple, meta: meta, api: api, self: self);
+        final doc = DataDocument.fromResource(
+          apple,
+          meta: meta,
+          api: api,
+          self: self,
+          related: related,
+        );
         expect(
             doc,
             encodesToJson({
@@ -126,6 +150,60 @@ main() {
               },
               "links": {
                 "self": "/self",
+                "related": "/related",
+              }
+            }));
+      });
+    });
+
+    group('with multiple Resource primary data', () {
+      final apple = Resource('apples', '42', attributes: {'color': 'red'});
+      final orange = Resource('oranges', '21', attributes: {'color': 'yellow'});
+
+      test('minimal', () {
+        final doc = DataDocument.fromResourceList([]);
+        expect(doc, encodesToJson({"data": []}));
+      });
+
+      test('full', () {
+        final doc = DataDocument.fromResourceList(
+          [apple, orange],
+          meta: meta,
+          api: api,
+          self: self,
+          related: related,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next,
+        );
+        expect(
+            doc,
+            encodesToJson({
+              "data": [
+                {
+                  "type": "apples",
+                  "id": "42",
+                  "attributes": {"color": "red"}
+                },
+                {
+                  "type": "oranges",
+                  "id": "21",
+                  "attributes": {"color": "yellow"}
+                }
+              ],
+              "meta": {"foo": "bar"},
+              "jsonapi": {
+                "version": "1.0",
+                "meta": {"a": "b"}
+              },
+              "links": {
+                "self": "/self",
+                "related": "/related",
+                "first": "/first",
+                "last": "/last",
+                "prev": "/prev",
+                "next": "/next",
               }
             }));
       });

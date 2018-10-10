@@ -11,29 +11,17 @@ abstract class Document {
   /// The JSON API object
   final Api api;
   final Link self;
-  final Link related;
-  final Link next;
-  final Link last;
 
-  Document(
-      {Map<String, dynamic> meta,
-      Api this.api,
-      Link this.next,
-      Link this.last,
-      Link this.self,
-      Link this.related})
+  Document({Map<String, dynamic> meta, Api this.api, Link this.self})
       : meta = Meta.fromJson(meta);
 
   /// Returns the JSON representation.
   Map<String, dynamic> toJson() {
-    final j = Map<String, dynamic>();
-    if (meta != null) j['meta'] = meta;
-    if (api != null) j['jsonapi'] = api;
-    final links = {'self': self, 'related': related, 'next': next, 'last': last}
-      ..removeWhere((name, link) => link == null);
-
-    if (links.isNotEmpty) j['links'] = links;
-    return j;
+    final json = Map<String, dynamic>();
+    if (meta != null) json['meta'] = meta;
+    if (api != null) json['jsonapi'] = api;
+    if (self != null) json['links'] = {'self': self};
+    return json;
   }
 
   /// Creates a Document instance from [json].
