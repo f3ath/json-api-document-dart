@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Included resources are checked for duplicates
 - LinkObject
 - Pagination links for data collection documents
+- Resource fields uniqueness enforcement
 
 ## [0.2.2] - 2018-10-06
 ### Added

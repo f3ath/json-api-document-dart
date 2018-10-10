@@ -90,13 +90,25 @@ main() {
           }));
     });
 
-    test('may not contain id or type relationship name', () {
+    test('"id" and "type" can not be used as a relationship name', () {
+      expect(
+          () => Resource('articles', '1', relationships: {
+                'id': ToOne(null),
+              }),
+          throwsArgumentError);
+      expect(
+          () => Resource('articles', '1', relationships: {
+                'type': ToOne(null),
+              }),
+          throwsArgumentError);
+    });
+
+    test('Resource fields must be unique', () {
       expect(
           () => Resource('articles', '1', attributes: {
-                'title': 'Hello world'
+                'foo': 'bar'
               }, relationships: {
-                'id': ToOne(null),
-                'type': ToOne(null),
+                'foo': ToOne(null),
               }),
           throwsArgumentError);
     });

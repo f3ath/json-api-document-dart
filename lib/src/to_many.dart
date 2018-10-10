@@ -11,5 +11,6 @@ class ToMany extends Relationship {
         super(self: self, related: related);
 
   @override
-  bool identifies(Resource resource) => data.any(resource.isIdentifiedBy);
+  bool identifies(Resource resource) =>
+      data.any((id) => id.identifies(resource));
 }
