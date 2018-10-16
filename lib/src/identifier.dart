@@ -11,7 +11,7 @@ class Identifier {
   final Meta meta;
 
   /// Both [type] and [id] must be non-empty strings.
-  Identifier(String this.type, String this.id, {Meta this.meta}) {
+  Identifier(this.type, this.id, {Meta this.meta}) {
     if (id == null || id.isEmpty) throw ArgumentError();
     (const Naming()).enforce(type);
   }

@@ -20,6 +20,7 @@ class DataDocument extends Document {
   final Link prev;
   final Link next;
 
+  /// Creates a document with null primary data.
   DataDocument.fromNull({
     List<Resource> included,
     Map<String, dynamic> meta,
@@ -35,6 +36,7 @@ class DataDocument extends Document {
           related: related,
         );
 
+  /// Creates a document with a single resource identifier primary data.
   DataDocument.fromIdentifier(
     Identifier identifier, {
     List<Resource> included,
@@ -49,6 +51,7 @@ class DataDocument extends Document {
           self: self,
         );
 
+  /// Creates a document with multiple resource identifiers primary data.
   DataDocument.fromIdentifierList(
     List<Identifier> identifiers, {
     List<Resource> included,
@@ -71,6 +74,7 @@ class DataDocument extends Document {
           next: next,
         );
 
+  /// Creates a document with a single resource primary data.
   DataDocument.fromResource(
     Resource resource, {
     List<Resource> included,
@@ -87,6 +91,7 @@ class DataDocument extends Document {
           related: related,
         );
 
+  /// Creates a document with multiple resources primary data.
   DataDocument.fromResourceList(
     List<Resource> resources, {
     List<Resource> included,

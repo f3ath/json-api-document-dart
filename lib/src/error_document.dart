@@ -3,6 +3,7 @@ import 'package:json_api_document/src/document.dart';
 import 'package:json_api_document/src/error_object.dart';
 import 'package:json_api_document/src/link.dart';
 
+/// A document containing just errors
 class ErrorDocument extends Document {
   final List<ErrorObject> errors;
 

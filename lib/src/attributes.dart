@@ -7,6 +7,7 @@ class Attributes {
   static const prohibited = const ['relationships', 'links', 'type', 'id'];
   final Map<String, dynamic> _data;
 
+  /// Creates an instance from a map
   Attributes(Map<String, dynamic> attributes) : _data = Map.from(attributes) {
     attributes.keys.forEach(_enforceNaming);
   }
