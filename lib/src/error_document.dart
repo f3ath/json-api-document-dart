@@ -5,12 +5,14 @@ import 'package:json_api_document/src/link.dart';
 
 /// A document containing just errors
 class ErrorDocument extends Document {
-  final List<ErrorObject> errors;
-
   ErrorDocument(List<ErrorObject> errors,
       {Map<String, dynamic> meta, Api api, Link self})
-      : errors = List.unmodifiable(errors),
+      : _errors = List.unmodifiable(errors),
         super(meta: meta, api: api, self: self);
+
+  final List<ErrorObject> _errors;
+
+  Iterable<ErrorObject> get errors => Iterable.castFrom(_errors);
 
   /// Parse a [json] object.
   static ErrorDocument fromJson(Map<String, dynamic> json) {
@@ -28,5 +30,5 @@ class ErrorDocument extends Document {
         self: self);
   }
 
-  toJson() => super.toJson()..['errors'] = errors;
+  toJson() => super.toJson()..['errors'] = _errors;
 }

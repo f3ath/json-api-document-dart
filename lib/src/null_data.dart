@@ -6,5 +6,5 @@ class NullData implements PrimaryData {
 
   toJson() => null;
 
-  List<Resource> get resources => const [];
+  List<Resource> get resources => [];
 }

@@ -11,7 +11,8 @@ class Identifier {
   final Meta meta;
 
   /// Both [type] and [id] must be non-empty strings.
-  Identifier(this.type, this.id, {this.meta}) {
+  Identifier(this.type, this.id, {Map<String, dynamic> meta})
+      : meta = Meta.orNull(meta) {
     if (id == null || id.isEmpty) throw ArgumentError();
     (const Naming()).enforce(type);
   }

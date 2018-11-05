@@ -21,7 +21,7 @@ main() {
 
     test('must contain type id and meta', () {
       expect(
-          Identifier('apples', '1', meta: Meta({'count': '10'})),
+          Identifier('apples', '1', meta: {'count': '10'}),
           encodesToJson({
             "type": "apples",
             "id": "1",

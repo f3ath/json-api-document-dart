@@ -13,8 +13,7 @@ abstract class Relationship {
   Relationship({Link this.self, Link this.related});
 
   toJson() {
-    final j = Map<String, dynamic>();
-    j['data'] = data;
+    final Map<String, dynamic> j = {'data': data};
     final links = Map<String, Link>();
     if (self != null) links['self'] = self;
     if (related != null) links['related'] = related;

@@ -14,7 +14,7 @@ abstract class Document {
   final Link self;
 
   Document({Map<String, dynamic> meta, this.api, this.self})
-      : meta = Meta.fromJson(meta);
+      : meta = Meta.orNull(meta);
 
   /// Returns the JSON representation.
   Map<String, dynamic> toJson() {

@@ -7,7 +7,7 @@ class Api {
   final String version;
   final Meta meta;
 
-  Api(this.version, {Map<String, dynamic> meta}) : meta = Meta.fromJson(meta) {
+  Api(this.version, {Map<String, dynamic> meta}) : meta = Meta.orNull(meta) {
     if (version == null && meta == null) throw ArgumentError();
   }
 

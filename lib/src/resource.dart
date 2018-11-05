@@ -17,8 +17,8 @@ class Resource {
       this.self,
       Map<String, dynamic> meta,
       Map<String, Relationship> relationships})
-      : meta = Meta.fromJson(meta),
-        attributes = Attributes.fromJson(attributes),
+      : meta = Meta.orNull(meta),
+        attributes = Attributes.orNull(attributes),
         relationships =
             relationships == null ? null : Map.unmodifiable(relationships) {
     if (id != null && id.isEmpty) throw ArgumentError();

@@ -6,7 +6,7 @@ import 'package:json_api_document/src/meta.dart';
 class Link {
   final String url;
 
-  Link(String this.url);
+  Link(this.url);
 
   toJson() => url;
 
@@ -25,8 +25,7 @@ class LinkObject implements Link {
   final String url;
   final Meta meta;
 
-  LinkObject(String this.url, {Map<String, dynamic> meta})
-      : meta = Meta.fromJson(meta);
+  LinkObject(this.url, {Map<String, dynamic> meta}) : meta = Meta.orNull(meta);
 
   toJson() {
     final Map<String, dynamic> json = {'href': url};
