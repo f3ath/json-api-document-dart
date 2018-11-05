@@ -1,4 +1,5 @@
 import 'package:json_api_document/src/api.dart';
+import 'package:json_api_document/src/error_document.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/meta_document.dart';
@@ -12,7 +13,7 @@ abstract class Document {
   final Api api;
   final Link self;
 
-  Document({Map<String, dynamic> meta, Api this.api, Link this.self})
+  Document({Map<String, dynamic> meta, this.api, this.self})
       : meta = Meta.fromJson(meta);
 
   /// Returns the JSON representation.
@@ -30,12 +31,8 @@ abstract class Document {
   /// depending on the [json]. If [json] does not match any of the above,
   /// a `CastError` is thrown.
   static Document fromJson(Map<String, dynamic> json) {
-    final links = json['links'];
-    final self = links != null ? Link.fromJson(links['self']) : null;
-    if (json.containsKey('meta')) {
-      return MetaDocument(json['meta'],
-          api: Api.fromJson(json['jsonapi']), self: self);
-    }
+    if (json.containsKey('errors')) return ErrorDocument.fromJson(json);
+    if (json.containsKey('meta')) return MetaDocument.fromJson(json);
     throw CastError();
   }
 }

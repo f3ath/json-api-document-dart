@@ -5,14 +5,17 @@ import 'package:json_api_document/src/meta.dart';
 /// http://jsonapi.org/format/#document-links
 class Link {
   final String url;
-  final bool isObject = false;
-  final Meta meta = null;
 
   Link(String this.url);
 
   toJson() => url;
 
-  static Link fromJson(json) => Link(json);
+  /// Parses [json] into [Link] or [LinkObject]. Throws [CastError] on failure.
+  static Link fromJson(json) {
+    if (json is String) return Link(json);
+    if (json is Map<String, dynamic>) return LinkObject.fromJson(json);
+    throw CastError();
+  }
 }
 
 /// A Link object.
@@ -20,7 +23,6 @@ class Link {
 /// http://jsonapi.org/format/#document-links
 class LinkObject implements Link {
   final String url;
-  final bool isObject = true;
   final Meta meta;
 
   LinkObject(String this.url, {Map<String, dynamic> meta})
@@ -30,5 +32,10 @@ class LinkObject implements Link {
     final Map<String, dynamic> json = {'href': url};
     if (meta != null) json['meta'] = meta;
     return json;
+  }
+
+  /// Parses [json] into [LinksObject]. Throws [CastError] on failure.
+  static LinkObject fromJson(Map<String, dynamic> json) {
+    return LinkObject(json['href'], meta: json['meta']);
   }
 }

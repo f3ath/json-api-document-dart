@@ -12,9 +12,9 @@ class Resource {
   final Meta meta;
   final Map<String, Relationship> relationships;
 
-  Resource(String this.type, String this.id,
+  Resource(this.type, this.id,
       {Map<String, dynamic> attributes,
-      Link this.self,
+      this.self,
       Map<String, dynamic> meta,
       Map<String, Relationship> relationships})
       : meta = Meta.fromJson(meta),

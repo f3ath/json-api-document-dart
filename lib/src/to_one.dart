@@ -6,7 +6,7 @@ import 'package:json_api_document/src/resource.dart';
 class ToOne extends Relationship {
   final Identifier data;
 
-  ToOne(Identifier this.data, {Link self, Link related})
+  ToOne(this.data, {Link self, Link related})
       : super(self: self, related: related);
 
   @override

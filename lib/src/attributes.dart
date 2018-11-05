@@ -19,6 +19,8 @@ class Attributes {
   /// Returns the JSON representation.
   Map<String, dynamic> toJson() => Map.from(_data);
 
+  Iterable<String> get keys =>_data.keys;
+
   void _enforceNaming(String attr) {
     const Naming().enforce(attr);
     if (prohibited.contains(attr)) throw ArgumentError();

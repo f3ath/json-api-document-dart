@@ -41,7 +41,7 @@ void main() {
     });
 
     test('can be parsed from json', () {
-      final doc = Document.fromJson({
+      final doc = MetaDocument.fromJson({
         "meta": {"foo": "bar"},
         "jsonapi": {
           "version": "1.0",
@@ -52,7 +52,6 @@ void main() {
         }
       });
 
-      expect(doc, TypeMatcher<MetaDocument>());
       expect(doc.meta.toJson(), equals({"foo": "bar"}));
       expect(doc.api.version, equals('1.0'));
       expect(doc.api.meta.toJson(), equals({"a": "b"}));

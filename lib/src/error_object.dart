@@ -63,4 +63,47 @@ class ErrorObject {
   Map<String, dynamic> toJson() {
     return Map.from(_json);
   }
+
+  /// Parses [json] into [ErrorObject].
+  static ErrorObject fromJson(Map<String, dynamic> json) {
+    String id;
+    if (json['id'] is String) id = json['id'];
+
+    Link about;
+    if (json['links'] is Map) about = Link.fromJson(json['links']['about']);
+
+    String status;
+    if (json['status'] is String) status = json['status'];
+
+    String code;
+    if (json['code'] is String) code = json['code'];
+
+    String title;
+    if (json['title'] is String) title = json['title'];
+
+    String detail;
+    if (json['detail'] is String) detail = json['detail'];
+
+    String pointer;
+    String parameter;
+    if (json['source'] is Map) {
+      if (json['source']['parameter'] is String) {
+        parameter = json['source']['parameter'];
+      }
+      if (json['source']['pointer'] is String) {
+        pointer = json['source']['pointer'];
+      }
+    }
+
+    return ErrorObject(
+        id: id,
+        about: about,
+        status: status,
+        code: code,
+        title: title,
+        detail: detail,
+        pointer: pointer,
+        parameter: parameter,
+        meta: json['meta']);
+  }
 }

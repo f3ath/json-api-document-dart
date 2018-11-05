@@ -4,7 +4,7 @@ import 'package:json_api_document/src/resource.dart';
 class ResourceListData implements PrimaryData {
   final List<Resource> _resources;
 
-  ResourceListData(List<Resource> this._resources);
+  ResourceListData(this._resources);
 
   bool identifies(Resource another) =>
       _resources.any((res) => res.identifies(another));

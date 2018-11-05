@@ -120,11 +120,11 @@ class DataDocument extends Document {
       {Map<String, dynamic> meta,
       Api api,
       Link self,
-      Link this.related,
-      Link this.first,
-      Link this.last,
-      Link this.prev,
-      Link this.next})
+      this.related,
+      this.first,
+      this.last,
+      this.prev,
+      this.next})
       : included = included == null ? null : List.unmodifiable(included),
         super(meta: meta, api: api, self: self) {
     if (isCompound) {

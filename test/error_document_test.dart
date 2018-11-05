@@ -50,5 +50,23 @@ main() {
     test('.self contains self Link', () {
       expect(full.self, equals(self));
     });
+
+    test('Can be parsed from json', () {
+      final json = {
+        "errors": [
+          {"id": "one"},
+          {"id": "two"}
+        ],
+        "meta": {"foo": "bar"},
+        "jsonapi": {
+          "version": "1.0",
+          "meta": {"a": "b"}
+        },
+        "links": {
+          "self": "http://self",
+        }
+      };
+      expect(ErrorDocument.fromJson(json), encodesToJson(json));
+    });
   });
 }
