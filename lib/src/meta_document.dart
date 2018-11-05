@@ -8,7 +8,7 @@ class MetaDocument extends Document {
     if (meta == null) throw ArgumentError();
   }
 
-  /// Parse a [json] object.
+  /// Parses [json] object into [MetaDocument].
   static MetaDocument fromJson(Map<String, dynamic> json) {
     final links = json['links'];
     final self = links != null ? Link.fromJson(links['self']) : null;

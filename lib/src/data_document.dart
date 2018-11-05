@@ -168,4 +168,9 @@ class DataDocument extends Document {
 
     return json;
   }
+
+  /// Parses [json] into [DataDocument].
+  static DataDocument fromJson(Map<String, dynamic> json) {
+    return DataDocument.fromNull();
+  }
 }

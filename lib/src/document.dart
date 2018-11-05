@@ -29,10 +29,10 @@ abstract class Document {
   ///
   /// The instance may be a MetaDocument, a DataDocument, or an ErrorDocument
   /// depending on the [json]. If [json] does not match any of the above,
-  /// a `CastError` is thrown.
+  /// a [FormatException] is thrown.
   static Document fromJson(Map<String, dynamic> json) {
     if (json.containsKey('errors')) return ErrorDocument.fromJson(json);
     if (json.containsKey('meta')) return MetaDocument.fromJson(json);
-    throw CastError();
+    throw FormatException('Failed to parse a Document', json);
   }
 }

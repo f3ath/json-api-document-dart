@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Api.fromJson()
-- A few accessors to Meta
+- A few accessors to Meta, Attributes, Relationships
 
 ### Removed
 - Link.isObject

@@ -14,21 +14,28 @@ class ErrorDocument extends Document {
 
   Iterable<ErrorObject> get errors => Iterable.castFrom(_errors);
 
-  /// Parse a [json] object.
+  toJson() => super.toJson()..['errors'] = _errors;
+
+  /// Parses [json] object into [ErrorDocument].
   static ErrorDocument fromJson(Map<String, dynamic> json) {
-    if (json['errors'] is! List<Map<String, dynamic>>) throw CastError();
+    final List<ErrorObject> errorObjects = [];
+    final errors = json['errors'];
+    if (errors is List) {
+      errors.forEach((e) {
+        if (e is Map<String, dynamic>) {
+          errorObjects.add(ErrorObject.fromJson(e));
+        } else {
+          throw FormatException('Failed to parse an ErrorObject.', e);
+        }
+      });
+    } else {
+      throw FormatException('Failed to parse List<ErrorObject>.', errors);
+    }
     Link self;
     if (json['links'] is Map<String, dynamic>) {
       self = Link.fromJson(json['links']['self']);
     }
-    return ErrorDocument(
-        (json['errors'] as List<Map<String, dynamic>>)
-            .map(ErrorObject.fromJson)
-            .toList(),
-        meta: json['meta'],
-        api: Api.fromJson(json['jsonapi']),
-        self: self);
+    return ErrorDocument(errorObjects,
+        meta: json['meta'], api: Api.fromJson(json['jsonapi']), self: self);
   }
-
-  toJson() => super.toJson()..['errors'] = _errors;
 }

@@ -10,11 +10,12 @@ class Link {
 
   toJson() => url;
 
-  /// Parses [json] into [Link] or [LinkObject]. Throws [CastError] on failure.
+  /// Parses [json] into [Link] or [LinkObject].
+  /// Throws [FormatException] on failure.
   static Link fromJson(json) {
     if (json is String) return Link(json);
     if (json is Map<String, dynamic>) return LinkObject.fromJson(json);
-    throw CastError();
+    throw FormatException('Link parse failed.', json);
   }
 }
 
@@ -33,7 +34,7 @@ class LinkObject implements Link {
     return json;
   }
 
-  /// Parses [json] into [LinksObject]. Throws [CastError] on failure.
+  /// Parses [json] into [LinksObject].
   static LinkObject fromJson(Map<String, dynamic> json) {
     return LinkObject(json['href'], meta: json['meta']);
   }

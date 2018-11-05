@@ -34,7 +34,7 @@ void main() {
     });
 
     test('throws CastError', () {
-      expect(() => Link.fromJson(true), throwsA(TypeMatcher<CastError>()));
+      expect(() => Link.fromJson(true), throwsFormatException);
     });
   });
 

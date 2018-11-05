@@ -3,6 +3,7 @@ import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/naming.dart';
 import 'package:json_api_document/src/relationship.dart';
+import 'package:json_api_document/src/relationships.dart';
 
 class Resource {
   final String type;
@@ -10,7 +11,7 @@ class Resource {
   final Attributes attributes;
   final Link self;
   final Meta meta;
-  final Map<String, Relationship> relationships;
+  final Relationships relationships;
 
   Resource(this.type, this.id,
       {Map<String, dynamic> attributes,
@@ -19,22 +20,14 @@ class Resource {
       Map<String, Relationship> relationships})
       : meta = Meta.orNull(meta),
         attributes = Attributes.orNull(attributes),
-        relationships =
-            relationships == null ? null : Map.unmodifiable(relationships) {
+        relationships = Relationships.orNull(relationships) {
     if (id != null && id.isEmpty) throw ArgumentError();
     final naming = const Naming();
     naming.enforce(type);
-    if (relationships != null) {
-      relationships.keys.forEach((String attr) {
-        naming.enforce(attr);
-        if (['type', 'id'].contains(attr)) throw ArgumentError();
-      });
-
-      if (attributes != null) {
-        final fields = Set<String>.of(attributes.keys);
-        final unique = relationships.keys.every(fields.add);
-        if (!unique) throw ArgumentError();
-      }
+    if (relationships != null && attributes != null) {
+      final fields = Set<String>.of(attributes.keys);
+      final unique = relationships.keys.every(fields.add);
+      if (!unique) throw ArgumentError();
     }
   }
 

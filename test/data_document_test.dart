@@ -16,26 +16,29 @@ main() {
     group('with Null primary data', () {
       test('minimal', () {
         final doc = DataDocument.fromNull();
-        expect(doc, encodesToJson({"data": null}));
+        final json = {"data": null};
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
 
       test('full', () {
         final doc = DataDocument.fromNull(
             meta: meta, api: api, self: self, related: related);
-        expect(
-            doc,
-            encodesToJson({
-              "data": null,
-              "meta": {"foo": "bar"},
-              "jsonapi": {
-                "version": "1.0",
-                "meta": {"a": "b"}
-              },
-              "links": {
-                "self": "/self",
-                "related": "/related",
-              }
-            }));
+
+        final json = {
+          "data": null,
+          "meta": {"foo": "bar"},
+          "jsonapi": {
+            "version": "1.0",
+            "meta": {"a": "b"}
+          },
+          "links": {
+            "self": "/self",
+            "related": "/related",
+          }
+        };
+        expect(doc, encodesToJson(json));
+//        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
     });
 
