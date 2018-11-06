@@ -1,4 +1,6 @@
 import 'package:json_api_document/src/api.dart';
+import 'package:json_api_document/src/data_document.dart';
+import 'package:json_api_document/src/error_document.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/meta_document.dart';
@@ -12,8 +14,8 @@ abstract class Document {
   final Api api;
   final Link self;
 
-  Document({Map<String, dynamic> meta, Api this.api, Link this.self})
-      : meta = Meta.fromJson(meta);
+  Document({Map<String, dynamic> meta, this.api, this.self})
+      : meta = Meta.orNull(meta);
 
   /// Returns the JSON representation.
   Map<String, dynamic> toJson() {
@@ -28,14 +30,11 @@ abstract class Document {
   ///
   /// The instance may be a MetaDocument, a DataDocument, or an ErrorDocument
   /// depending on the [json]. If [json] does not match any of the above,
-  /// a `CastError` is thrown.
+  /// a [FormatException] is thrown.
   static Document fromJson(Map<String, dynamic> json) {
-    final links = json['links'];
-    final self = links != null ? Link.fromJson(links['self']) : null;
-    if (json.containsKey('meta')) {
-      return MetaDocument(json['meta'],
-          api: Api.fromJson(json['jsonapi']), self: self);
-    }
-    throw CastError();
+    if (json.containsKey('errors')) return ErrorDocument.fromJson(json);
+    if (json.containsKey('data')) return DataDocument.fromJson(json);
+    if (json.containsKey('meta')) return MetaDocument.fromJson(json);
+    throw FormatException('Failed to parse a Document.', json);
   }
 }

@@ -8,8 +8,8 @@ These are the key values of the library:
 - **Strict standard compliance**. All JSON API Documents are guaranteed to follow [JSON API v1.0](http://jsonapi.org/format/).
 
 
-## Documentation
-To get a sense of what the library API looks like, take a look at the [example](example/main.dart):
+## Building JSON API Document
+To get a sense of what the library API looks like, take a look at the [example](example/build.dart):
 
 ```dart
 import 'dart:convert';
@@ -144,3 +144,26 @@ This code will produce the following output:
   ]
 }
 ```
+
+## Parsing JSON API Document
+
+This [example](./example/parse.dart) reads the JSON API from stdin and prints some details about it:
+```dart
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:json_api_document/json_api_document.dart';
+
+void main() async {
+  final jsonString = await stdin.transform(Utf8Decoder()).join();
+  final jsonObject = json.decode(jsonString);
+  final doc = Document.fromJson(jsonObject);
+  print('This is ${doc.runtimeType}');
+  if (doc is DataDocument) {
+    print('The primary data is ${doc.data.runtimeType} ' +
+        'with ${doc.data.resources.length} resource(s).');
+    print('The document contains ${doc.included.length} included resource(s).');
+  }
+}
+```
+

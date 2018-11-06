@@ -20,14 +20,30 @@ class DataDocument extends Document {
   final Link prev;
   final Link next;
 
+  /// Creates a document with null primary data.
   DataDocument.fromNull({
+    List<Resource> included,
+    Map<String, dynamic> meta,
+    Api api,
+    Link self,
+  }) : this._internal(
+          NullData(),
+          included,
+          meta: meta,
+          api: api,
+          self: self,
+        );
+
+  /// Creates a document with a single resource identifier primary data.
+  DataDocument.fromIdentifier(
+    Identifier identifier, {
     List<Resource> included,
     Map<String, dynamic> meta,
     Api api,
     Link self,
     Link related,
   }) : this._internal(
-          NullData(),
+          IdentifierData(identifier),
           included,
           meta: meta,
           api: api,
@@ -35,26 +51,14 @@ class DataDocument extends Document {
           related: related,
         );
 
-  DataDocument.fromIdentifier(
-    Identifier identifier, {
-    List<Resource> included,
-    Map<String, dynamic> meta,
-    Api api,
-    Link self,
-  }) : this._internal(
-          IdentifierData(identifier),
-          included,
-          meta: meta,
-          api: api,
-          self: self,
-        );
-
+  /// Creates a document with multiple resource identifiers primary data.
   DataDocument.fromIdentifierList(
     List<Identifier> identifiers, {
     List<Resource> included,
     Map<String, dynamic> meta,
     Api api,
     Link self,
+    Link related,
     Link first,
     Link last,
     Link prev,
@@ -65,28 +69,29 @@ class DataDocument extends Document {
           meta: meta,
           api: api,
           self: self,
+          related: related,
           first: first,
           last: last,
           prev: prev,
           next: next,
         );
 
+  /// Creates a document with a single resource primary data.
   DataDocument.fromResource(
     Resource resource, {
     List<Resource> included,
     Map<String, dynamic> meta,
     Api api,
     Link self,
-    Link related,
   }) : this._internal(
           ResourceData(resource),
           included,
           meta: meta,
           api: api,
           self: self,
-          related: related,
         );
 
+  /// Creates a document with multiple resources primary data.
   DataDocument.fromResourceList(
     List<Resource> resources, {
     List<Resource> included,
@@ -115,11 +120,11 @@ class DataDocument extends Document {
       {Map<String, dynamic> meta,
       Api api,
       Link self,
-      Link this.related,
-      Link this.first,
-      Link this.last,
-      Link this.prev,
-      Link this.next})
+      this.related,
+      this.first,
+      this.last,
+      this.prev,
+      this.next})
       : included = included == null ? null : List.unmodifiable(included),
         super(meta: meta, api: api, self: self) {
     if (isCompound) {
@@ -162,5 +167,82 @@ class DataDocument extends Document {
     if (links.isNotEmpty) json['links'] = links;
 
     return json;
+  }
+
+  /// Parses [json] into [DataDocument].
+  static DataDocument fromJson(Map<String, dynamic> json) {
+    final api = Api.fromJson(json['jsonapi']);
+    Link self, related, first, last, prev, next;
+    final links = json['links'];
+    if (links is Map) {
+      if (links['self'] != null) self = Link.fromJson(links['self']);
+      if (links['related'] != null) related = Link.fromJson(links['related']);
+      if (links['first'] != null) first = Link.fromJson(links['first']);
+      if (links['last'] != null) last = Link.fromJson(links['last']);
+      if (links['prev'] != null) prev = Link.fromJson(links['prev']);
+      if (links['next'] != null) next = Link.fromJson(links['next']);
+    }
+
+    List<Resource> included;
+    final rawIncluded = json['included'];
+    if (rawIncluded is List) {
+      included = rawIncluded.map(Resource.fromJson).toList();
+    }
+
+    final data = json['data'];
+    if (data == null) {
+      return DataDocument.fromNull(meta: json['meta'], api: api, self: self);
+    }
+
+    if (data is Map) {
+      if (Identifier.jsonHasExtraAttributes(data)) {
+        return DataDocument.fromResource(Resource.fromJson(data),
+            meta: json['meta'], api: api, self: self, included: included);
+      }
+      return DataDocument.fromIdentifier(Identifier.fromJson(data),
+          meta: json['meta'],
+          api: api,
+          self: self,
+          related: related,
+          included: included);
+    }
+
+    if (data is List && data.isEmpty) {
+      return DataDocument.fromIdentifierList([],
+          meta: json['meta'],
+          api: api,
+          self: self,
+          related: related,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next,
+          included: included);
+    }
+    if (data is List) {
+      if (data.any(Identifier.jsonHasExtraAttributes)) {
+        return DataDocument.fromResourceList(Resource.listFromJson(data),
+            meta: json['meta'],
+            api: api,
+            self: self,
+            related: related,
+            first: first,
+            last: last,
+            prev: prev,
+            next: next,
+            included: included);
+      }
+      return DataDocument.fromIdentifierList(Identifier.listFromJson(data),
+          meta: json['meta'],
+          api: api,
+          self: self,
+          related: related,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next,
+          included: included);
+    }
+    throw FormatException('Failed to parse DataDocument.', json);
   }
 }

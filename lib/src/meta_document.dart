@@ -7,4 +7,12 @@ class MetaDocument extends Document {
       : super(meta: meta, api: api, self: self) {
     if (meta == null) throw ArgumentError();
   }
+
+  /// Parses [json] object into [MetaDocument].
+  static MetaDocument fromJson(Map<String, dynamic> json) {
+    final links = json['links'];
+    final self = links != null ? Link.fromJson(links['self']) : null;
+    return MetaDocument(json['meta'],
+        api: Api.fromJson(json['jsonapi']), self: self);
+  }
 }

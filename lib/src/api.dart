@@ -7,8 +7,7 @@ class Api {
   final String version;
   final Meta meta;
 
-  Api(String this.version, {Map<String, dynamic> meta})
-      : meta = Meta.fromJson(meta) {
+  Api(this.version, {Map<String, dynamic> meta}) : meta = Meta.orNull(meta) {
     if (version == null && meta == null) throw ArgumentError();
   }
 
@@ -19,7 +18,7 @@ class Api {
     return j;
   }
 
-  /// Creates an instance from [json].
+  /// Creates an instance from [json]. If [json] is null, returns null.
   static Api fromJson(Map<String, dynamic> json) =>
-      Api(json['version'], meta: json['meta']);
+      json == null ? null : Api(json['version'], meta: json['meta']);
 }

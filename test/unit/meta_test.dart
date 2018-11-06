@@ -15,5 +15,24 @@ void main() {
     test('encodes to JSON', () {
       expect(Meta({'foo': 'bar'}), encodesToJson({"foo": "bar"}));
     });
+
+    test('.containsKey()', () {
+      expect(Meta({'foo': 'bar'}).containsKey('foo'), true);
+      expect(Meta({'foo': 'bar'}).containsKey('xxx'), false);
+    });
+
+    test('.containsValue()', () {
+      expect(Meta({'foo': 'bar'}).containsValue('bar'), true);
+      expect(Meta({'foo': 'bar'}).containsValue('xxx'), false);
+    });
+
+    test('[]', () {
+      expect(Meta({'foo': 'bar'})['foo'], 'bar');
+      expect(Meta({'foo': 'bar'})['xxx'], null);
+    });
+
+    test('.entries', () {
+      expect(Map.fromEntries(Meta({'foo': 'bar'}).entries), {'foo': 'bar'});
+    });
   });
 }

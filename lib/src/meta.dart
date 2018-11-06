@@ -1,18 +1,16 @@
 import 'package:json_api_document/src/naming.dart';
+import 'package:json_api_document/src/readonly_map.dart';
 
 /// A Meta information object.
 ///
 /// http://jsonapi.org/format/#document-meta
-class Meta {
-  final Map<String, dynamic> _meta;
-
-  Meta(Map<String, dynamic> meta) : _meta = Map.from(meta) {
-    if (meta.isEmpty) throw ArgumentError('Empty meta');
-    meta.keys.forEach((const Naming()).enforce);
+class Meta extends ReadonlyMap<String, dynamic> {
+  Meta(Map<String, dynamic> meta) : super(meta) {
+    if (isEmpty) throw ArgumentError('Empty meta');
+    keys.forEach(Naming().enforce);
   }
 
-  static Meta fromJson(Map<String, dynamic> json) =>
-      json == null ? null : Meta(json);
-
-  toJson() => Map.from(_meta);
+  /// Returns an instance of [Meta] or null.
+  static Meta orNull(Map<String, dynamic> meta) =>
+      meta == null ? null : Meta(meta);
 }

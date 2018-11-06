@@ -1,25 +1,19 @@
 import 'package:json_api_document/src/naming.dart';
+import 'package:json_api_document/src/readonly_map.dart';
 
 /// A Resource Attributes object
 ///
 /// http://jsonapi.org/format/#document-resource-object-attributes
-class Attributes {
+class Attributes extends ReadonlyMap<String, dynamic> {
   static const prohibited = const ['relationships', 'links', 'type', 'id'];
-  final Map<String, dynamic> _data;
 
-  Attributes(Map<String, dynamic> attributes) : _data = Map.from(attributes) {
-    attributes.keys.forEach(_enforceNaming);
+  /// Creates an instance from a map
+  Attributes(Map<String, dynamic> attributes) : super(attributes) {
+    keys.forEach(Naming().enforce);
+    if (keys.any(prohibited.contains)) throw ArgumentError();
   }
 
-  /// Creates an instance from [json]. If [json] is null, returns null.
-  static Attributes fromJson(Map<String, dynamic> json) =>
+  /// Creates an instance of [Attributes] or null.
+  static Attributes orNull(Map<String, dynamic> json) =>
       json == null ? null : Attributes(json);
-
-  /// Returns the JSON representation.
-  Map<String, dynamic> toJson() => Map.from(_data);
-
-  void _enforceNaming(String attr) {
-    const Naming().enforce(attr);
-    if (prohibited.contains(attr)) throw ArgumentError();
-  }
 }

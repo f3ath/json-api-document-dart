@@ -13,26 +13,28 @@ main() {
     final full = ErrorDocument([one, two], meta: meta, api: api, self: self);
 
     test('empty', () {
-      expect(empty, encodesToJson({"errors": []}));
+      final json = {"errors": []};
+      expect(empty, encodesToJson(json));
+      expect(ErrorDocument.fromJson(json), encodesToJson(json));
     });
 
     test('full', () {
-      expect(
-          full,
-          encodesToJson({
-            "errors": [
-              {"id": "one"},
-              {"id": "two"}
-            ],
-            "meta": {"foo": "bar"},
-            "jsonapi": {
-              "version": "1.0",
-              "meta": {"a": "b"}
-            },
-            "links": {
-              "self": "http://self",
-            }
-          }));
+      final json = {
+        "errors": [
+          {"id": "one"},
+          {"id": "two"}
+        ],
+        "meta": {"foo": "bar"},
+        "jsonapi": {
+          "version": "1.0",
+          "meta": {"a": "b"}
+        },
+        "links": {
+          "self": "http://self",
+        }
+      };
+      expect(full, encodesToJson(json));
+      expect(ErrorDocument.fromJson(json), encodesToJson(json));
     });
 
     test('.errors contains list of errors', () {
