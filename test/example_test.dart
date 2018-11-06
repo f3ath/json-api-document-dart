@@ -8,6 +8,7 @@ import 'package:test/test.dart';
 import '../example/build.dart';
 
 void main() {
+  @Tags(['vm-only'])
   test('Can build the example from http://jsonapi.org/', () {
     final response = makeDocument();
     final jsonString = File('example/document.json').readAsStringSync();
