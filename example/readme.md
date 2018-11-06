@@ -1,15 +1,15 @@
 ### Building stuff
-[build.dart](./build.dart) builds a new JSON API Document and prints its JSON representation.
+[build.dart](example/build.dart) builds a new JSON API Document and prints its JSON representation.
 
 Run
 ```
 dart example/build.dart
 ```
-to produce a sample JSON API Document. For your convenience, [document.json](./document.json) already contains 
+to produce a sample JSON API Document. For your convenience, [document.json](example/document.json) already contains 
 the pretty-printed version of this document.
 
 ### Parsing stuff
-[parse.dart](./parse.dart) parses any JSON API document from the standard input.
+[parse.dart](example/parse.dart) parses any JSON API document from the standard input.
 
 Run
 ```
