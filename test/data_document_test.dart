@@ -27,8 +27,7 @@ main() {
       });
 
       test('full', () {
-        final doc = DataDocument.fromNull(
-            meta: meta, api: api, self: self, related: related);
+        final doc = DataDocument.fromNull(meta: meta, api: api, self: self);
 
         final json = {
           "data": null,
@@ -39,7 +38,6 @@ main() {
           },
           "links": {
             "self": "/self",
-            "related": "/related",
           }
         };
         expect(doc, encodesToJson(json));
@@ -59,7 +57,11 @@ main() {
 
       test('full', () {
         final doc = DataDocument.fromIdentifier(appleIdWithMeta,
-            meta: meta, api: api, self: self, included: [apple]);
+            meta: meta,
+            api: api,
+            self: self,
+            related: related,
+            included: [apple]);
         final json = {
           "data": {
             "type": "apples",
@@ -80,6 +82,7 @@ main() {
           },
           "links": {
             "self": "/self",
+            "related": "/related",
           }
         };
         expect(doc, encodesToJson(json));
@@ -101,6 +104,7 @@ main() {
           meta: meta,
           api: api,
           self: self,
+          related: related,
           first: first,
           last: last,
           prev: prev,
@@ -121,6 +125,7 @@ main() {
           },
           "links": {
             "self": "/self",
+            "related": "/related",
             "first": "/first",
             "last": "/last",
             "prev": "/prev",
@@ -143,6 +148,7 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
 
       test('full', () {
@@ -151,33 +157,33 @@ main() {
           meta: meta,
           api: api,
           self: self,
-          related: related,
         );
-        expect(
-            doc,
-            encodesToJson({
-              "data": {
-                "type": "apples",
-                "id": "42",
-                "attributes": {"color": "red"}
-              },
-              "meta": {"foo": "bar"},
-              "jsonapi": {
-                "version": "1.0",
-                "meta": {"a": "b"}
-              },
-              "links": {
-                "self": "/self",
-                "related": "/related",
-              }
-            }));
+        final json = {
+          "data": {
+            "type": "apples",
+            "id": "42",
+            "attributes": {"color": "red"}
+          },
+          "meta": {"foo": "bar"},
+          "jsonapi": {
+            "version": "1.0",
+            "meta": {"a": "b"}
+          },
+          "links": {
+            "self": "/self",
+          }
+        };
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
     });
 
     group('with multiple Resource primary data', () {
       test('minimal', () {
         final doc = DataDocument.fromResourceList([]);
-        expect(doc, encodesToJson({"data": []}));
+        final json = {"data": []};
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
 
       test('full', () {
@@ -192,35 +198,35 @@ main() {
           prev: prev,
           next: next,
         );
-        expect(
-            doc,
-            encodesToJson({
-              "data": [
-                {
-                  "type": "apples",
-                  "id": "42",
-                  "attributes": {"color": "red"}
-                },
-                {
-                  "type": "oranges",
-                  "id": "21",
-                  "attributes": {"color": "yellow"}
-                }
-              ],
-              "meta": {"foo": "bar"},
-              "jsonapi": {
-                "version": "1.0",
-                "meta": {"a": "b"}
-              },
-              "links": {
-                "self": "/self",
-                "related": "/related",
-                "first": "/first",
-                "last": "/last",
-                "prev": "/prev",
-                "next": "/next",
-              }
-            }));
+        final json = {
+          "data": [
+            {
+              "type": "apples",
+              "id": "42",
+              "attributes": {"color": "red"}
+            },
+            {
+              "type": "oranges",
+              "id": "21",
+              "attributes": {"color": "yellow"}
+            }
+          ],
+          "meta": {"foo": "bar"},
+          "jsonapi": {
+            "version": "1.0",
+            "meta": {"a": "b"}
+          },
+          "links": {
+            "self": "/self",
+            "related": "/related",
+            "first": "/first",
+            "last": "/last",
+            "prev": "/prev",
+            "next": "/next",
+          }
+        };
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
     });
   });

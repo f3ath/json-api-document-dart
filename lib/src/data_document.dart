@@ -26,14 +26,12 @@ class DataDocument extends Document {
     Map<String, dynamic> meta,
     Api api,
     Link self,
-    Link related,
   }) : this._internal(
           NullData(),
           included,
           meta: meta,
           api: api,
           self: self,
-          related: related,
         );
 
   /// Creates a document with a single resource identifier primary data.
@@ -43,12 +41,14 @@ class DataDocument extends Document {
     Map<String, dynamic> meta,
     Api api,
     Link self,
+    Link related,
   }) : this._internal(
           IdentifierData(identifier),
           included,
           meta: meta,
           api: api,
           self: self,
+          related: related,
         );
 
   /// Creates a document with multiple resource identifiers primary data.
@@ -58,6 +58,7 @@ class DataDocument extends Document {
     Map<String, dynamic> meta,
     Api api,
     Link self,
+    Link related,
     Link first,
     Link last,
     Link prev,
@@ -68,6 +69,7 @@ class DataDocument extends Document {
           meta: meta,
           api: api,
           self: self,
+          related: related,
           first: first,
           last: last,
           prev: prev,
@@ -81,14 +83,12 @@ class DataDocument extends Document {
     Map<String, dynamic> meta,
     Api api,
     Link self,
-    Link related,
   }) : this._internal(
           ResourceData(resource),
           included,
           meta: meta,
           api: api,
           self: self,
-          related: related,
         );
 
   /// Creates a document with multiple resources primary data.
@@ -182,41 +182,67 @@ class DataDocument extends Document {
       if (links['prev'] != null) prev = Link.fromJson(links['prev']);
       if (links['next'] != null) next = Link.fromJson(links['next']);
     }
-    final included = json['included'];
+
+    List<Resource> included;
+    final rawIncluded = json['included'];
+    if (rawIncluded is List<Map<String, dynamic>>) {
+      included = rawIncluded.map(Resource.fromJson).toList();
+    }
 
     final data = json['data'];
     if (data == null) {
-      return DataDocument.fromNull(
-          meta: json['meta'], api: api, self: self, related: related);
+      return DataDocument.fromNull(meta: json['meta'], api: api, self: self);
     }
+
     if (data is Map) {
-      final id = Identifier.fromJson(data);
-      return DataDocument.fromIdentifier(id,
+      if (Identifier.jsonHasExtraAttributes(data)) {
+        return DataDocument.fromResource(Resource.fromJson(data),
+            meta: json['meta'], api: api, self: self, included: included);
+      }
+      return DataDocument.fromIdentifier(Identifier.fromJson(data),
           meta: json['meta'],
           api: api,
           self: self,
-          included: included is List<Map<String, dynamic>>
-              ? included.map(Resource.fromJson).toList()
-              : null);
+          related: related,
+          included: included);
     }
-    if (data is List) {
-      List<Identifier> ids = [];
-      data.forEach((j) {
-        if (j is Map) {
-          ids.add(Identifier.fromJson(j));
-        } else {
-          throw FormatException('Failed to parse Identifier.', j);
-        }
-      });
-      return DataDocument.fromIdentifierList(ids,
+
+    if (data is List && data.isEmpty) {
+      return DataDocument.fromIdentifierList([],
           meta: json['meta'],
           api: api,
           self: self,
+          related: related,
           first: first,
           last: last,
           prev: prev,
-          next: next);
+          next: next,
+          included: included);
     }
-    return null;
+    if (data is List<Map<String, dynamic>>) {
+      if (data.any(Identifier.jsonHasExtraAttributes)) {
+        return DataDocument.fromResourceList(Resource.listFromJson(data),
+            meta: json['meta'],
+            api: api,
+            self: self,
+            related: related,
+            first: first,
+            last: last,
+            prev: prev,
+            next: next,
+            included: included);
+      }
+      return DataDocument.fromIdentifierList(Identifier.listFromJson(data),
+          meta: json['meta'],
+          api: api,
+          self: self,
+          related: related,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next,
+          included: included);
+    }
+    throw FormatException('Failed to parse DataDocument.', json);
   }
 }

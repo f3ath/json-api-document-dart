@@ -38,4 +38,12 @@ class Identifier {
     // TODO: Add validation, throw FormatException if necessary.
     return Identifier(json['type'], json['id'], meta: json['meta']);
   }
+
+  /// Parses [json] into a List of [Identifier].
+  static List<Identifier> listFromJson(List<Map<String, dynamic>> json) =>
+      json.map(fromJson).toList();
+
+  /// Returns true if [json] has attributes other than allowed.
+  static bool jsonHasExtraAttributes(Map<String, dynamic> json) =>
+      json.keys.skipWhile(['type', 'id', 'meta'].contains).isNotEmpty;
 }

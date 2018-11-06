@@ -47,6 +47,7 @@ class Resource {
       relationships != null &&
       relationships.values.any((rel) => rel.identifies(resource));
 
+  /// Parses [json] into [Resource].
   static Resource fromJson(Map<String, dynamic> json) {
     Link self;
     final links = json['links'];
@@ -63,4 +64,8 @@ class Resource {
             : Map.fromEntries(
                 Relationships.fromJson(json['relationships']).entries));
   }
+
+  /// Parses [json] into a List of [Resource].
+  static List<Resource> listFromJson(List<Map<String, dynamic>> json) =>
+      json.map(fromJson).toList();
 }
