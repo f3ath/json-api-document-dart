@@ -1,5 +1,7 @@
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/resource.dart';
+import 'package:json_api_document/src/to_many.dart';
+import 'package:json_api_document/src/to_one.dart';
 
 abstract class Relationship {
   final Link self;
@@ -23,4 +25,9 @@ abstract class Relationship {
   }
 
   bool identifies(Resource resource);
+
+  static Relationship fromJson(Map<String, dynamic> json) {
+    if (json['data'] is List) return ToMany.fromJson(json);
+    return ToOne.fromJson(json);
+  }
 }

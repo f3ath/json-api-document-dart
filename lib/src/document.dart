@@ -1,4 +1,5 @@
 import 'package:json_api_document/src/api.dart';
+import 'package:json_api_document/src/data_document.dart';
 import 'package:json_api_document/src/error_document.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
@@ -32,7 +33,8 @@ abstract class Document {
   /// a [FormatException] is thrown.
   static Document fromJson(Map<String, dynamic> json) {
     if (json.containsKey('errors')) return ErrorDocument.fromJson(json);
+    if (json.containsKey('data')) return DataDocument.fromJson(json);
     if (json.containsKey('meta')) return MetaDocument.fromJson(json);
-    throw FormatException('Failed to parse a Document', json);
+    throw FormatException('Failed to parse a Document.', json);
   }
 }

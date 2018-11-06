@@ -13,6 +13,11 @@ main() {
     final prev = Link('/prev');
     final next = Link('/next');
 
+    final appleId = Identifier('apples', '42');
+    final appleIdWithMeta = Identifier('apples', '42', meta: {'a': 'b'});
+    final apple = Resource('apples', '42', attributes: {'color': 'red'});
+    final orange = Resource('oranges', '21', attributes: {'color': 'yellow'});
+
     group('with Null primary data', () {
       test('minimal', () {
         final doc = DataDocument.fromNull();
@@ -38,52 +43,61 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
-//        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
     });
 
     group('with single Resource Identifier primary data', () {
-      final apple = Identifier('apples', '42');
-
       test('minimal', () {
-        final doc = DataDocument.fromIdentifier(apple);
-        expect(
-            doc,
-            encodesToJson({
-              "data": {"type": "apples", "id": "42"}
-            }));
+        final doc = DataDocument.fromIdentifier(appleId);
+        final json = {
+          "data": {"type": "apples", "id": "42"}
+        };
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
 
       test('full', () {
-        final doc = DataDocument.fromIdentifier(apple,
-            meta: meta, api: api, self: self);
-        expect(
-            doc,
-            encodesToJson({
-              "data": {"type": "apples", "id": "42"},
-              "meta": {"foo": "bar"},
-              "jsonapi": {
-                "version": "1.0",
-                "meta": {"a": "b"}
-              },
-              "links": {
-                "self": "/self",
-              }
-            }));
+        final doc = DataDocument.fromIdentifier(appleIdWithMeta,
+            meta: meta, api: api, self: self, included: [apple]);
+        final json = {
+          "data": {
+            "type": "apples",
+            "id": "42",
+            "meta": {"a": "b"}
+          },
+          "meta": {"foo": "bar"},
+          "included": [
+            {
+              "type": "apples",
+              "id": "42",
+              "attributes": {"color": "red"}
+            }
+          ],
+          "jsonapi": {
+            "version": "1.0",
+            "meta": {"a": "b"}
+          },
+          "links": {
+            "self": "/self",
+          }
+        };
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
     });
 
     group('with multiple Resource Identifier primary data', () {
-      final apple = Identifier('apples', '42');
-
       test('minimal', () {
         final doc = DataDocument.fromIdentifierList(<Identifier>[]);
-        expect(doc, encodesToJson({"data": []}));
+        final json = {"data": []};
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
 
       test('full', () {
         final doc = DataDocument.fromIdentifierList(
-          [apple],
+          [appleIdWithMeta],
           meta: meta,
           api: api,
           self: self,
@@ -92,42 +106,43 @@ main() {
           prev: prev,
           next: next,
         );
-        expect(
-            doc,
-            encodesToJson({
-              "data": [
-                {"type": "apples", "id": "42"}
-              ],
-              "meta": {"foo": "bar"},
-              "jsonapi": {
-                "version": "1.0",
-                "meta": {"a": "b"}
-              },
-              "links": {
-                "self": "/self",
-                "first": "/first",
-                "last": "/last",
-                "prev": "/prev",
-                "next": "/next",
-              }
-            }));
+        final json = {
+          "data": [
+            {
+              "type": "apples",
+              "id": "42",
+              "meta": {"a": "b"}
+            }
+          ],
+          "meta": {"foo": "bar"},
+          "jsonapi": {
+            "version": "1.0",
+            "meta": {"a": "b"}
+          },
+          "links": {
+            "self": "/self",
+            "first": "/first",
+            "last": "/last",
+            "prev": "/prev",
+            "next": "/next",
+          }
+        };
+        expect(doc, encodesToJson(json));
+        expect(DataDocument.fromJson(json), encodesToJson(json));
       });
     });
 
     group('with single Resource primary data', () {
-      final apple = Resource('apples', '42', attributes: {'color': 'red'});
-
       test('minimal', () {
         final doc = DataDocument.fromResource(apple);
-        expect(
-            doc,
-            encodesToJson({
-              "data": {
-                "type": "apples",
-                "id": "42",
-                "attributes": {"color": "red"}
-              }
-            }));
+        final json = {
+          "data": {
+            "type": "apples",
+            "id": "42",
+            "attributes": {"color": "red"}
+          }
+        };
+        expect(doc, encodesToJson(json));
       });
 
       test('full', () {
@@ -160,9 +175,6 @@ main() {
     });
 
     group('with multiple Resource primary data', () {
-      final apple = Resource('apples', '42', attributes: {'color': 'red'});
-      final orange = Resource('oranges', '21', attributes: {'color': 'yellow'});
-
       test('minimal', () {
         final doc = DataDocument.fromResourceList([]);
         expect(doc, encodesToJson({"data": []}));

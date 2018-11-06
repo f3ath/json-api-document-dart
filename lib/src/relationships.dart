@@ -11,4 +11,9 @@ class Relationships extends ReadonlyMap<String, Relationship> {
 
   static Relationships orNull(Map<String, Relationship> relationships) =>
       relationships == null ? null : Relationships(relationships);
+
+  static Relationships fromJson(Map<String, Map<String, dynamic>> json) {
+    return Relationships(
+        Map.fromIterables(json.keys, json.values.map(Relationship.fromJson)));
+  }
 }

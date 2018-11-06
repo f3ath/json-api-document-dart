@@ -32,4 +32,10 @@ class Identifier {
 
   /// Returns true if [type] and [id] match those of [resource]
   identifies(Resource resource) => type == resource.type && id == resource.id;
+
+  /// Parses [json] into [Identifier].
+  static Identifier fromJson(Map<String, dynamic> json) {
+    // TODO: Add validation, throw FormatException if necessary.
+    return Identifier(json['type'], json['id'], meta: json['meta']);
+  }
 }

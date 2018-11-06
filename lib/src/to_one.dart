@@ -11,4 +11,20 @@ class ToOne extends Relationship {
 
   @override
   bool identifies(Resource resource) => data.identifies(resource);
+
+  static ToOne fromJson(Map<String, dynamic> json) {
+    Link self, related;
+    final links = json['links'];
+    if (links is Map) {
+      if (links['self'] != null) self = Link.fromJson(links['self']);
+      if (links['related'] != null) related = Link.fromJson(links['related']);
+    }
+
+    final data = json['data'];
+    if (data is Map<String, dynamic>) {
+      return ToOne(Identifier.fromJson(data), self: self, related: related);
+    }
+    if (data == null) return ToOne(null, self: self, related: related);
+    throw FormatException('Failed to parse Relationship.', json);
+  }
 }

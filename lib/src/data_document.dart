@@ -171,6 +171,52 @@ class DataDocument extends Document {
 
   /// Parses [json] into [DataDocument].
   static DataDocument fromJson(Map<String, dynamic> json) {
-    return DataDocument.fromNull();
+    final api = Api.fromJson(json['jsonapi']);
+    Link self, related, first, last, prev, next;
+    final links = json['links'];
+    if (links is Map) {
+      if (links['self'] != null) self = Link.fromJson(links['self']);
+      if (links['related'] != null) related = Link.fromJson(links['related']);
+      if (links['first'] != null) first = Link.fromJson(links['first']);
+      if (links['last'] != null) last = Link.fromJson(links['last']);
+      if (links['prev'] != null) prev = Link.fromJson(links['prev']);
+      if (links['next'] != null) next = Link.fromJson(links['next']);
+    }
+    final included = json['included'];
+
+    final data = json['data'];
+    if (data == null) {
+      return DataDocument.fromNull(
+          meta: json['meta'], api: api, self: self, related: related);
+    }
+    if (data is Map) {
+      final id = Identifier.fromJson(data);
+      return DataDocument.fromIdentifier(id,
+          meta: json['meta'],
+          api: api,
+          self: self,
+          included: included is List<Map<String, dynamic>>
+              ? included.map(Resource.fromJson).toList()
+              : null);
+    }
+    if (data is List) {
+      List<Identifier> ids = [];
+      data.forEach((j) {
+        if (j is Map) {
+          ids.add(Identifier.fromJson(j));
+        } else {
+          throw FormatException('Failed to parse Identifier.', j);
+        }
+      });
+      return DataDocument.fromIdentifierList(ids,
+          meta: json['meta'],
+          api: api,
+          self: self,
+          first: first,
+          last: last,
+          prev: prev,
+          next: next);
+    }
+    return null;
   }
 }

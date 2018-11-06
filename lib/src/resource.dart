@@ -46,4 +46,21 @@ class Resource {
   bool identifies(Resource resource) =>
       relationships != null &&
       relationships.values.any((rel) => rel.identifies(resource));
+
+  static Resource fromJson(Map<String, dynamic> json) {
+    Link self;
+    final links = json['links'];
+    if (links is Map) {
+      if (links['self'] != null) self = Link.fromJson(links['self']);
+    }
+
+    return Resource(json['type'], json['id'],
+        attributes: json['attributes'],
+        self: self,
+        meta: json['meta'],
+        relationships: json['relationships'] == null
+            ? null
+            : Map.fromEntries(
+                Relationships.fromJson(json['relationships']).entries));
+  }
 }
