@@ -5,9 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.3.0] - 2018-11-05
 ### Added
-- Initial parsing capabilities.
-- Api.fromJson()
+- Parsing capabilities.
 - A few accessors to Meta, Attributes, Relationships
 
 ### Removed
@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.2.2...HEAD
+[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/f3ath/json-api-dart/compare/0.2.2...0.3.0
 [0.2.2]: https://github.com/f3ath/json-api-dart/compare/0.2.1...0.2.2
 [0.2.1]: https://github.com/f3ath/json-api-dart/compare/0.2.0...0.2.1
