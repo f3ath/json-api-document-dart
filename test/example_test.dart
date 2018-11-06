@@ -8,12 +8,11 @@ import 'package:test/test.dart';
 import '../example/build.dart';
 
 void main() {
-  @Tags(['vm-only'])
   test('Can build the example from http://jsonapi.org/', () {
     final response = makeDocument();
     final jsonString = File('example/document.json').readAsStringSync();
     final jsonObject = json.decode(jsonString);
     expect(response, encodesToJson(jsonObject));
     expect(Document.fromJson(jsonObject), encodesToJson(jsonObject));
-  });
+  }, tags: ['vm-only']);
 }
