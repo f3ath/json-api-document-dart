@@ -48,7 +48,10 @@ class Resource {
       relationships.values.any((rel) => rel.identifies(resource));
 
   /// Parses [json] into [Resource].
-  static Resource fromJson(Map<String, dynamic> json) {
+  static Resource fromJson(json) {
+    if (json is! Map<String, dynamic>) {
+      throw FormatException('Failed to parse Resource.', json);
+    }
     Link self;
     final links = json['links'];
     if (links is Map) {
@@ -66,6 +69,5 @@ class Resource {
   }
 
   /// Parses [json] into a List of [Resource].
-  static List<Resource> listFromJson(List<Map<String, dynamic>> json) =>
-      json.map(fromJson).toList();
+  static List<Resource> listFromJson(List json) => json.map(fromJson).toList();
 }

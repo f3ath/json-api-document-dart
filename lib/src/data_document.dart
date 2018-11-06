@@ -185,7 +185,7 @@ class DataDocument extends Document {
 
     List<Resource> included;
     final rawIncluded = json['included'];
-    if (rawIncluded is List<Map<String, dynamic>>) {
+    if (rawIncluded is List) {
       included = rawIncluded.map(Resource.fromJson).toList();
     }
 
@@ -219,7 +219,7 @@ class DataDocument extends Document {
           next: next,
           included: included);
     }
-    if (data is List<Map<String, dynamic>>) {
+    if (data is List) {
       if (data.any(Identifier.jsonHasExtraAttributes)) {
         return DataDocument.fromResourceList(Resource.listFromJson(data),
             meta: json['meta'],

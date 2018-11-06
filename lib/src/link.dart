@@ -34,7 +34,7 @@ class LinkObject implements Link {
     return json;
   }
 
-  /// Parses [json] into [LinksObject].
+  /// Parses [json] into [LinkObject].
   static LinkObject fromJson(Map<String, dynamic> json) {
     return LinkObject(json['href'], meta: json['meta']);
   }

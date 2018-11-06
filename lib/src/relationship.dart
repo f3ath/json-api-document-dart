@@ -26,7 +26,10 @@ abstract class Relationship {
 
   bool identifies(Resource resource);
 
-  static Relationship fromJson(Map<String, dynamic> json) {
+  static Relationship fromJson(json) {
+    if (json is! Map) {
+      throw FormatException('Failed to parse a Relationship.', json);
+    }
     if (json['data'] is List) return ToMany.fromJson(json);
     return ToOne.fromJson(json);
   }

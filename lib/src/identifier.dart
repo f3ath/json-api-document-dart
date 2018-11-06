@@ -34,8 +34,11 @@ class Identifier {
   identifies(Resource resource) => type == resource.type && id == resource.id;
 
   /// Parses [json] into [Identifier].
-  static Identifier fromJson(Map<String, dynamic> json) {
-    // TODO: Add validation, throw FormatException if necessary.
+  static Identifier fromJson(json) {
+    // TODO: Add more validation.
+    if (json is! Map<String, dynamic>) {
+      throw FormatException('Failed to parse an Identifier.', json);
+    }
     return Identifier(json['type'], json['id'], meta: json['meta']);
   }
 
@@ -44,6 +47,7 @@ class Identifier {
       json.map(fromJson).toList();
 
   /// Returns true if [json] has attributes other than allowed.
-  static bool jsonHasExtraAttributes(Map<String, dynamic> json) =>
+  static bool jsonHasExtraAttributes(json) =>
+      json is Map<String, dynamic> &&
       json.keys.skipWhile(['type', 'id', 'meta'].contains).isNotEmpty;
 }

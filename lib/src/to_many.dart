@@ -23,13 +23,13 @@ class ToMany extends Relationship {
     }
 
     final data = json['data'];
-    if (data is List<Map<String, dynamic>>) {
+    if (data is List) {
       return ToMany(data.map(Identifier.fromJson).toList(),
           self: self, related: related);
     }
     if (data is List && data.isEmpty) {
       return ToMany([], self: self, related: related);
     }
-    throw FormatException('Failed to parse Relationship.', json);
+    throw FormatException('Failed to parse a ToMany Relationship.', json);
   }
 }

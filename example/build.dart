@@ -4,7 +4,7 @@ import 'package:json_api_document/json_api_document.dart';
 
 /// The following function produces the example document
 /// from the first page of http://jsonapi.org/.
-Document makeJsonApiResponse() {
+Document makeDocument() {
   final dan = Resource('people', '9',
       attributes: {
         'first-name': 'Dan',
@@ -51,7 +51,4 @@ Document makeJsonApiResponse() {
 }
 
 /// Print the JSON representation of the response to stdout
-void main() {
-  final response = makeJsonApiResponse();
-  print(json.encode(response));
-}
+void main() => print(json.encode(makeDocument()));

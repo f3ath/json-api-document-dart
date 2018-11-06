@@ -9,7 +9,7 @@ These are the key values of the library:
 
 
 ## Documentation
-To get a sense of what the library API looks like, take a look at the [example](example/main.dart):
+To get a sense of what the library API looks like, take a look at the [example](example/build.dart):
 
 ```dart
 import 'dart:convert';
