@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.3.3] - 2019-01-05
+### Added
+- Document.mediaType constant
+
 ## [0.3.2] - 2018-11-05
 ### Changes
 - Minor documentation improvements
@@ -36,7 +40,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.3.2...HEAD
+[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.3.3...HEAD
+[0.3.3]: https://github.com/f3ath/json-api-dart/compare/0.3.2...0.3.3
 [0.3.2]: https://github.com/f3ath/json-api-dart/compare/0.3.0...0.3.2
 [0.3.0]: https://github.com/f3ath/json-api-dart/compare/0.2.2...0.3.0
 [0.2.2]: https://github.com/f3ath/json-api-dart/compare/0.2.1...0.2.2
