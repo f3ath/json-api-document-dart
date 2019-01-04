@@ -7,6 +7,8 @@ import 'package:json_api_document/src/meta_document.dart';
 
 /// The base class for MetaDocument, DataDocument, and ErrorDocument.
 abstract class Document {
+  static const mediaType = 'application/vnd.api+json';
+
   /// The top-level meta information
   final Meta meta;
 
