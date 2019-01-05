@@ -1,4 +1,5 @@
 import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/src/resource_data.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
@@ -228,6 +229,24 @@ main() {
         expect(doc, encodesToJson(json));
         expect(DataDocument.fromJson(json), encodesToJson(json));
       });
+    });
+
+    test('Can parse a primary resource with missing id', () {
+      final doc = DataDocument.fromJson({
+        'data': {'type': 'apples'}
+      });
+      expect(doc.data, TypeMatcher<ResourceData>());
+      expect((doc.data as ResourceData).resource.type, 'apples');
+      expect((doc.data as ResourceData).resource.id, null);
+    });
+
+    test('Can parse a primary resource with missing null id', () {
+      final doc = DataDocument.fromJson({
+        'data': {'type': 'apples', 'id': null}
+      });
+      expect(doc.data, TypeMatcher<ResourceData>());
+      expect((doc.data as ResourceData).resource.type, 'apples');
+      expect((doc.data as ResourceData).resource.id, null);
     });
   });
 }

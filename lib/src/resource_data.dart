@@ -6,6 +6,8 @@ class ResourceData implements PrimaryData {
 
   ResourceData(Resource this._resource);
 
+  Resource get resource => _resource;
+
   bool identifies(Resource another) => _resource.identifies(another);
 
   toJson() => _resource.toJson();
