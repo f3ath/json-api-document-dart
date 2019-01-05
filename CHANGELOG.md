@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.3.5] - 2019-01-05
+### Added
+- PrimaryData and its subclasses are now exposed
+
 ## [0.3.4] - 2019-01-05
 ### Fixed
 - Document.fromJson does not recognize null resource id
@@ -14,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Document.mediaType constant
 
 ## [0.3.2] - 2018-11-05
-### Changes
+### Changed
 - Minor documentation improvements
 
 ## [0.3.0] - 2018-11-05
@@ -44,7 +49,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.3.4...HEAD
+[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.3.5...HEAD
+[0.3.4]: https://github.com/f3ath/json-api-dart/compare/0.3.4...0.3.5
 [0.3.4]: https://github.com/f3ath/json-api-dart/compare/0.3.3...0.3.4
 [0.3.3]: https://github.com/f3ath/json-api-dart/compare/0.3.2...0.3.3
 [0.3.2]: https://github.com/f3ath/json-api-dart/compare/0.3.0...0.3.2
