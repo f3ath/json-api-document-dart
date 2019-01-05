@@ -195,7 +195,9 @@ class DataDocument extends Document {
     }
 
     if (data is Map) {
-      if (Identifier.jsonHasExtraAttributes(data)) {
+      if (Identifier.jsonHasExtraAttributes(data) ||
+          !data.containsKey('id') ||
+          data['id'] == null) {
         return DataDocument.fromResource(Resource.fromJson(data),
             meta: json['meta'], api: api, self: self, included: included);
       }
