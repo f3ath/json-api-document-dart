@@ -1,7 +1,7 @@
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/resource.dart';
-import 'package:json_api_document/src/to_many.dart';
-import 'package:json_api_document/src/to_one.dart';
+import 'package:json_api_document/src/document/link.dart';
+import 'package:json_api_document/src/document/resource.dart';
+import 'package:json_api_document/src/document/to_many.dart';
+import 'package:json_api_document/src/document/to_one.dart';
 
 abstract class Relationship {
   final Link self;

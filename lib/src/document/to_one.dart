@@ -1,7 +1,7 @@
-import 'package:json_api_document/src/identifier.dart';
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/relationship.dart';
-import 'package:json_api_document/src/resource.dart';
+import 'package:json_api_document/src/document/identifier.dart';
+import 'package:json_api_document/src/document/link.dart';
+import 'package:json_api_document/src/document/relationship.dart';
+import 'package:json_api_document/src/document/resource.dart';
 
 class ToOne extends Relationship {
   final Identifier data;

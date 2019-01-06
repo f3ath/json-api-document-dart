@@ -1,14 +1,14 @@
-import 'package:json_api_document/src/api.dart';
-import 'package:json_api_document/src/document.dart';
-import 'package:json_api_document/src/identifier.dart';
-import 'package:json_api_document/src/identifier_data.dart';
-import 'package:json_api_document/src/identifier_list_data.dart';
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/null_data.dart';
-import 'package:json_api_document/src/primary_data.dart';
-import 'package:json_api_document/src/resource.dart';
-import 'package:json_api_document/src/resource_data.dart';
-import 'package:json_api_document/src/resource_list_data.dart';
+import 'package:json_api_document/src/document/api.dart';
+import 'package:json_api_document/src/document/document.dart';
+import 'package:json_api_document/src/document/identifier.dart';
+import 'package:json_api_document/src/document/identifier_data.dart';
+import 'package:json_api_document/src/document/identifier_list_data.dart';
+import 'package:json_api_document/src/document/link.dart';
+import 'package:json_api_document/src/document/null_data.dart';
+import 'package:json_api_document/src/document/primary_data.dart';
+import 'package:json_api_document/src/document/resource.dart';
+import 'package:json_api_document/src/document/resource_data.dart';
+import 'package:json_api_document/src/document/resource_list_data.dart';
 
 /// A Document with top-level primary data
 class DataDocument extends Document {

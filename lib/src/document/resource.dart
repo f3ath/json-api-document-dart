@@ -1,9 +1,9 @@
-import 'package:json_api_document/src/attributes.dart';
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/meta.dart';
-import 'package:json_api_document/src/naming.dart';
-import 'package:json_api_document/src/relationship.dart';
-import 'package:json_api_document/src/relationships.dart';
+import 'package:json_api_document/src/document/attributes.dart';
+import 'package:json_api_document/src/document/link.dart';
+import 'package:json_api_document/src/document/meta.dart';
+import 'package:json_api_document/src/document/naming.dart';
+import 'package:json_api_document/src/document/relationship.dart';
+import 'package:json_api_document/src/document/relationships.dart';
 
 class Resource {
   final String type;

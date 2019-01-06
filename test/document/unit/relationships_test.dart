@@ -1,8 +1,8 @@
-import 'package:json_api_document/src/identifier.dart';
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/relationships.dart';
-import 'package:json_api_document/src/to_many.dart';
-import 'package:json_api_document/src/to_one.dart';
+import 'package:json_api_document/src/document/identifier.dart';
+import 'package:json_api_document/src/document/link.dart';
+import 'package:json_api_document/src/document/relationships.dart';
+import 'package:json_api_document/src/document/to_many.dart';
+import 'package:json_api_document/src/document/to_one.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 

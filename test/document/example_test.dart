@@ -5,7 +5,7 @@ import 'package:json_api_document/json_api_document.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
-import '../example/build.dart';
+import '../../example/build.dart';
 
 void main() {
   test('Can build the example from http://jsonapi.org/', () {

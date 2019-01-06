@@ -1,6 +1,6 @@
-import 'package:json_api_document/src/naming.dart';
-import 'package:json_api_document/src/readonly_map.dart';
-import 'package:json_api_document/src/relationship.dart';
+import 'package:json_api_document/src/document/naming.dart';
+import 'package:json_api_document/src/document/readonly_map.dart';
+import 'package:json_api_document/src/document/relationship.dart';
 
 class Relationships extends ReadonlyMap<String, Relationship> {
   Relationships(Map<String, Relationship> relationships)

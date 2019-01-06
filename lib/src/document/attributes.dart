@@ -1,5 +1,5 @@
-import 'package:json_api_document/src/naming.dart';
-import 'package:json_api_document/src/readonly_map.dart';
+import 'package:json_api_document/src/document/naming.dart';
+import 'package:json_api_document/src/document/readonly_map.dart';
 
 /// A Resource Attributes object
 ///

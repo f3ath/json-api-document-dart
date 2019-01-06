@@ -1,7 +1,7 @@
-import 'package:json_api_document/src/api.dart';
-import 'package:json_api_document/src/document.dart';
-import 'package:json_api_document/src/error_object.dart';
-import 'package:json_api_document/src/link.dart';
+import 'package:json_api_document/src/document/api.dart';
+import 'package:json_api_document/src/document/document.dart';
+import 'package:json_api_document/src/document/error_object.dart';
+import 'package:json_api_document/src/document/link.dart';
 
 /// A document containing just errors
 class ErrorDocument extends Document {

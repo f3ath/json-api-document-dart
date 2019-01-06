@@ -1,6 +1,6 @@
-import 'package:json_api_document/src/meta.dart';
-import 'package:json_api_document/src/naming.dart';
-import 'package:json_api_document/src/resource.dart';
+import 'package:json_api_document/src/document/meta.dart';
+import 'package:json_api_document/src/document/naming.dart';
+import 'package:json_api_document/src/document/resource.dart';
 
 /// A Resource Identifier object.
 ///

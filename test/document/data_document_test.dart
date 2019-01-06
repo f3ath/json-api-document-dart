@@ -1,5 +1,5 @@
 import 'package:json_api_document/json_api_document.dart';
-import 'package:json_api_document/src/resource_data.dart';
+import 'package:json_api_document/src/document/resource_data.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 

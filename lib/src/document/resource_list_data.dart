@@ -1,5 +1,5 @@
-import 'package:json_api_document/src/primary_data.dart';
-import 'package:json_api_document/src/resource.dart';
+import 'package:json_api_document/src/document/primary_data.dart';
+import 'package:json_api_document/src/document/resource.dart';
 
 class ResourceListData implements PrimaryData {
   final List<Resource> _resources;
