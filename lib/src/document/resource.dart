@@ -71,5 +71,4 @@ class Resource with FriendlyToString {
 
   /// Parses [json] into a List of [Resource].
   static List<Resource> listFromJson(List json) => json.map(fromJson).toList();
-
 }

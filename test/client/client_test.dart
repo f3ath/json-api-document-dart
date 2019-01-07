@@ -108,7 +108,7 @@ void main() {
     });
   }, tags: ['vm-only']);
 
-  group('create', () {
+  group('create resource', () {
     test('201 created', () async {
       server.listen((rq) async {
         expect(rq.method, 'POST');
@@ -157,68 +157,52 @@ void main() {
     });
   }, tags: ['vm-only']);
 
-//  group('update resource', () {
-//    test('200 ok', () async {
-//      final result = await client
-//          .updateResource('/ok', appleResource, headers: {'foo': 'bar'});
-//      expect(result.document, TypeMatcher<DataDocument>());
-//      expect((result.document as DataDocument).data.resources.first.toJson(),
-//          appleResource.toJson());
-//      expect(result.status, HttpStatus.ok);
-//      expect(result.document.meta['accept'].first, Document.mediaType);
-//      expect(result.document.meta['content-type'].first,
-//          startsWith(Document.mediaType));
-//      expect(result.document.meta['foo'].first, 'bar');
-//    });
-//
-//    test('invalid Content-Type', () async {
-//      expect(
-//          () async => await client.updateResource(
-//              '/invalid_content_type', appleResource),
-//          throwsA(TypeMatcher<InvalidContentTypeException>()));
-//    });
-//  });
-//
-//  group('update to-one relationship', () {
-//    test('200 ok', () async {
-//      final result = await client
-//          .updateToOneRelationship('/ok', appleId01, headers: {'foo': 'bar'});
-//      expect(result.document, TypeMatcher<DataDocument>());
-//      expect((result.document as DataDocument).data.resources.first.toJson(),
-//          appleId01.toJson());
-//      expect(result.status, HttpStatus.ok);
-//      expect(result.document.meta['accept'].first, Document.mediaType);
-//      expect(result.document.meta['content-type'].first,
-//          startsWith(Document.mediaType));
-//      expect(result.document.meta['foo'].first, 'bar');
-//    });
-//
-//    test('invalid Content-Type', () async {
-//      expect(
-//          () async => await client.updateToOneRelationship(
-//              '/invalid_content_type', appleId01),
-//          throwsA(TypeMatcher<InvalidContentTypeException>()));
-//    });
-//  });
-//
-//  group('delete to-one relationship', () {
-//    test('200 ok', () async {
-//      final result =
-//          await client.deleteToOneRelationship('/ok', headers: {'foo': 'bar'});
-//      expect(result.document, TypeMatcher<DataDocument>());
-//      expect((result.document as DataDocument).data, TypeMatcher<NullData>());
-//      expect(result.status, HttpStatus.ok);
-//      expect(result.document.meta['accept'].first, Document.mediaType);
-//      expect(result.document.meta['content-type'].first,
-//          startsWith(Document.mediaType));
-//      expect(result.document.meta['foo'].first, 'bar');
-//    });
-//
-//    test('invalid Content-Type', () async {
-//      expect(
-//          () async => await client.updateToOneRelationship(
-//              '/invalid_content_type', appleId01),
-//          throwsA(TypeMatcher<InvalidContentTypeException>()));
-//    });
-//  });
+  group('update resource', () {
+    test('200 ok', () async {
+      server.listen((rq) async {
+        expect(rq.method, 'PATCH');
+        expect(rq.headers['foo'], ['bar']);
+        expect(rq.headers.contentType.value, startsWith(Document.mediaType));
+        expect(rq.headers['accept'].first, startsWith(Document.mediaType));
+        expect(rq.uri.path, '/create');
+        expect(rq.headers.host, 'localhost');
+        expect(rq.headers.port, 4041);
+        rq.response.headers.contentType = ContentType.parse(Document.mediaType);
+        final doc = Document.fromJson(json.decode(await utf8.decodeStream(rq)));
+        rq.response.statusCode = HttpStatus.created;
+        rq.response.headers.add('location', 'http://example.com/');
+        rq.response.write(json.encode(doc));
+        rq.response.close();
+      });
+
+      final result = await client
+          .updateResource('/create', appleResource, headers: {'foo': 'bar'});
+      expect(result.document, TypeMatcher<DataDocument>());
+      expect((result.document as DataDocument).data.resources.first.toJson(),
+          appleResource.toJson());
+      expect(result.location, 'http://example.com/');
+      expect(result.status, HttpStatus.created);
+    });
+
+    test('202 accepted', () async {
+      server.listen((rq) async {
+        rq.response.headers.contentType = ContentType.parse(Document.mediaType);
+        rq.response.statusCode = HttpStatus.accepted;
+        rq.response.close();
+      });
+
+      final result = await client.updateResource('/create', appleResource);
+      expect(result.document, isNull);
+      expect(result.status, HttpStatus.accepted);
+    });
+
+    test('invalid Content-Type', () async {
+      server.listen((rq) {
+        rq.response.close();
+      });
+
+      expect(() async => await client.updateResource('/test', appleResource),
+          throwsA(TypeMatcher<InvalidContentTypeException>()));
+    });
+  }, tags: ['vm-only']);
 }

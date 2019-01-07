@@ -2,7 +2,7 @@ import 'package:json_api_document/src/document/friendly_to_string.dart';
 import 'package:json_api_document/src/document/primary_data.dart';
 import 'package:json_api_document/src/document/resource.dart';
 
-class ResourceData  with FriendlyToString implements PrimaryData {
+class ResourceData with FriendlyToString implements PrimaryData {
   final Resource _resource;
 
   ResourceData(Resource this._resource);

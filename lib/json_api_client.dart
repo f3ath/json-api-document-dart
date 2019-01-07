@@ -61,76 +61,20 @@ class JsonApiClient {
     return Response.fromHttp(response, preferResource: true);
   }
 
-  String _makeUrl(String url) => '${baseUrl}${url}';
+  /// Updates the [resource] sending a PATCH request to the [url].
+  updateResource(String url, Resource resource,
+      {Map<String, String> headers = const {}}) async {
+    final document = DataDocument.fromResource(resource, api: api);
+    final response = await _exec((_) => _.patch(_makeUrl(url),
+        body: json.encode(document),
+        headers: _makeHeaders({}
+          ..addAll(headers)
+          ..addAll({'Content-Type': Document.mediaType}))));
+    return Response.fromHttp(response, preferResource: true);
+  }
 
-//  updateResource(String url, Resource resource,
-//      {Map<String, String> headers = const {}}) async {
-//    final document = DataDocument.fromResource(resource, api: api);
-//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
-//        body: json.encode(document),
-//        headers: _makeHeaders({}
-//          ..addAll(headers)
-//          ..addAll({'Content-Type': Document.mediaType}))));
-//    _enforceContentType(response);
-//    return Response(
-//        response.statusCode,
-//        response.headers,
-//        response.contentLength > 0
-//            ? Document.fromJson(json.decode(response.body),
-//                preferResource: true)
-//            : null);
-//  }
-//
-//  updateToOneRelationship(String url, Identifier id,
-//      {Map<String, String> headers = const {}}) async {
-//    final document = DataDocument.fromIdentifier(id, api: api);
-//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
-//        body: json.encode(document),
-//        headers: _makeHeaders({}
-//          ..addAll(headers)
-//          ..addAll({'Content-Type': Document.mediaType}))));
-//    _enforceContentType(response);
-//    return Response(
-//        response.statusCode,
-//        response.headers,
-//        response.contentLength > 0
-//            ? Document.fromJson(json.decode(response.body))
-//            : null);
-//  }
-//
-//  deleteToOneRelationship(String url,
-//      {Map<String, String> headers = const {}}) async {
-//    final document = DataDocument.fromNull(api: api);
-//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
-//        body: json.encode(document),
-//        headers: _makeHeaders({}
-//          ..addAll(headers)
-//          ..addAll({'Content-Type': Document.mediaType}))));
-//    _enforceContentType(response);
-//    return Response(
-//        response.statusCode,
-//        response.headers,
-//        response.contentLength > 0
-//            ? Document.fromJson(json.decode(response.body))
-//            : null);
-//  }
-//
-//  updateToManyRelationship(String url, List<Identifier> ids,
-//      {Map<String, String> headers = const {}}) async {
-//    final document = DataDocument.fromIdentifierList(ids, api: api);
-//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
-//        body: json.encode(document),
-//        headers: _makeHeaders({}
-//          ..addAll(headers)
-//          ..addAll({'Content-Type': Document.mediaType}))));
-//    _enforceContentType(response);
-//    return Response(
-//        response.statusCode,
-//        response.headers,
-//        response.contentLength > 0
-//            ? Document.fromJson(json.decode(response.body))
-//            : null);
-//  }
+
+  String _makeUrl(String url) => '${baseUrl}${url}';
 
   void _enforceContentType(http.Response response) {
     const contentType = 'content-type';
