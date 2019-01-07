@@ -1,4 +1,4 @@
-# [JSON:API](http://jsonapi.org) Document model and parser
+# [JSON:API v1.0](https://jsonapi.org) implementation in Dart2. Document builder. Document parser. HTTP client.
 
 The goal of this library is to provide a transparent way to build and parse JSON API Documents.
 
