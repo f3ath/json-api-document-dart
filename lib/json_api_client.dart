@@ -1,11 +1,12 @@
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:json_api_document/json_api_document.dart';
 import 'package:json_api_document/src/client/exceptions.dart';
-import 'package:json_api_document/src/client/fetch_result.dart';
+import 'package:json_api_document/src/client/response.dart';
 
 export 'package:json_api_document/src/client/exceptions.dart';
-export 'package:json_api_document/src/client/fetch_result.dart';
+export 'package:json_api_document/src/client/response.dart';
 
 /// JSON:API client
 ///
@@ -24,16 +25,112 @@ class JsonApiClient {
   final String baseUrl;
   final ClientFactory clientFactory;
   final Map<String, String> defaultHeaders;
+  final api = Api('1.0');
 
-  /// Fetches a [Document] from the given [url].
+  /// Fetches a [Document] containing resource(s) from the given [url].
   /// Pass a [Map] of [headers] to add extra headers to the request.
-  Future<FetchResult> fetch(String url,
+  ///
+  /// https://jsonapi.org/format/#fetching-resources
+  Future<Response> fetch(String url,
       {Map<String, String> headers = const {}}) async {
     final response = await _exec(
-        (_) => _.get('${baseUrl}${url}', headers: _makeHeaders(headers)));
-    _enforceContentType(response);
-    return FetchResult(response);
+        (_) => _.get(_makeUrl(url), headers: _makeHeaders(headers)));
+    return Response.fromHttp(response, preferResource: true);
   }
+
+  /// Fetches a [Document] containing identifier(s) from the given [url].
+  /// Pass a [Map] of [headers] to add extra headers to the request.
+  ///
+  /// https://jsonapi.org/format/#fetching-relationships
+  fetchRelationship(String url,
+      {Map<String, String> headers = const {}}) async {
+    final response = await _exec(
+        (_) => _.get(_makeUrl(url), headers: _makeHeaders(headers)));
+    return Response.fromHttp(response);
+  }
+
+  /// Creates a new [resource] sending a POST request to the [url].
+  createResource(String url, Resource resource,
+      {Map<String, String> headers = const {}}) async {
+    final document = DataDocument.fromResource(resource, api: api);
+    final response = await _exec((_) => _.post(_makeUrl(url),
+        body: json.encode(document),
+        headers: _makeHeaders({}
+          ..addAll(headers)
+          ..addAll({'Content-Type': Document.mediaType}))));
+    return Response.fromHttp(response, preferResource: true);
+  }
+
+  String _makeUrl(String url) => '${baseUrl}${url}';
+
+//  updateResource(String url, Resource resource,
+//      {Map<String, String> headers = const {}}) async {
+//    final document = DataDocument.fromResource(resource, api: api);
+//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
+//        body: json.encode(document),
+//        headers: _makeHeaders({}
+//          ..addAll(headers)
+//          ..addAll({'Content-Type': Document.mediaType}))));
+//    _enforceContentType(response);
+//    return Response(
+//        response.statusCode,
+//        response.headers,
+//        response.contentLength > 0
+//            ? Document.fromJson(json.decode(response.body),
+//                preferResource: true)
+//            : null);
+//  }
+//
+//  updateToOneRelationship(String url, Identifier id,
+//      {Map<String, String> headers = const {}}) async {
+//    final document = DataDocument.fromIdentifier(id, api: api);
+//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
+//        body: json.encode(document),
+//        headers: _makeHeaders({}
+//          ..addAll(headers)
+//          ..addAll({'Content-Type': Document.mediaType}))));
+//    _enforceContentType(response);
+//    return Response(
+//        response.statusCode,
+//        response.headers,
+//        response.contentLength > 0
+//            ? Document.fromJson(json.decode(response.body))
+//            : null);
+//  }
+//
+//  deleteToOneRelationship(String url,
+//      {Map<String, String> headers = const {}}) async {
+//    final document = DataDocument.fromNull(api: api);
+//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
+//        body: json.encode(document),
+//        headers: _makeHeaders({}
+//          ..addAll(headers)
+//          ..addAll({'Content-Type': Document.mediaType}))));
+//    _enforceContentType(response);
+//    return Response(
+//        response.statusCode,
+//        response.headers,
+//        response.contentLength > 0
+//            ? Document.fromJson(json.decode(response.body))
+//            : null);
+//  }
+//
+//  updateToManyRelationship(String url, List<Identifier> ids,
+//      {Map<String, String> headers = const {}}) async {
+//    final document = DataDocument.fromIdentifierList(ids, api: api);
+//    final response = await _exec((_) => _.patch('${baseUrl}${url}',
+//        body: json.encode(document),
+//        headers: _makeHeaders({}
+//          ..addAll(headers)
+//          ..addAll({'Content-Type': Document.mediaType}))));
+//    _enforceContentType(response);
+//    return Response(
+//        response.statusCode,
+//        response.headers,
+//        response.contentLength > 0
+//            ? Document.fromJson(json.decode(response.body))
+//            : null);
+//  }
 
   void _enforceContentType(http.Response response) {
     const contentType = 'content-type';
@@ -50,16 +147,17 @@ class JsonApiClient {
       Future<http.Response> fn(http.Client client)) async {
     final client = clientFactory();
     try {
-      return await fn(client);
+      final response = await fn(client);
+      _enforceContentType(response);
+      return response;
     } finally {
       client.close();
     }
   }
-
-  create(String url, Resource resource, {Map<String, String> headers}) {}
 }
 
 typedef http.Client ClientFactory();
+
 //
 //
 //abstract class AuthorizationHeader {

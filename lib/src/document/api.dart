@@ -1,9 +1,10 @@
 import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/src/document/friendly_to_string.dart';
 
 /// A JSON API Object.
 ///
 /// See http://jsonapi.org/format/#document-jsonapi-object
-class Api {
+class Api with FriendlyToString {
   final String version;
   final Meta meta;
 

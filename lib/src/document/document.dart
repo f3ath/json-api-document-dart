@@ -1,12 +1,13 @@
 import 'package:json_api_document/src/document/api.dart';
 import 'package:json_api_document/src/document/data_document.dart';
 import 'package:json_api_document/src/document/error_document.dart';
+import 'package:json_api_document/src/document/friendly_to_string.dart';
 import 'package:json_api_document/src/document/link.dart';
 import 'package:json_api_document/src/document/meta.dart';
 import 'package:json_api_document/src/document/meta_document.dart';
 
 /// The base class for MetaDocument, DataDocument, and ErrorDocument.
-abstract class Document {
+abstract class Document with FriendlyToString {
   static const mediaType = 'application/vnd.api+json';
 
   /// The top-level meta information
@@ -33,9 +34,12 @@ abstract class Document {
   /// The instance may be a MetaDocument, a DataDocument, or an ErrorDocument
   /// depending on the [json]. If [json] does not match any of the above,
   /// a [FormatException] is thrown.
-  static Document fromJson(Map<String, dynamic> json) {
+  /// The [preferResource] flag controls the behaviour in ambiguous cases.
+  static Document fromJson(Map<String, dynamic> json,
+      {bool preferResource = false}) {
     if (json.containsKey('errors')) return ErrorDocument.fromJson(json);
-    if (json.containsKey('data')) return DataDocument.fromJson(json);
+    if (json.containsKey('data'))
+      return DataDocument.fromJson(json, preferResource: preferResource);
     if (json.containsKey('meta')) return MetaDocument.fromJson(json);
     throw FormatException('Failed to parse a Document.', json);
   }

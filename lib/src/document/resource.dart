@@ -1,11 +1,12 @@
 import 'package:json_api_document/src/document/attributes.dart';
+import 'package:json_api_document/src/document/friendly_to_string.dart';
 import 'package:json_api_document/src/document/link.dart';
 import 'package:json_api_document/src/document/meta.dart';
 import 'package:json_api_document/src/document/naming.dart';
 import 'package:json_api_document/src/document/relationship.dart';
 import 'package:json_api_document/src/document/relationships.dart';
 
-class Resource {
+class Resource with FriendlyToString {
   final String type;
   final String id;
   final Attributes attributes;
@@ -31,7 +32,7 @@ class Resource {
     }
   }
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> j = {'type': type};
     if (id != null) j['id'] = id;
     if (attributes != null) j['attributes'] = attributes;
@@ -70,4 +71,5 @@ class Resource {
 
   /// Parses [json] into a List of [Resource].
   static List<Resource> listFromJson(List json) => json.map(fromJson).toList();
+
 }

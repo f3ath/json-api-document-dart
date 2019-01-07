@@ -1,6 +1,6 @@
-import 'dart:convert';
+abstract class FriendlyToString {
+  Map<String, dynamic> toJson();
 
-class FriendlyToString {
   @override
-  String toString() => 'JAON:API ${this.runtimeType}: ${json.encode(this)}';
+  String toString() => '${this.runtimeType}${this.toJson()}';
 }
