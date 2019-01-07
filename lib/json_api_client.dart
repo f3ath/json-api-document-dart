@@ -73,7 +73,6 @@ class JsonApiClient {
     return Response.fromHttp(response, preferResource: true);
   }
 
-
   String _makeUrl(String url) => '${baseUrl}${url}';
 
   void _enforceContentType(http.Response response) {
@@ -102,25 +101,23 @@ class JsonApiClient {
 
 typedef http.Client ClientFactory();
 
-//
-//
-//abstract class AuthorizationHeader {
-//  final key = 'Authorization';
-//
-//  String get value;
-//
-//  Map<String, String> get asMap => {key: value};
-//}
-//
-//class AuthorizationHeaderBasic extends AuthorizationHeader {
-//  AuthorizationHeaderBasic(String username, String password)
-//      : value = base64.encode(utf8.encode('Basic ${username}:${password}'));
-//
-//  final String value;
-//}
-//
-//class AuthorizationHeaderBearer extends AuthorizationHeader {
-//  AuthorizationHeaderBearer(String token) : value = 'Bearer ${token}';
-//
-//  final String value;
-//}
+abstract class AuthorizationHeader {
+  final key = 'Authorization';
+
+  String get value;
+
+  Map<String, String> get asMap => {key: value};
+}
+
+class AuthorizationHeaderBasic extends AuthorizationHeader {
+  AuthorizationHeaderBasic(String username, String password)
+      : value = base64.encode(utf8.encode('Basic ${username}:${password}'));
+
+  final String value;
+}
+
+class AuthorizationHeaderBearer extends AuthorizationHeader {
+  AuthorizationHeaderBearer(String token) : value = 'Bearer ${token}';
+
+  final String value;
+}
