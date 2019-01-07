@@ -106,7 +106,7 @@ void main() {
       expect(() async => await client.fetchRelationship('/fetch'),
           throwsA(TypeMatcher<InvalidContentTypeException>()));
     });
-  });
+  }, tags: ['vm-only']);
 
   group('create', () {
     test('201 created', () async {
