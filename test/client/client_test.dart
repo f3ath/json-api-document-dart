@@ -22,7 +22,7 @@ void main() {
     server.close(force: true);
   });
 
-  group('fetch resource', () {
+  group('fetchResource()', () {
     test('200 with a document', () async {
       final doc = DataDocument.fromResource(appleResource);
 
@@ -37,7 +37,8 @@ void main() {
         rq.response.close();
       });
 
-      final result = await client.fetch('/fetch', headers: {'foo': 'bar'});
+      final result =
+          await client.fetchResource('/fetch', headers: {'foo': 'bar'});
       expectSame(doc, result.document);
       expect(
           (result.document as DataDocument).data, TypeMatcher<ResourceData>());
@@ -50,7 +51,7 @@ void main() {
         rq.response.headers.contentType = ContentType.parse(Document.mediaType);
         rq.response.close();
       });
-      final result = await client.fetch('/fetch');
+      final result = await client.fetchResource('/fetch');
       expect(result.document, isNull);
       expect(result.status, HttpStatus.notFound);
     });
@@ -59,12 +60,53 @@ void main() {
       server.listen((rq) {
         rq.response.close();
       });
-      expect(() async => await client.fetch('/fetch'),
+      expect(() async => await client.fetchResource('/fetch'),
           throwsA(TypeMatcher<InvalidContentTypeException>()));
     });
   }, tags: ['vm-only']);
 
-  group('fetch relationship', () {
+  group('deleteResource()', () {
+    test('200 with a meta document', () async {
+      final doc = MetaDocument({"test": "test"});
+
+      server.listen((rq) {
+        expect(rq.method, 'DELETE');
+        expect(rq.headers['foo'], ['bar']);
+        expect(rq.uri.path, '/delete');
+        expect(rq.headers.host, 'localhost');
+        expect(rq.headers.port, 4041);
+        rq.response.headers.contentType = ContentType.parse(Document.mediaType);
+        rq.response.write(json.encode(doc));
+        rq.response.close();
+      });
+
+      final result =
+          await client.deleteResource('/delete', headers: {'foo': 'bar'});
+      expect(result.document.meta['test'], 'test');
+      expect(result.status, HttpStatus.ok);
+    });
+
+    test('404 without a document', () async {
+      server.listen((rq) {
+        rq.response.statusCode = HttpStatus.notFound;
+        rq.response.headers.contentType = ContentType.parse(Document.mediaType);
+        rq.response.close();
+      });
+      final result = await client.deleteResource('/delete');
+      expect(result.document, isNull);
+      expect(result.status, HttpStatus.notFound);
+    });
+
+    test('invalid Content-Type', () async {
+      server.listen((rq) {
+        rq.response.close();
+      });
+      expect(() async => await client.deleteResource('/delete'),
+          throwsA(TypeMatcher<InvalidContentTypeException>()));
+    });
+  }, tags: ['vm-only']);
+
+  group('fetchRelationship()', () {
     test('200 with a document', () async {
       final doc = DataDocument.fromResource(appleResource);
 
@@ -108,7 +150,7 @@ void main() {
     });
   }, tags: ['vm-only']);
 
-  group('create resource', () {
+  group('createResource()', () {
     test('201 created', () async {
       server.listen((rq) async {
         expect(rq.method, 'POST');
