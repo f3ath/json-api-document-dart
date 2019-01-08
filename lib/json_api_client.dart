@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:json_api_document/json_api_document.dart';
-import 'package:json_api_document/src/client/exceptions.dart';
 import 'package:json_api_document/src/client/response.dart';
 
 export 'package:json_api_document/src/client/exceptions.dart';
@@ -30,69 +29,70 @@ class JsonApiClient {
   /// Fetches a [Document] containing resource(s) from the given [url].
   /// Pass a [Map] of [headers] to add extra headers to the request.
   ///
-  /// https://jsonapi.org/format/#fetching-resources
-  Future<Response> fetch(String url,
-      {Map<String, String> headers = const {}}) async {
-    final response = await _exec(
-        (_) => _.get(_makeUrl(url), headers: _makeHeaders(headers)));
-    return Response.fromHttp(response, preferResource: true);
-  }
+  /// More details: https://jsonapi.org/format/#fetching-resources
+  Future<Response> fetchResource(String url,
+          {Map<String, String> headers = const {}}) async =>
+      Response(await _exec((_) => _.get(_url(url), headers: _headers(headers))),
+          preferResource: true);
 
   /// Fetches a [Document] containing identifier(s) from the given [url].
   /// Pass a [Map] of [headers] to add extra headers to the request.
   ///
-  /// https://jsonapi.org/format/#fetching-relationships
+  /// More details: https://jsonapi.org/format/#fetching-relationships
   fetchRelationship(String url,
-      {Map<String, String> headers = const {}}) async {
-    final response = await _exec(
-        (_) => _.get(_makeUrl(url), headers: _makeHeaders(headers)));
-    return Response.fromHttp(response);
-  }
+          {Map<String, String> headers = const {}}) async =>
+      Response(
+          await _exec((_) => _.get(_url(url), headers: _headers(headers))));
 
   /// Creates a new [resource] sending a POST request to the [url].
+  /// Pass a [Map] of [headers] to add extra headers to the request.
+  ///
+  /// More details: https://jsonapi.org/format/#crud-creating
   createResource(String url, Resource resource,
-      {Map<String, String> headers = const {}}) async {
-    final document = DataDocument.fromResource(resource, api: api);
-    final response = await _exec((_) => _.post(_makeUrl(url),
-        body: json.encode(document),
-        headers: _makeHeaders({}
-          ..addAll(headers)
-          ..addAll({'Content-Type': Document.mediaType}))));
-    return Response.fromHttp(response, preferResource: true);
-  }
+          {Map<String, String> headers = const {}}) async =>
+      Response(
+          await _exec((_) => _.post(_url(url),
+              body: _body(resource),
+              headers: _headers(headers, withContentType: true))),
+          preferResource: true);
+
+  /// Deletes the resource sending a DELETE request to the [url].
+  /// Pass a [Map] of [headers] to add extra headers to the request.
+  ///
+  /// More details: https://jsonapi.org/format/#crud-deleting
+  deleteResource(String url, {Map<String, String> headers = const {}}) async =>
+      Response(
+          await _exec((_) => _.delete(_url(url), headers: _headers(headers))));
 
   /// Updates the [resource] sending a PATCH request to the [url].
+  /// Pass a [Map] of [headers] to add extra headers to the request.
+  ///
+  /// More details: https://jsonapi.org/format/#crud-updating
   updateResource(String url, Resource resource,
-      {Map<String, String> headers = const {}}) async {
-    final document = DataDocument.fromResource(resource, api: api);
-    final response = await _exec((_) => _.patch(_makeUrl(url),
-        body: json.encode(document),
-        headers: _makeHeaders({}
-          ..addAll(headers)
-          ..addAll({'Content-Type': Document.mediaType}))));
-    return Response.fromHttp(response, preferResource: true);
+          {Map<String, String> headers = const {}}) async =>
+      Response(
+          await _exec((_) => _.patch(_url(url),
+              body: _body(resource),
+              headers: _headers(headers, withContentType: true))),
+          preferResource: true);
+
+  String _body(Resource resource) =>
+      json.encode(DataDocument.fromResource(resource, api: api));
+
+  String _url(String url) => '${baseUrl}${url}';
+
+  Map<String, String> _headers(Map<String, String> headers,
+      {bool withContentType = false}) {
+    final h = <String, String>{}..addAll(defaultHeaders)..addAll(headers);
+    if (withContentType) h['Content-Type'] = Document.mediaType;
+    return h;
   }
-
-  String _makeUrl(String url) => '${baseUrl}${url}';
-
-  void _enforceContentType(http.Response response) {
-    const contentType = 'content-type';
-    if (response.headers.containsKey(contentType) &&
-        response.headers[contentType].startsWith(Document.mediaType)) return;
-
-    throw InvalidContentTypeException(response);
-  }
-
-  Map<String, String> _makeHeaders(Map<String, String> headers) =>
-      {}..addAll(defaultHeaders)..addAll(headers);
 
   Future<http.Response> _exec(
       Future<http.Response> fn(http.Client client)) async {
     final client = clientFactory();
     try {
-      final response = await fn(client);
-      _enforceContentType(response);
-      return response;
+      return await fn(client);
     } finally {
       client.close();
     }
