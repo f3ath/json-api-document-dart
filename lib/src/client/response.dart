@@ -21,7 +21,7 @@ class Response {
     if (headers.containsKey(contentType) &&
         headers[contentType].startsWith(Document.mediaType)) return;
 
-    throw InvalidContentTypeException(r);
+    throw InvalidContentTypeException(headers[contentType]);
   }
 
   String get location => headers['location'];

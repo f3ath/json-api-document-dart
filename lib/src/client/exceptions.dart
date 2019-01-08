@@ -1,11 +1,11 @@
-import 'package:http/http.dart' as http;
+class JsonApiClientException implements Exception {
+  final String message;
+
+  JsonApiClientException(this.message);
+}
 
 /// Thrown when the client receives a response with the
 /// Content-Type different from [Document.mediaType]
-class InvalidContentTypeException implements Exception {
-  InvalidContentTypeException(this.response);
-
-  final http.Response response;
-  @override
-  String toString() => 'Invalid content type: ${response.headers['content-type']}';
+class InvalidContentTypeException extends JsonApiClientException {
+  InvalidContentTypeException(String message) : super(message);
 }
