@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.3.6] - 2019-01-07
+## [0.3.7] - 2019-01-07
 ### Added
 - `preferResource` flag in `DataDocument.fromJson()`
 - Friendlier `toString()`
@@ -54,9 +54,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/0.3.6...HEAD
-[0.3.4]: https://github.com/f3ath/json-api-document-dart/compare/0.3.5...0.3.6
-[0.3.4]: https://github.com/f3ath/json-api-document-dart/compare/0.3.4...0.3.5
+[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/0.3.7...HEAD
+[0.3.7]: https://github.com/f3ath/json-api-document-dart/compare/0.3.5...0.3.7
+[0.3.5]: https://github.com/f3ath/json-api-document-dart/compare/0.3.4...0.3.5
 [0.3.4]: https://github.com/f3ath/json-api-document-dart/compare/0.3.3...0.3.4
 [0.3.3]: https://github.com/f3ath/json-api-document-dart/compare/0.3.2...0.3.3
 [0.3.2]: https://github.com/f3ath/json-api-document-dart/compare/0.3.0...0.3.2
