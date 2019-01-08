@@ -1,12 +1,13 @@
 import 'package:json_api_document/src/api.dart';
 import 'package:json_api_document/src/data_document.dart';
 import 'package:json_api_document/src/error_document.dart';
+import 'package:json_api_document/src/friendly_to_string.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/meta_document.dart';
 
 /// The base class for MetaDocument, DataDocument, and ErrorDocument.
-abstract class Document {
+abstract class Document with FriendlyToString {
   static const mediaType = 'application/vnd.api+json';
 
   /// The top-level meta information

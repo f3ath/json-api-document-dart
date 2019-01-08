@@ -1,3 +1,4 @@
+import 'package:json_api_document/src/friendly_to_string.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/naming.dart';
 import 'package:json_api_document/src/resource.dart';
@@ -5,7 +6,7 @@ import 'package:json_api_document/src/resource.dart';
 /// A Resource Identifier object.
 ///
 /// http://jsonapi.org/format/#document-resource-identifier-objects
-class Identifier {
+class Identifier with FriendlyToString {
   final String type;
   final String id;
   final Meta meta;

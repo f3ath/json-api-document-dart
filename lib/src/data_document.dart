@@ -170,7 +170,11 @@ class DataDocument extends Document {
   }
 
   /// Parses [json] into [DataDocument].
-  static DataDocument fromJson(Map<String, dynamic> json) {
+  /// When the data can be interpreted as both [Resource] and [Identifier],
+  /// the [preferResource] flag forces the parser to prefer resources over identifiers.
+  /// Otherwise the data will be parsed as an identifier.
+  static DataDocument fromJson(Map<String, dynamic> json,
+      {bool preferResource = false}) {
     final api = Api.fromJson(json['jsonapi']);
     Link self, related, first, last, prev, next;
     final links = json['links'];
@@ -195,7 +199,8 @@ class DataDocument extends Document {
     }
 
     if (data is Map) {
-      if (Identifier.jsonHasExtraAttributes(data) ||
+      if (preferResource ||
+          Identifier.jsonHasExtraAttributes(data) ||
           !data.containsKey('id') ||
           data['id'] == null) {
         return DataDocument.fromResource(Resource.fromJson(data),
@@ -222,7 +227,7 @@ class DataDocument extends Document {
           included: included);
     }
     if (data is List) {
-      if (data.any(Identifier.jsonHasExtraAttributes)) {
+      if (preferResource || data.any(Identifier.jsonHasExtraAttributes)) {
         return DataDocument.fromResourceList(Resource.listFromJson(data),
             meta: json['meta'],
             api: api,

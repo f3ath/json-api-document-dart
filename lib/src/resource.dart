@@ -1,11 +1,12 @@
 import 'package:json_api_document/src/attributes.dart';
+import 'package:json_api_document/src/friendly_to_string.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/naming.dart';
 import 'package:json_api_document/src/relationship.dart';
 import 'package:json_api_document/src/relationships.dart';
 
-class Resource {
+class Resource with FriendlyToString {
   final String type;
   final String id;
   final Attributes attributes;

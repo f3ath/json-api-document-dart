@@ -1,4 +1,5 @@
-# [JSON API](http://jsonapi.org) Document model and parser
+# [JSON:API](http://jsonapi.org) v1.0 Document model and parser
+This is the Document model. For JSON:API Client see the [json_api](https://pub.dartlang.org/packages/json_api) package.
 
 The goal of this library is to provide a transparent way to build and parse JSON API Documents.
 
@@ -6,7 +7,6 @@ These are the key values of the library:
 - **Immutability**. Produced documents are immutable value objects.
 - **Native JSON support**. Use the built-in `json.encode()` to convert to a JSON string.
 - **Strict standard compliance**. All JSON API Documents are guaranteed to follow [JSON API v1.0](http://jsonapi.org/format/).
-
 
 ## Building JSON API Document
 To get a sense of what the library API looks like, take a look at the [example](example/build.dart):

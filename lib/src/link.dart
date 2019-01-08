@@ -1,9 +1,10 @@
+import 'package:json_api_document/src/friendly_to_string.dart';
 import 'package:json_api_document/src/meta.dart';
 
 /// A Link.
 ///
 /// http://jsonapi.org/format/#document-links
-class Link {
+class Link with FriendlyToString {
   final String url;
 
   Link(this.url);

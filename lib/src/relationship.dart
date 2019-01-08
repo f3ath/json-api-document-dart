@@ -1,9 +1,10 @@
+import 'package:json_api_document/src/friendly_to_string.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/resource.dart';
 import 'package:json_api_document/src/to_many.dart';
 import 'package:json_api_document/src/to_one.dart';
 
-abstract class Relationship {
+abstract class Relationship with FriendlyToString {
   final Link self;
   final Link related;
 

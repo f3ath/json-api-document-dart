@@ -26,5 +26,5 @@ class ReadonlyMap<K, V> {
 
   bool get isNotEmpty => _data.isNotEmpty;
 
-  Map<K, V> toJson() => Map.unmodifiable(_data);
+  toJson() => Map.unmodifiable(_data);
 }

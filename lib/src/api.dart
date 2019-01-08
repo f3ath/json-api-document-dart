@@ -1,9 +1,10 @@
 import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/src/friendly_to_string.dart';
 
 /// A JSON API Object.
 ///
 /// See http://jsonapi.org/format/#document-jsonapi-object
-class Api {
+class Api with FriendlyToString {
   final String version;
   final Meta meta;
 
@@ -12,6 +13,7 @@ class Api {
   }
 
   /// Returns the JSON representation.
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> j = {'version': version};
     if (meta != null) j['meta'] = meta;

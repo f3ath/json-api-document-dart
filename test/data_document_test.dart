@@ -248,5 +248,30 @@ main() {
       expect((doc.data as ResourceData).resource.type, 'apples');
       expect((doc.data as ResourceData).resource.id, null);
     });
+
+    test('Treats ambiguous data as identifier unless forced', () {
+      final singleElementJson = {
+        'data': {'type': 'apples', 'id': '1'}
+      };
+
+      expect(DataDocument.fromJson(singleElementJson).data,
+          TypeMatcher<IdentifierData>());
+
+      expect(
+          DataDocument.fromJson(singleElementJson, preferResource: true).data,
+          TypeMatcher<ResourceData>());
+
+      final multiElementJson = {
+        'data': [
+          {'type': 'apples', 'id': '1'},
+          {'type': 'apples', 'id': '2'}
+        ]
+      };
+      expect(DataDocument.fromJson(multiElementJson).data,
+          TypeMatcher<IdentifierListData>());
+
+      expect(DataDocument.fromJson(multiElementJson, preferResource: true).data,
+          TypeMatcher<ResourceListData>());
+    });
   });
 }

@@ -6,17 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.6] - 2019-01-07
+### Added
+- `preferResource` flag in `DataDocument.fromJson()`
+- Friendlier `toString()`
+
 ## [0.3.5] - 2019-01-05
 ### Added
 - PrimaryData and its subclasses are now exposed
 
 ## [0.3.4] - 2019-01-05
 ### Fixed
-- Document.fromJson does not recognize null resource id
+- `Document.fromJson` does not recognize null resource id
 
 ## [0.3.3] - 2019-01-05
 ### Added
-- Document.mediaType constant
+- `Document.mediaType` constant
 
 ## [0.3.2] - 2018-11-05
 ### Changed
@@ -49,7 +54,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.3.5...HEAD
+[Unreleased]: https://github.com/f3ath/json-api-dart/compare/0.3.6...HEAD
+[0.3.4]: https://github.com/f3ath/json-api-dart/compare/0.3.5...0.3.6
 [0.3.4]: https://github.com/f3ath/json-api-dart/compare/0.3.4...0.3.5
 [0.3.4]: https://github.com/f3ath/json-api-dart/compare/0.3.3...0.3.4
 [0.3.3]: https://github.com/f3ath/json-api-dart/compare/0.3.2...0.3.3

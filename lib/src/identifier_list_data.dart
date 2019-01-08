@@ -11,7 +11,7 @@ class IdentifierListData implements PrimaryData {
   bool identifies(Resource resource) => _identifiers.any((identifier) =>
       identifier.type == resource.type && identifier.id == resource.id);
 
-  toJson() => _identifiers;
+  List<Identifier> toJson() => _identifiers;
 
   List<Resource> get resources => const [];
 }

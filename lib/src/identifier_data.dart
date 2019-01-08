@@ -10,7 +10,7 @@ class IdentifierData implements PrimaryData {
   bool identifies(Resource resource) =>
       _identifier.type == resource.type && _identifier.id == resource.id;
 
-  toJson() => _identifier.toJson();
+  Map<String, dynamic> toJson() => _identifier.toJson();
 
   List<Resource> get resources => const [];
 }

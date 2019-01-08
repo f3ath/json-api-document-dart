@@ -1,10 +1,11 @@
+import 'package:json_api_document/src/friendly_to_string.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 
 /// Error object.
 ///
 /// See https://jsonapi.org/format/#errors
-class ErrorObject {
+class ErrorObject with FriendlyToString {
   /// A unique identifier for this particular occurrence of the problem.
   final String id;
 
