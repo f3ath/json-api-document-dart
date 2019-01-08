@@ -34,9 +34,11 @@ abstract class Document with FriendlyToString {
   /// The instance may be a MetaDocument, a DataDocument, or an ErrorDocument
   /// depending on the [json]. If [json] does not match any of the above,
   /// a [FormatException] is thrown.
-  static Document fromJson(Map<String, dynamic> json) {
+  static Document fromJson(Map<String, dynamic> json,
+      {bool preferResource = false}) {
     if (json.containsKey('errors')) return ErrorDocument.fromJson(json);
-    if (json.containsKey('data')) return DataDocument.fromJson(json);
+    if (json.containsKey('data'))
+      return DataDocument.fromJson(json, preferResource: preferResource);
     if (json.containsKey('meta')) return MetaDocument.fromJson(json);
     throw FormatException('Failed to parse a Document.', json);
   }
