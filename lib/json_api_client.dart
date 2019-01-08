@@ -106,7 +106,7 @@ abstract class AuthorizationHeader {
 
   String get value;
 
-  Map<String, String> get asMap => {key: value};
+  Map<String, String> toMap() => {key: value};
 }
 
 class AuthorizationHeaderBasic extends AuthorizationHeader {

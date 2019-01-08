@@ -6,4 +6,6 @@ class InvalidContentTypeException implements Exception {
   InvalidContentTypeException(this.response);
 
   final http.Response response;
+  @override
+  String toString() => 'Invalid content type: ${response.headers['content-type']}';
 }
