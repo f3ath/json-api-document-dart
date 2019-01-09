@@ -3,6 +3,8 @@ import 'package:json_api_document/src/resource_data.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
+import 'helpers.dart';
+
 main() {
   group('DataDocument', () {
     final api = Api('1.0', meta: {'a': 'b'});
@@ -24,7 +26,7 @@ main() {
         final doc = DataDocument.fromNull();
         final json = {"data": null};
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
 
       test('full', () {
@@ -42,7 +44,7 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
     });
 
@@ -53,7 +55,7 @@ main() {
           "data": {"type": "apples", "id": "42"}
         };
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
 
       test('full', () {
@@ -87,7 +89,7 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
     });
 
@@ -96,7 +98,7 @@ main() {
         final doc = DataDocument.fromIdentifierList(<Identifier>[]);
         final json = {"data": []};
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
 
       test('full', () {
@@ -134,7 +136,7 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
     });
 
@@ -149,7 +151,7 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
 
       test('full', () {
@@ -175,7 +177,7 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
     });
 
@@ -184,7 +186,7 @@ main() {
         final doc = DataDocument.fromResourceList([]);
         final json = {"data": []};
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
 
       test('full', () {
@@ -227,7 +229,7 @@ main() {
           }
         };
         expect(doc, encodesToJson(json));
-        expect(DataDocument.fromJson(json), encodesToJson(json));
+        expect(DataDocument.fromJson(recodeJson(json)), encodesToJson(json));
       });
     });
 

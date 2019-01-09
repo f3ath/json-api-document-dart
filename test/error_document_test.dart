@@ -2,6 +2,8 @@ import 'package:json_api_document/json_api_document.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
+import 'helpers.dart';
+
 main() {
   group('ErrorDocument', () {
     final one = ErrorObject(id: 'one');
@@ -15,7 +17,7 @@ main() {
     test('empty', () {
       final json = {"errors": []};
       expect(empty, encodesToJson(json));
-      expect(ErrorDocument.fromJson(json), encodesToJson(json));
+      expect(ErrorDocument.fromJson(recodeJson(json)), encodesToJson(json));
     });
 
     test('full', () {
@@ -34,7 +36,7 @@ main() {
         }
       };
       expect(full, encodesToJson(json));
-      expect(ErrorDocument.fromJson(json), encodesToJson(json));
+      expect(ErrorDocument.fromJson(recodeJson(json)), encodesToJson(json));
     });
 
     test('.errors contains list of errors', () {

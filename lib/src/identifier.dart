@@ -44,8 +44,12 @@ class Identifier with FriendlyToString {
   }
 
   /// Parses [json] into a List of [Identifier].
-  static List<Identifier> listFromJson(List<Map<String, dynamic>> json) =>
-      json.map(fromJson).toList();
+  static List<Identifier> listFromJson(json) {
+    if (json is! List) {
+      throw FormatException('Failed to parse an IdentifierList.', json);
+    }
+    return json.map<Identifier>(fromJson).toList();
+  }
 
   /// Returns true if [json] has attributes other than allowed.
   static bool jsonHasExtraAttributes(json) =>
