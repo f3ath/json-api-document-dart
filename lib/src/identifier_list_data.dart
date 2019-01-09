@@ -1,8 +1,9 @@
+import 'package:json_api_document/src/friendly_to_string.dart';
 import 'package:json_api_document/src/identifier.dart';
 import 'package:json_api_document/src/primary_data.dart';
 import 'package:json_api_document/src/resource.dart';
 
-class IdentifierListData implements PrimaryData {
+class IdentifierListData with FriendlyToString implements PrimaryData {
   final List<Identifier> _identifiers;
 
   IdentifierListData(List<Identifier> _identifiers)
