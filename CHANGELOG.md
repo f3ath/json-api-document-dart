@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.10] - 2019-01-20
+### Added
+- Exposed `Relationship` class
+
 ## [0.3.9] - 2019-01-08
 ### Fixed
 - Bug when IdentifierList data could not be parsed due to insufficient type information in runtime
@@ -58,7 +62,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/0.3.9...HEAD
+[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/0.3.10...HEAD
+[0.3.10]: https://github.com/f3ath/json-api-document-dart/compare/0.3.9...0.3.10
 [0.3.9]: https://github.com/f3ath/json-api-document-dart/compare/0.3.8...0.3.9
 [0.3.8]: https://github.com/f3ath/json-api-document-dart/compare/0.3.5...0.3.8
 [0.3.5]: https://github.com/f3ath/json-api-document-dart/compare/0.3.4...0.3.5

@@ -13,6 +13,7 @@ export 'src/meta_document.dart';
 export 'src/null_data.dart';
 export 'src/primary_data.dart';
 export 'src/resource.dart';
+export 'src/relationship.dart';
 export 'src/resource_data.dart';
 export 'src/resource_list_data.dart';
 export 'src/to_many.dart';
