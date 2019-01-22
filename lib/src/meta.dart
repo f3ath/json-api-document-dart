@@ -10,8 +10,4 @@ class Meta extends ReadonlyMap<String, dynamic> with FriendlyToString {
     if (isEmpty) throw ArgumentError('Empty meta');
     keys.forEach(Naming().enforce);
   }
-
-  /// Returns an instance of [Meta] or null.
-  static Meta orNull(Map<String, dynamic> meta) =>
-      meta == null ? null : Meta(meta);
 }

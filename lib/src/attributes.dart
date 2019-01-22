@@ -13,8 +13,4 @@ class Attributes extends ReadonlyMap<String, dynamic> with FriendlyToString {
     keys.forEach(Naming().enforce);
     if (keys.any(prohibited.contains)) throw ArgumentError();
   }
-
-  /// Creates an instance of [Attributes] or null.
-  static Attributes orNull(Map<String, dynamic> json) =>
-      json == null ? null : Attributes(json);
 }

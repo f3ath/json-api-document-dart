@@ -11,9 +11,6 @@ class Relationships extends ReadonlyMap<String, Relationship>
     if (keys.any(['type', 'id'].contains)) throw ArgumentError();
   }
 
-  static Relationships orNull(Map<String, Relationship> relationships) =>
-      relationships == null ? null : Relationships(relationships);
-
   static Relationships fromJson(Map<String, dynamic> json) {
     return Relationships(
         Map.fromIterables(json.keys, json.values.map(Relationship.fromJson)));

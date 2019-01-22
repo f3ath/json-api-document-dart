@@ -2,6 +2,7 @@ import 'package:json_api_document/src/api.dart';
 import 'package:json_api_document/src/data_document.dart';
 import 'package:json_api_document/src/error_document.dart';
 import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/helpers.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/meta_document.dart';
@@ -18,7 +19,7 @@ abstract class Document with FriendlyToString {
   final Link self;
 
   Document({Map<String, dynamic> meta, this.api, this.self})
-      : meta = Meta.orNull(meta);
+      : meta = nullOr(meta, (_) => Meta(_));
 
   /// Returns the JSON representation.
   Map<String, dynamic> toJson() {

@@ -1,4 +1,5 @@
 import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/helpers.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 
@@ -47,7 +48,7 @@ class ErrorObject with FriendlyToString {
       this.pointer,
       this.parameter,
       Map<String, dynamic> meta})
-      : meta = Meta.orNull(meta) {
+      : meta = nullOr(meta, (_) => Meta(_)) {
     if (id != null) _json['id'] = id;
     if (status != null) _json['status'] = status;
     if (code != null) _json['code'] = code;

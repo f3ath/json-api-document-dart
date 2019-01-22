@@ -1,4 +1,5 @@
 import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/helpers.dart';
 import 'package:json_api_document/src/meta.dart';
 
 /// A Link.
@@ -27,7 +28,8 @@ class LinkObject implements Link {
   final String url;
   final Meta meta;
 
-  LinkObject(this.url, {Map<String, dynamic> meta}) : meta = Meta.orNull(meta);
+  LinkObject(this.url, {Map<String, dynamic> meta})
+      : meta = nullOr(meta, (_) => Meta(_));
 
   toJson() {
     final Map<String, dynamic> json = {'href': url};

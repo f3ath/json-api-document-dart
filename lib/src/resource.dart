@@ -1,5 +1,6 @@
 import 'package:json_api_document/src/attributes.dart';
 import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/helpers.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/naming.dart';
@@ -19,9 +20,9 @@ class Resource with FriendlyToString {
       this.self,
       Map<String, dynamic> meta,
       Map<String, Relationship> relationships})
-      : meta = Meta.orNull(meta),
-        attributes = Attributes.orNull(attributes),
-        relationships = Relationships.orNull(relationships) {
+      : meta = nullOr(meta, (_) => Meta(_)),
+        attributes = nullOr(attributes, (_) => Attributes(_)),
+        relationships = nullOr(relationships, (_) => Relationships(_)) {
     if (id != null && id.isEmpty) throw ArgumentError();
     final naming = const Naming();
     naming.enforce(type);

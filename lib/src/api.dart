@@ -1,5 +1,6 @@
 import 'package:json_api_document/json_api_document.dart';
 import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/helpers.dart';
 
 /// A JSON API Object.
 ///
@@ -8,7 +9,8 @@ class Api with FriendlyToString {
   final String version;
   final Meta meta;
 
-  Api(this.version, {Map<String, dynamic> meta}) : meta = Meta.orNull(meta) {
+  Api(this.version, {Map<String, dynamic> meta})
+      : meta = nullOr(meta, (_) => Meta(_)) {
     if (version == null && meta == null) throw ArgumentError();
   }
 

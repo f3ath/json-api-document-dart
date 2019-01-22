@@ -1,4 +1,5 @@
 import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/helpers.dart';
 import 'package:json_api_document/src/meta.dart';
 import 'package:json_api_document/src/naming.dart';
 import 'package:json_api_document/src/resource.dart';
@@ -13,7 +14,7 @@ class Identifier with FriendlyToString {
 
   /// Both [type] and [id] must be non-empty strings.
   Identifier(this.type, this.id, {Map<String, dynamic> meta})
-      : meta = Meta.orNull(meta) {
+      : meta = nullOr(meta, (_) => Meta(_)) {
     if (id == null || id.isEmpty) throw ArgumentError();
     (const Naming()).enforce(type);
   }
