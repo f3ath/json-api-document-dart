@@ -3,11 +3,6 @@ This is the Document model. For JSON:API Client see the [json_api](https://pub.d
 
 The goal of this library is to provide a transparent way to build and parse JSON API Documents.
 
-These are the key values of the library:
-- **Immutability**. Produced documents are immutable value objects.
-- **Native JSON support**. Use the built-in `json.encode()` to convert to a JSON string.
-- **Strict standard compliance**. All JSON API Documents are guaranteed to follow [JSON API v1.0](http://jsonapi.org/format/).
-
 ## Building JSON API Document
 To get a sense of what the library API looks like, take a look at the [example](example/build.dart):
 
@@ -76,8 +71,8 @@ This code will produce the following output:
 {
   "links": {
     "self": "http://example.com/articles",
-    "next": "http://example.com/articles?page[offset]=2",
-    "last": "http://example.com/articles?page[offset]=10"
+    "next": "http://example.com/articles?page=2",
+    "last": "http://example.com/articles?page=10"
   },
   "data": [
     {

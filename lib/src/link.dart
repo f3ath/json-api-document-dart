@@ -1,44 +1,30 @@
-import 'package:json_api_document/src/friendly_to_string.dart';
-import 'package:json_api_document/src/helpers.dart';
-import 'package:json_api_document/src/meta.dart';
+/// A JSON:API link
+/// https://jsonapi.org/format/#document-links
+class Link {
+  final Uri uri;
 
-/// A Link.
-///
-/// http://jsonapi.org/format/#document-links
-class Link with FriendlyToString {
-  final String url;
-
-  Link(this.url);
-
-  toJson() => url;
-
-  /// Parses [json] into [Link] or [LinkObject].
-  /// Throws [FormatException] on failure.
-  static Link fromJson(json) {
-    if (json is String) return Link(json);
-    if (json is Map<String, dynamic>) return LinkObject.fromJson(json);
-    throw FormatException('Link parse failed.', json);
+  Link(this.uri) {
+    ArgumentError.checkNotNull(uri, 'uri');
   }
+
+  toJson() => uri.toString();
+
+  @override
+  String toString() => uri.toString();
 }
 
-/// A Link object.
-///
-/// http://jsonapi.org/format/#document-links
-class LinkObject implements Link {
-  final String url;
-  final Meta meta;
+/// A JSON:API link object
+/// https://jsonapi.org/format/#document-links
+class LinkObject extends Link {
+  final Map<String, Object> meta;
 
-  LinkObject(this.url, {Map<String, dynamic> meta})
-      : meta = nullOr(meta, (_) => Meta(_));
+  LinkObject(Uri href, {Map<String, Object> meta})
+      : meta = Map.unmodifiable(meta ?? {}),
+        super(href);
 
   toJson() {
-    final Map<String, dynamic> json = {'href': url};
-    if (meta != null) json['meta'] = meta;
+    final json = <String, Object>{'href': uri.toString()};
+    if (meta != null && meta.isNotEmpty) json['meta'] = meta;
     return json;
-  }
-
-  /// Parses [json] into [LinkObject].
-  static LinkObject fromJson(Map<String, dynamic> json) {
-    return LinkObject(json['href'], meta: json['meta']);
   }
 }

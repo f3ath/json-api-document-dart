@@ -1,75 +1,44 @@
-import 'package:json_api_document/src/attributes.dart';
-import 'package:json_api_document/src/friendly_to_string.dart';
-import 'package:json_api_document/src/helpers.dart';
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/meta.dart';
-import 'package:json_api_document/src/naming.dart';
-import 'package:json_api_document/src/relationship.dart';
-import 'package:json_api_document/src/relationships.dart';
+import 'package:json_api_document/src/identifier.dart';
 
-class Resource with FriendlyToString {
+/// Resource
+///
+/// Together with [Identifier] forms the core of the Document model.
+/// Resources are passed between the server and the client in the form
+/// of [ResourceObject]s.
+class Resource {
+  /// Resource type
   final String type;
+
+  /// Resource id
+  ///
+  /// May be null for resources to be created on the cars_server
   final String id;
-  final Attributes attributes;
-  final Link self;
-  final Meta meta;
-  final Relationships relationships;
+
+  /// Resource attributes
+  final attributes = <String, Object>{};
+
+  /// to-one relationships
+  final toOne = <String, Identifier>{};
+
+  /// to-many relationships
+  final toMany = <String, List<Identifier>>{};
+
+  /// True if the Resource has a non-empty id
+  bool get hasId => id != null && id.isNotEmpty;
 
   Resource(this.type, this.id,
-      {Map<String, dynamic> attributes,
-      this.self,
-      Map<String, dynamic> meta,
-      Map<String, Relationship> relationships})
-      : meta = nullOr(meta, (_) => Meta(_)),
-        attributes = nullOr(attributes, (_) => Attributes(_)),
-        relationships = nullOr(relationships, (_) => Relationships(_)) {
-    if (id != null && id.isEmpty) throw ArgumentError();
-    final naming = const Naming();
-    naming.enforce(type);
-    if (relationships != null && attributes != null) {
-      final fields = Set<String>.of(attributes.keys);
-      final unique = relationships.keys.every(fields.add);
-      if (!unique) throw ArgumentError();
-    }
+      {Map<String, Object> attributes,
+      Map<String, Identifier> toOne,
+      Map<String, List<Identifier>> toMany}) {
+    ArgumentError.checkNotNull(type, 'type');
+    this.attributes.addAll(attributes ?? {});
+    this.toOne.addAll(toOne ?? {});
+    this.toMany.addAll(toMany ?? {});
   }
 
-  toJson() {
-    final Map<String, dynamic> j = {'type': type};
-    if (id != null) j['id'] = id;
-    if (attributes != null) j['attributes'] = attributes;
-    if (meta != null) j['meta'] = meta;
-    if (self != null) j['links'] = {'self': self};
-    if (relationships != null && relationships.isNotEmpty)
-      j['relationships'] = relationships;
-
-    return j;
+  /// Convert to Identifier
+  Identifier toIdentifier() {
+    if (id == null) throw StateError('Incomplete object: id is null');
+    return Identifier(type, id);
   }
-
-  bool identifies(Resource resource) =>
-      relationships != null &&
-      relationships.values.any((rel) => rel.identifies(resource));
-
-  /// Parses [json] into [Resource].
-  static Resource fromJson(json) {
-    if (json is! Map<String, dynamic>) {
-      throw FormatException('Failed to parse Resource.', json);
-    }
-    Link self;
-    final links = json['links'];
-    if (links is Map) {
-      if (links['self'] != null) self = Link.fromJson(links['self']);
-    }
-
-    return Resource(json['type'], json['id'],
-        attributes: json['attributes'],
-        self: self,
-        meta: json['meta'],
-        relationships: json['relationships'] == null
-            ? null
-            : Map.fromEntries(
-                Relationships.fromJson(json['relationships']).entries));
-  }
-
-  /// Parses [json] into a List of [Resource].
-  static List<Resource> listFromJson(List json) => json.map(fromJson).toList();
 }

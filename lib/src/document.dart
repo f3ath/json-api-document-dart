@@ -1,46 +1,46 @@
-import 'package:json_api_document/src/api.dart';
-import 'package:json_api_document/src/data_document.dart';
-import 'package:json_api_document/src/error_document.dart';
-import 'package:json_api_document/src/friendly_to_string.dart';
-import 'package:json_api_document/src/helpers.dart';
-import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/meta.dart';
-import 'package:json_api_document/src/meta_document.dart';
+import 'package:json_api_document/src/error_object.dart';
+import 'package:json_api_document/src/json_api.dart';
+import 'package:json_api_document/src/primary_data.dart';
 
-/// The base class for MetaDocument, DataDocument, and ErrorDocument.
-abstract class Document with FriendlyToString {
-  static const mediaType = 'application/vnd.api+json';
+class JsonApiDocument<Data extends PrimaryData> {
+  /// The Primary Data
+  final Data data;
+  final JsonApi api;
 
-  /// The top-level meta information
-  final Meta meta;
+  final List<ErrorObject> errors;
+  final Map<String, Object> meta;
 
-  /// The JSON API object
-  final Api api;
-  final Link self;
+  JsonApiDocument(this.data, {Map<String, Object> meta, this.api})
+      : this.errors = null,
+        this.meta = (meta == null ? null : Map.from(meta));
 
-  Document({Map<String, dynamic> meta, this.api, this.self})
-      : meta = nullOr(meta, (_) => Meta(_));
+  JsonApiDocument.error(Iterable<ErrorObject> errors,
+      {Map<String, Object> meta, this.api})
+      : this.data = null,
+        this.errors = List.from(errors),
+        this.meta = (meta == null ? null : Map.from(meta));
 
-  /// Returns the JSON representation.
-  Map<String, dynamic> toJson() {
-    final json = Map<String, dynamic>();
-    if (meta != null) json['meta'] = meta;
-    if (api != null) json['jsonapi'] = api;
-    if (self != null) json['links'] = {'self': self};
-    return json;
+  JsonApiDocument.empty(Map<String, Object> meta, {this.api})
+      : this.data = null,
+        this.errors = null,
+        this.meta = (meta == null ? null : Map.from(meta)) {
+    ArgumentError.checkNotNull(meta, 'meta');
   }
 
-  /// Creates a Document instance from [json].
-  ///
-  /// The instance may be a MetaDocument, a DataDocument, or an ErrorDocument
-  /// depending on the [json]. If [json] does not match any of the above,
-  /// a [FormatException] is thrown.
-  static Document fromJson(Map<String, dynamic> json,
-      {bool preferResource = false}) {
-    if (json.containsKey('errors')) return ErrorDocument.fromJson(json);
-    if (json.containsKey('data'))
-      return DataDocument.fromJson(json, preferResource: preferResource);
-    if (json.containsKey('meta')) return MetaDocument.fromJson(json);
-    throw FormatException('Failed to parse a Document.', json);
+  Map<String, Object> toJson() {
+    Map<String, Object> json = {};
+    if (data != null) {
+      json = data.toJson();
+    } else if (errors != null) {
+      json = {'errors': errors};
+    }
+    if (meta != null) {
+      json['meta'] = meta;
+    }
+    if (api != null) {
+      json['jsonapi'] = api;
+    }
+    // TODO: add `jsonapi` member
+    return json;
   }
 }

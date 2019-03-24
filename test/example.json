@@ -1,31 +1,32 @@
 {
   "links": {
     "self": "http://example.com/articles",
-    "last": "http://example.com/articles?page[offset]=10",
-    "next": "http://example.com/articles?page[offset]=2"
+    "next": "http://example.com/articles?page=2",
+    "last": "http://example.com/articles?page=10"
   },
   "data": [
     {
       "type": "articles",
       "id": "1",
       "attributes": {
-        "title": "JSON API paints my bikeshed!"
-      },
-      "links": {
-        "self": "http://example.com/articles/1"
+        "title": "JSON:API paints my bikeshed!"
       },
       "relationships": {
         "author": {
-          "data": {
-            "type": "people",
-            "id": "9"
-          },
           "links": {
             "self": "http://example.com/articles/1/relationships/author",
             "related": "http://example.com/articles/1/author"
+          },
+          "data": {
+            "type": "people",
+            "id": "9"
           }
         },
         "comments": {
+          "links": {
+            "self": "http://example.com/articles/1/relationships/comments",
+            "related": "http://example.com/articles/1/comments"
+          },
           "data": [
             {
               "type": "comments",
@@ -35,12 +36,11 @@
               "type": "comments",
               "id": "12"
             }
-          ],
-          "links": {
-            "self": "http://example.com/articles/1/relationships/comments",
-            "related": "http://example.com/articles/1/comments"
-          }
+          ]
         }
+      },
+      "links": {
+        "self": "http://example.com/articles/1"
       }
     }
   ],
@@ -49,8 +49,8 @@
       "type": "people",
       "id": "9",
       "attributes": {
-        "first-name": "Dan",
-        "last-name": "Gebhardt",
+        "firstName": "Dan",
+        "lastName": "Gebhardt",
         "twitter": "dgeb"
       },
       "links": {
@@ -63,9 +63,6 @@
       "attributes": {
         "body": "First!"
       },
-      "links": {
-        "self": "http://example.com/comments/5"
-      },
       "relationships": {
         "author": {
           "data": {
@@ -73,6 +70,9 @@
             "id": "2"
           }
         }
+      },
+      "links": {
+        "self": "http://example.com/comments/5"
       }
     },
     {
@@ -81,9 +81,6 @@
       "attributes": {
         "body": "I like XML better"
       },
-      "links": {
-        "self": "http://example.com/comments/12"
-      },
       "relationships": {
         "author": {
           "data": {
@@ -91,6 +88,9 @@
             "id": "9"
           }
         }
+      },
+      "links": {
+        "self": "http://example.com/comments/12"
       }
     }
   ]
