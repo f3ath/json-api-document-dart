@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.4.0] - 2019-03-24
+## [0.5.0] - 2019-03-24
 ### Changed
 - Total BC-breaking rewrite of the library. It is split into 3 parts: the document, the parser and the validator.
 
@@ -66,8 +66,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/0.4.0...HEAD
-[0.4.0]: https://github.com/f3ath/json-api-document-dart/compare/0.3.10...0.4.0
+[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/f3ath/json-api-document-dart/compare/0.3.10...0.5.0
 [0.3.10]: https://github.com/f3ath/json-api-document-dart/compare/0.3.9...0.3.10
 [0.3.9]: https://github.com/f3ath/json-api-document-dart/compare/0.3.8...0.3.9
 [0.3.8]: https://github.com/f3ath/json-api-document-dart/compare/0.3.5...0.3.8
