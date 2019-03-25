@@ -220,16 +220,16 @@ main() {
   });
 
   group('ErrorDocument', () {
-    final e = ErrorObject(JsonApiError(
+    final e = JsonApiError(
         id: 'id',
         about: Link(Uri.parse('/about')),
-        status: 'Not found',
+        status: 'Not Found',
         code: '404',
-        title: 'Not found',
+        title: 'Not Found',
         detail: 'We failed',
         sourcePointer: 'pntr',
         sourceParameter: 'prm',
-        meta: {'foo': 'bar'}));
+        meta: {'foo': 'bar'});
 
     test('empty', () {
       final json = {"errors": []};
@@ -243,9 +243,9 @@ main() {
           {
             "id": "id",
             "links": {"about": "/about"},
-            "status": "Not found",
+            "status": "Not Found",
             "code": "404",
-            "title": "Not found",
+            "title": "Not Found",
             "detail": "We failed",
             "source": {"pointer": "pntr", "parameter": "prm"},
             "meta": {'foo': 'bar'}
@@ -257,7 +257,10 @@ main() {
           "meta": {"a": "b"}
         }
       };
-      expect(Document.error([e], meta: meta, api: api), encodesToJson(json));
+
+      final document = Document.error([e], meta: meta, api: api);
+      expect(document.errors.first.title, 'Not Found');
+      expect(document, encodesToJson(json));
       expect(parser.parseDocument(recodeJson(json), null), encodesToJson(json));
     });
   });

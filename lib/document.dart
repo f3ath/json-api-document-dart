@@ -1,6 +1,5 @@
 export 'package:json_api_document/src/document.dart';
 export 'package:json_api_document/src/error.dart';
-export 'package:json_api_document/src/error_object.dart';
 export 'package:json_api_document/src/identifier.dart';
 export 'package:json_api_document/src/identifier_object.dart';
 export 'package:json_api_document/src/json_api.dart';

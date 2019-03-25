@@ -1,4 +1,4 @@
-import 'package:json_api_document/src/error_object.dart';
+import 'package:json_api_document/src/error.dart';
 import 'package:json_api_document/src/json_api.dart';
 import 'package:json_api_document/src/primary_data.dart';
 
@@ -7,7 +7,7 @@ class Document<Data extends PrimaryData> {
   final Data data;
   final JsonApi api;
 
-  final List<ErrorObject> errors;
+  final List<JsonApiError> errors;
   final Map<String, Object> meta;
 
   /// Create a document with primary data
@@ -16,7 +16,7 @@ class Document<Data extends PrimaryData> {
         this.meta = (meta == null ? null : Map.from(meta));
 
   /// Create a document with errors (no primary data)
-  Document.error(Iterable<ErrorObject> errors,
+  Document.error(Iterable<JsonApiError> errors,
       {Map<String, Object> meta, this.api})
       : this.data = null,
         this.errors = List.from(errors),
@@ -35,7 +35,7 @@ class Document<Data extends PrimaryData> {
     if (data != null) {
       json = data.toJson();
     } else if (errors != null) {
-      json = {'errors': errors};
+      json = {'errors': errors.map(_errorToJson).toList()};
     }
     if (meta != null) {
       json['meta'] = meta;
@@ -43,6 +43,25 @@ class Document<Data extends PrimaryData> {
     if (api != null) {
       json['jsonapi'] = api;
     }
+    return json;
+  }
+
+  Map<String, Object> _errorToJson(JsonApiError error) {
+    final json = <String, Object>{};
+
+    if (error.id != null) json['id'] = error.id;
+    if (error.status != null) json['status'] = error.status;
+    if (error.code != null) json['code'] = error.code;
+    if (error.title != null) json['title'] = error.title;
+    if (error.detail != null) json['detail'] = error.detail;
+    if (error.meta.isNotEmpty) json['meta'] = error.meta;
+    if (error.about != null) json['links'] = {'about': error.about};
+
+    final source = Map<String, String>();
+    if (error.sourcePointer != null) source['pointer'] = error.sourcePointer;
+    if (error.sourceParameter != null)
+      source['parameter'] = error.sourceParameter;
+    if (source.isNotEmpty) json['source'] = source;
     return json;
   }
 }

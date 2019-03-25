@@ -76,7 +76,7 @@ void main() {
   group('Member names', () {
     test('Error Document', () {
       final errors = validator.errors(Document.error([
-        ErrorObject(JsonApiError(meta: {'_foo': 2, 'bar': 1}))
+        JsonApiError(meta: {'_foo': 2, 'bar': 1})
       ]));
       expect(errors.length, 1);
       expect(errors.first.message, 'Invalid member name "_foo"');
