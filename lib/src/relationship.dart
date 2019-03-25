@@ -1,37 +1,96 @@
-import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/identifier.dart';
+import 'package:json_api_document/src/identifier_object.dart';
 import 'package:json_api_document/src/link.dart';
-import 'package:json_api_document/src/resource.dart';
-import 'package:json_api_document/src/to_many.dart';
-import 'package:json_api_document/src/to_one.dart';
+import 'package:json_api_document/src/pagination.dart';
+import 'package:json_api_document/src/primary_data.dart';
+import 'package:json_api_document/src/resource_object.dart';
 
-abstract class Relationship with FriendlyToString {
-  final Link self;
+/// The Relationship represents the references between the resources.
+///
+/// A Relationship can be a JSON:API Document itself when
+/// requested separately as described here https://jsonapi.org/format/#fetching-relationships.
+///
+/// It can also be a part of [ResourceObject].relationships map.
+///
+/// More on this: https://jsonapi.org/format/#document-resource-object-relationships
+class Relationship extends PrimaryData {
   final Link related;
 
-  /// Resource linkage
+  Relationship({this.related, Link self, Iterable<ResourceObject> included})
+      : super(self: self, included: included);
+
+  Map<String, Link> toLinks() => related == null
+      ? super.toLinks()
+      : (super.toLinks()..['related'] = related);
+
+  /// Top-level JSON object
+  Map<String, Object> toJson() {
+    final json = super.toJson();
+    final links = toLinks();
+    if (links.isNotEmpty) json['links'] = links;
+    return json;
+  }
+
+  bool identifies(ResourceObject resourceObject) => false;
+}
+
+/// Relationship to-one
+class ToOne extends Relationship {
+  /// Resource Linkage
   ///
-  /// http://jsonapi.org/format/#document-resource-object-linkage
-  get data;
+  /// Can be null for empty relationships
+  ///
+  /// More on this: https://jsonapi.org/format/#document-resource-object-linkage
+  final IdentifierObject linkage;
 
-  Relationship({Link this.self, Link this.related});
+  ToOne(this.linkage,
+      {Link self, Link related, Iterable<ResourceObject> included})
+      : super(self: self, related: related, included: included);
 
-  toJson() {
-    final Map<String, dynamic> j = {'data': data};
-    final links = Map<String, Link>();
-    if (self != null) links['self'] = self;
-    if (related != null) links['related'] = related;
-    if (links.isNotEmpty) j['links'] = links;
+  ToOne.empty({Link self, Link related})
+      : linkage = null,
+        super(self: self, related: related);
 
-    return j;
+  Map<String, Object> toJson() => super.toJson()..['data'] = linkage;
+
+  /// Converts to [Identifier].
+  /// For empty relationships return null.
+  Identifier toIdentifier() => linkage?.toIdentifier();
+
+  @override
+  bool identifies(ResourceObject resourceObject) =>
+      resourceObject.toResource().toIdentifier().equals(toIdentifier());
+}
+
+/// Relationship to-many
+class ToMany extends Relationship {
+  /// Resource Linkage
+  ///
+  /// Can be empty for empty relationships
+  ///
+  /// More on this: https://jsonapi.org/format/#document-resource-object-linkage
+  final linkage = <IdentifierObject>[];
+
+  final Pagination pagination;
+
+  ToMany(Iterable<IdentifierObject> linkage,
+      {Link self,
+      Link related,
+      Iterable<ResourceObject> included,
+      this.pagination = const Pagination.empty()})
+      : super(self: self, related: related, included: included) {
+    this.linkage.addAll(linkage);
   }
 
-  bool identifies(Resource resource);
+  Map<String, Link> toLinks() => super.toLinks()..addAll(pagination.toLinks());
 
-  static Relationship fromJson(json) {
-    if (json is! Map) {
-      throw FormatException('Failed to parse a Relationship.', json);
-    }
-    if (json['data'] is List) return ToMany.fromJson(json);
-    return ToOne.fromJson(json);
-  }
+  Map<String, Object> toJson() => super.toJson()..['data'] = linkage;
+
+  /// Converts to List<[Identifier]>.
+  /// For empty relationships returns an empty List.
+  Iterable<Identifier> toIdentifiers() => linkage.map((_) => _.toIdentifier());
+
+  @override
+  bool identifies(ResourceObject resourceObject) =>
+      toIdentifiers().any(resourceObject.toResource().toIdentifier().equals);
 }

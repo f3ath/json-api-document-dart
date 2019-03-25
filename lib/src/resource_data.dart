@@ -1,17 +1,29 @@
-import 'package:json_api_document/src/friendly_to_string.dart';
+import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/primary_data.dart';
 import 'package:json_api_document/src/resource.dart';
+import 'package:json_api_document/src/resource_object.dart';
 
-class ResourceData with FriendlyToString implements PrimaryData {
-  final Resource _resource;
+/// Represents a single resource or a single related resource of a to-one relationship\\\\\\\\
+class ResourceData extends PrimaryData {
+  final ResourceObject resourceObject;
 
-  ResourceData(Resource this._resource);
+  ResourceData(this.resourceObject,
+      {Link self, Iterable<ResourceObject> included})
+      : super(self: self, included: included);
 
-  Resource get resource => _resource;
+  @override
+  Map<String, Object> toJson() {
+    final json = super.toJson()..['data'] = resourceObject;
+    if (included != null && included.isNotEmpty) {
+      json['included'] = included;
+    }
 
-  bool identifies(Resource another) => _resource.identifies(another);
+    final links = toLinks();
+    if (links.isNotEmpty) json['links'] = links;
+    return json;
+  }
 
-  toJson() => _resource.toJson();
+  Resource toResource() => resourceObject.toResource();
 
-  List<Resource> get resources => [_resource];
+  bool identifies(ResourceObject r) => resourceObject.identifies(r);
 }

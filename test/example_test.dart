@@ -1,18 +1,37 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/document.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
-import '../example/build.dart';
+import '../example/building.dart';
 
 void main() {
-  test('Can build the example from http://jsonapi.org/', () {
-    final response = makeDocument();
-    final jsonString = File('example/document.json').readAsStringSync();
-    final jsonObject = json.decode(jsonString);
-    expect(response, encodesToJson(jsonObject));
-    expect(Document.fromJson(jsonObject), encodesToJson(jsonObject));
-  }, tags: ['vm-only']);
+  group('Example', () {
+    test('Can produce the example document', () {
+      final doc = createExampleDocument();
+      final expected = File('test/example.json').readAsStringSync();
+      expect(doc, encodesToJson(json.decode(expected)));
+    }, testOn: 'vm');
+
+    test('Hello world', () {
+      final helloWorld =
+          Resource('messages', '1', attributes: {'text': 'Hello world'});
+      final resourceObj = ResourceObject.fromResource(helloWorld);
+      final primaryData =
+          ResourceData(resourceObj, self: Link(Uri.parse('/messages/1')));
+      final doc = Document(primaryData);
+      expect(
+          doc,
+          encodesToJson({
+            "links": {"self": "/messages/1"},
+            "data": {
+              "type": "messages",
+              "id": "1",
+              "attributes": {"text": "Hello world"}
+            }
+          }));
+    });
+  });
 }

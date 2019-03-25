@@ -1,8 +1,8 @@
-import 'package:json_api_document/src/naming.dart';
+import 'package:json_api_document/validator.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const naming = const Naming();
+  const naming = const StandardNaming();
   final expectNotToBeAllowed =
       (String name) => expect(naming.allows(name), equals(false));
   final expectToBeAllowed =
@@ -24,7 +24,7 @@ void main() {
     [' ', ' abc', 'abc '].forEach(expectNotToBeAllowed);
   });
   test('Space is allowed inside strings', () {
-    expect(naming.allows('жо па'), equals(true));
+    expect(naming.allows('жа жа'), equals(true));
   });
   test('Alphanumeric chars are allowed anywhere', () {
     ['a', 'fooBar42', '123'].forEach(expectToBeAllowed);

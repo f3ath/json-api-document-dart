@@ -1,0 +1,14 @@
+export 'package:json_api_document/src/document.dart';
+export 'package:json_api_document/src/error.dart';
+export 'package:json_api_document/src/error_object.dart';
+export 'package:json_api_document/src/identifier.dart';
+export 'package:json_api_document/src/identifier_object.dart';
+export 'package:json_api_document/src/json_api.dart';
+export 'package:json_api_document/src/link.dart';
+export 'package:json_api_document/src/pagination.dart';
+export 'package:json_api_document/src/primary_data.dart';
+export 'package:json_api_document/src/relationship.dart';
+export 'package:json_api_document/src/resource.dart';
+export 'package:json_api_document/src/resource_collection_data.dart';
+export 'package:json_api_document/src/resource_data.dart';
+export 'package:json_api_document/src/resource_object.dart';
