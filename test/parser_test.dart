@@ -20,7 +20,7 @@ void main() {
           parser.parseDocument(jsonObject, parser.parseResourceCollectionData);
 
       expect(doc, encodesToJson(jsonObject));
-    });
+    }, testOn: 'vm');
 
     test('Can parse a primary resource with missing id', () {
       final doc = parser.parseResourceDocument(recodeJson({
@@ -50,5 +50,5 @@ void main() {
       expect(link2, TypeMatcher<LinkObject>());
       expect((link2 as LinkObject).meta['foo'], 'bar');
     });
-  }, testOn: 'vm');
+  });
 }
