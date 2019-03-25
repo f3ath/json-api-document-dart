@@ -2,7 +2,7 @@ import 'package:json_api_document/src/error_object.dart';
 import 'package:json_api_document/src/json_api.dart';
 import 'package:json_api_document/src/primary_data.dart';
 
-class JsonApiDocument<Data extends PrimaryData> {
+class Document<Data extends PrimaryData> {
   /// The Primary Data
   final Data data;
   final JsonApi api;
@@ -10,17 +10,20 @@ class JsonApiDocument<Data extends PrimaryData> {
   final List<ErrorObject> errors;
   final Map<String, Object> meta;
 
-  JsonApiDocument(this.data, {Map<String, Object> meta, this.api})
+  /// Create a document with primary data
+  Document(this.data, {Map<String, Object> meta, this.api})
       : this.errors = null,
         this.meta = (meta == null ? null : Map.from(meta));
 
-  JsonApiDocument.error(Iterable<ErrorObject> errors,
+  /// Create a document with errors (no primary data)
+  Document.error(Iterable<ErrorObject> errors,
       {Map<String, Object> meta, this.api})
       : this.data = null,
         this.errors = List.from(errors),
         this.meta = (meta == null ? null : Map.from(meta));
 
-  JsonApiDocument.empty(Map<String, Object> meta, {this.api})
+  /// Create an empty document (no primary data and no errors)
+  Document.empty(Map<String, Object> meta, {this.api})
       : this.data = null,
         this.errors = null,
         this.meta = (meta == null ? null : Map.from(meta)) {
@@ -40,7 +43,6 @@ class JsonApiDocument<Data extends PrimaryData> {
     if (api != null) {
       json['jsonapi'] = api;
     }
-    // TODO: add `jsonapi` member
     return json;
   }
 }

@@ -41,4 +41,7 @@ class Resource {
     if (id == null) throw StateError('Incomplete object: id is null');
     return Identifier(type, id);
   }
+
+  @override
+  String toString() => 'Resource(${type}:${id})';
 }

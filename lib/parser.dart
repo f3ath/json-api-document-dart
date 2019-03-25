@@ -1,4 +1,4 @@
-import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/document.dart';
 
 class ParsingException implements Exception {
   final String message;
@@ -10,28 +10,27 @@ class JsonApiParser {
   const JsonApiParser();
 
   /// Parses a document containing neither data nor errors
-  JsonApiDocument<ToOne> parseEmptyDocument(Object json) =>
-      parseDocument(json, null);
+  Document<ToOne> parseEmptyDocument(Object json) => parseDocument(json, null);
 
   /// Parses a document containing a single resource
-  JsonApiDocument<ResourceData> parseResourceDocument(Object json) =>
+  Document<ResourceData> parseResourceDocument(Object json) =>
       parseDocument(json, parseResourceData);
 
   /// Parses a document containing a resource collection
-  JsonApiDocument<ResourceCollectionData> parseResourceCollectionDocument(
+  Document<ResourceCollectionData> parseResourceCollectionDocument(
           Object json) =>
       parseDocument(json, parseResourceCollectionData);
 
   /// Parses a document containing a to-one relationship
-  JsonApiDocument<ToOne> parseToOneDocument(Object json) =>
+  Document<ToOne> parseToOneDocument(Object json) =>
       parseDocument(json, parseToOne);
 
   /// Parses a document containing a to-many relationship
-  JsonApiDocument<ToMany> parseToManyDocument(Object json) =>
+  Document<ToMany> parseToManyDocument(Object json) =>
       parseDocument(json, parseToMany);
 
   /// Parses a document with the specified primary data
-  JsonApiDocument<Data> parseDocument<Data extends PrimaryData>(
+  Document<Data> parseDocument<Data extends PrimaryData>(
       Object json, Data parsePrimaryData(Object json)) {
     if (json is Map) {
       JsonApi api;
@@ -41,14 +40,13 @@ class JsonApiParser {
       if (json.containsKey('errors')) {
         final errors = json['errors'];
         if (errors is List) {
-          return JsonApiDocument.error(errors.map(parseError),
+          return Document.error(errors.map(parseError),
               meta: json['meta'], api: api);
         }
       } else if (json.containsKey('data')) {
-        return JsonApiDocument(parsePrimaryData(json),
-            meta: json['meta'], api: api);
+        return Document(parsePrimaryData(json), meta: json['meta'], api: api);
       } else {
-        return JsonApiDocument.empty(json['meta'], api: api);
+        return Document.empty(json['meta'], api: api);
       }
     }
     throw ParsingException('Can not parse Document from $json');
@@ -210,7 +208,10 @@ class JsonApiParser {
   Link parseLink(Object json) {
     if (json is String) return Link(Uri.parse(json));
     if (json is Map) {
-      return LinkObject(Uri.parse(json['href']), meta: json['meta']);
+      final href = json['href'];
+      if (href is String) {
+        return LinkObject(Uri.parse(href), meta: json['meta']);
+      }
     }
     throw ParsingException('Can not parse Link from $json');
   }

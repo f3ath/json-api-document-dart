@@ -1,4 +1,4 @@
-import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/document.dart';
 import 'package:json_api_document/validator.dart';
 import 'package:test/test.dart';
 
@@ -12,7 +12,7 @@ void main() {
     'carts': ToMany([IdentifierObject('carts', '2')])
   });
 
-  final validator = JsonApiValidator();
+  final validator = DocumentValidator();
 
   group('Full linkage', () {
     test('A document without included resources is fully linked', () {
@@ -51,18 +51,20 @@ void main() {
 
   test('Can not include more that one resource with the same type and id', () {
     final sameApple = ResourceObject(apple.type, apple.id);
-    final errors = validator
-        .dataErrors(ResourceData(user, included: [apple, cart, sameApple]));
+    final errors = validator.errors(
+        Document(ResourceData(user, included: [apple, cart, sameApple])));
     expect(errors.length, 1);
     expect(
-        errors.first.message, 'Resource apples:1 is included multiple times');
+        errors.first.message, 'Resource(apples:1) is included multiple times');
+    expect(errors.first.path, '/included');
   });
 
   test('Can not include primary resource', () {
     final sameUser = ResourceObject(user.type, user.id);
     final errors =
-        validator.dataErrors(ResourceData(user, included: [sameUser]));
+        validator.errors(Document(ResourceData(user, included: [sameUser])));
     expect(errors.length, 1);
-    expect(errors.first.message, 'Primary resource users:3 is also included');
+    expect(errors.first.message, 'Primary Resource(users:3) is also included');
+    expect(errors.first.path, '/included');
   });
 }

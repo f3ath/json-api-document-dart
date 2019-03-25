@@ -1,4 +1,3 @@
-
 import 'package:json_api_document/src/error.dart';
 
 class ErrorObject {

@@ -23,5 +23,5 @@ class Identifier {
   bool equals(Identifier identifier) =>
       identifier != null && identifier.type == type && identifier.id == id;
 
-  String toString() => "$type:$id";
+  String toString() => "Identifier($type:$id)";
 }

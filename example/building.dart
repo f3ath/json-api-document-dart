@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/document.dart';
 
 /// Print the JSON representation of the response to stdout
 void main() {
@@ -8,7 +8,7 @@ void main() {
   print(json.encode(response));
 }
 
-JsonApiDocument createExampleDocument() {
+Document createExampleDocument() {
   final url = UrlBuilder('http://example.com');
 
   final dan = Resource('people', '9', attributes: {
@@ -70,7 +70,7 @@ JsonApiDocument createExampleDocument() {
                   self: Link(url.resource('comments', _.id))))
               .toList());
 
-  return JsonApiDocument(collection);
+  return Document(collection);
 }
 
 class UrlBuilder {
