@@ -12,7 +12,7 @@ class DocumentValidator {
     final errors = <ValidationError>[];
 
     errors.addAll((document.errors ?? []).asMap().entries.expand((_) =>
-        (_.value.error.meta ?? {}).keys.where(naming.disallows).map((key) =>
+        (_.value.meta ?? {}).keys.where(naming.disallows).map((key) =>
             ValidationError('Invalid member name "$key"',
                 ['errors', _.key.toString(), 'meta']))));
 

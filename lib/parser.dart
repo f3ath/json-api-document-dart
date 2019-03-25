@@ -52,7 +52,7 @@ class JsonApiParser {
     throw ParsingException('Can not parse Document from $json');
   }
 
-  ErrorObject parseError(Object json) {
+  JsonApiError parseError(Object json) {
     if (json is Map) {
       Link about;
       if (json['links'] is Map) about = parseLink(json['links']['about']);
@@ -63,7 +63,7 @@ class JsonApiParser {
         parameter = json['source']['parameter'];
         pointer = json['source']['pointer'];
       }
-      return ErrorObject(JsonApiError(
+      return JsonApiError(
           id: json['id'],
           about: about,
           status: json['status'],
@@ -72,7 +72,7 @@ class JsonApiParser {
           detail: json['detail'],
           sourcePointer: pointer,
           sourceParameter: parameter,
-          meta: json['meta']));
+          meta: json['meta']);
     }
     throw ParsingException('Can not parse ErrorObject from $json');
   }
