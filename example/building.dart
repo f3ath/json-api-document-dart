@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:json_api_document/document.dart';
+import 'package:json_api_document/json_api_document.dart';
 
 /// Print the JSON representation of the response to stdout
 void main() {

@@ -1,4 +1,4 @@
-import 'package:json_api_document/document.dart';
+import 'package:json_api_document/json_api_document.dart';
 
 /// Validates document structure and member names
 class DocumentValidator {
