@@ -1,4 +1,4 @@
-import 'package:json_api_document/document.dart';
+import 'package:json_api_document/json_api_document.dart';
 import 'package:json_api_document/parser.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
