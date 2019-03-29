@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0] - 2019-03-29
+### Changed
+- Nothing. Just a formal v1 release
+
 ## [0.6.0] - 2019-03-25
 ### Changed
 - Renamed the main library file: `document.dart -> json_api_document.dart`
@@ -70,7 +74,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/f3ath/json-api-document-dart/compare/0.6.0...1.0.0
 [0.6.0]: https://github.com/f3ath/json-api-document-dart/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/f3ath/json-api-document-dart/compare/0.3.10...0.5.0
 [0.3.10]: https://github.com/f3ath/json-api-document-dart/compare/0.3.9...0.3.10
