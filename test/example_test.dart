@@ -35,11 +35,3 @@ void main() {
     });
   });
 }
-
-helloWorld() {
-  final message =
-      ResourceObject('messages', '1', attributes: {'text': 'Hello world'});
-  final primaryData =
-      ResourceData(message, self: Link(Uri.parse('/messages/1')));
-  final doc = Document(primaryData);
-}
