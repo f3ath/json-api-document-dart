@@ -1,4 +1,4 @@
-Other packages: [Client](https://pub.dartlang.org/packages/json_api) | [Server](https://pub.dartlang.org/packages/json_api_server)
+Other JSON:API packages: [Client](https://pub.dartlang.org/packages/json_api) | [Server](https://pub.dartlang.org/packages/json_api_server)
 
 ---
 # JSON:API Document
