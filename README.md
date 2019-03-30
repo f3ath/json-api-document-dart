@@ -1,5 +1,7 @@
-### [JSON:API Client](https://pub.dartlang.org/packages/json_api) :: [JSON:API Server](https://pub.dartlang.org/packages/json_api_server)
+Other packages: [Client](https://pub.dartlang.org/packages/json_api) | [Server](https://pub.dartlang.org/packages/json_api_server)
 
+---
+# JSON:API Document
 [JSON:API](http://jsonapi.org) is a specification for building APIs in JSON. This library implements 
 the Document model and a Parser.
 
