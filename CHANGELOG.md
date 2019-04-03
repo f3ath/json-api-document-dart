@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.1] - 2019-04-03
+### Fixed
+- Do not send id:null in ResourceObject ([#58](https://github.com/f3ath/json-api-document-dart/issues/58))
+
 ## [1.0.0] - 2019-03-29
 ### Changed
 - Nothing. Just a formal v1 release
@@ -74,7 +78,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial usable implementation
 
-[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/f3ath/json-api-document-dart/compare/1.0.1...HEAD
+[1.0.1]: https://github.com/f3ath/json-api-document-dart/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/f3ath/json-api-document-dart/compare/0.6.0...1.0.0
 [0.6.0]: https://github.com/f3ath/json-api-document-dart/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/f3ath/json-api-document-dart/compare/0.3.10...0.5.0

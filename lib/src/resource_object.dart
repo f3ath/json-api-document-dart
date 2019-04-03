@@ -46,7 +46,10 @@ class ResourceObject {
   /// Returns the JSON object to be used in the `data` or `included` members
   /// of a JSON:API Document
   Map<String, Object> toJson() {
-    final json = <String, Object>{'type': type, 'id': id};
+    final json = <String, Object>{'type': type};
+    if (id != null) {
+      json['id'] = id;
+    }
     if (attributes?.isNotEmpty == true) {
       json['attributes'] = attributes;
     }
