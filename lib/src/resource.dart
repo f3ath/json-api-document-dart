@@ -11,7 +11,7 @@ class Resource {
 
   /// Resource id
   ///
-  /// May be null for resources to be created on the cars_server
+  /// May be null for resources to be created on the server
   final String id;
 
   /// Resource attributes
