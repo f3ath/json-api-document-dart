@@ -3,7 +3,7 @@ import 'package:json_api_document/src/primary_data.dart';
 import 'package:json_api_document/src/resource.dart';
 import 'package:json_api_document/src/resource_object.dart';
 
-/// Represents a single resource or a single related resource of a to-one relationship\\\\\\\\
+/// Represents a single resource or a single related resource of a to-one relationship
 class ResourceData extends PrimaryData {
   final ResourceObject resourceObject;
 
@@ -13,14 +13,14 @@ class ResourceData extends PrimaryData {
 
   @override
   Map<String, Object> toJson() {
-    final json = super.toJson()..['data'] = resourceObject;
-    if (included != null && included.isNotEmpty) {
-      json['included'] = included;
-    }
-
     final links = toLinks();
-    if (links.isNotEmpty) json['links'] = links;
-    return json;
+
+    return {
+      ...super.toJson(),
+      'data': resourceObject,
+      if (included != null && included.isNotEmpty) ...{'included': included},
+      if (links.isNotEmpty) ...{'links': links},
+    };
   }
 
   Resource toResource() => resourceObject.toResource();

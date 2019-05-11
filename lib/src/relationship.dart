@@ -1,6 +1,7 @@
 import 'package:json_api_document/src/identifier.dart';
 import 'package:json_api_document/src/identifier_object.dart';
 import 'package:json_api_document/src/link.dart';
+import 'package:json_api_document/src/nullable.dart';
 import 'package:json_api_document/src/pagination.dart';
 import 'package:json_api_document/src/primary_data.dart';
 import 'package:json_api_document/src/resource_object.dart';
@@ -50,6 +51,9 @@ class ToOne extends Relationship {
   ToOne.empty({Link self, Link related})
       : linkage = null,
         super(self: self, related: related);
+
+  static ToOne fromIdentifier(Identifier identifier) =>
+      ToOne(nullable(IdentifierObject.fromIdentifier)(identifier));
 
   Map<String, Object> toJson() => super.toJson()..['data'] = linkage;
 

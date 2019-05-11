@@ -30,37 +30,30 @@ class ResourceObject {
         relationships = relationships == null ? null : Map.from(relationships);
 
   static ResourceObject fromResource(Resource resource,
-      {Map<String, String> meta}) {
-    final relationships = <String, Relationship>{}
-      ..addAll(resource.toOne.map((k, v) => MapEntry(
-          k, ToOne(v == null ? null : IdentifierObject.fromIdentifier(v)))))
-      ..addAll(resource.toMany.map((k, v) =>
-          MapEntry(k, ToMany(v.map(IdentifierObject.fromIdentifier)))));
-
-    return ResourceObject(resource.type, resource.id,
-        attributes: resource.attributes,
-        relationships: relationships,
-        meta: meta);
-  }
+          {Map<String, String> meta}) =>
+      ResourceObject(resource.type, resource.id,
+          attributes: resource.attributes,
+          relationships: <String, Relationship>{
+            ...resource.toOne
+                .map((k, v) => MapEntry(k, ToOne.fromIdentifier(v))),
+            ...resource.toMany.map((k, v) =>
+                MapEntry(k, ToMany(v.map(IdentifierObject.fromIdentifier))))
+          },
+          meta: meta);
 
   /// Returns the JSON object to be used in the `data` or `included` members
   /// of a JSON:API Document
-  Map<String, Object> toJson() {
-    final json = <String, Object>{'type': type};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (attributes?.isNotEmpty == true) {
-      json['attributes'] = attributes;
-    }
-    if (relationships?.isNotEmpty == true) {
-      json['relationships'] = relationships;
-    }
-    if (self != null) {
-      json['links'] = {'self': self};
-    }
-    return json;
-  }
+  Map<String, Object> toJson() => {
+        'type': type,
+        if (id != null) ...{'id': id},
+        if (attributes?.isNotEmpty == true) ...{'attributes': attributes},
+        if (relationships?.isNotEmpty == true) ...{
+          'relationships': relationships
+        },
+        if (self != null) ...{
+          'links': {'self': self}
+        },
+      };
 
   /// Converts to [Resource] if possible. The standard allows relationships
   /// without `data` member. In this case the original [Resource] can not be

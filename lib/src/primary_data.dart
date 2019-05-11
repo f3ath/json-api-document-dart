@@ -4,9 +4,7 @@ import 'package:json_api_document/src/resource_object.dart';
 /// The top-level Primary Data. This is the essentials of the JSON:API Document.
 ///
 /// [PrimaryData] may be considered a Document itself with two limitations:
-///
 /// - it always has the `data` key (could have `null` value for empty to-one relationships)
-///
 /// - it can not have `meta` and `jsonapi` keys
 abstract class PrimaryData {
   /// In Compound document this member contains the included resources
@@ -37,13 +35,8 @@ abstract class PrimaryData {
   Map<String, Link> toLinks() => self == null ? {} : {'self': self};
 
   /// Top-level JSON object
-  Map<String, Object> toJson() {
-    final json = <String, Object>{};
-    if (included != null && included.isNotEmpty) {
-      json['included'] = included;
-    }
-    return json;
-  }
+  Map<String, Object> toJson() =>
+      (included != null && included.isNotEmpty) ? {'included': included} : {};
 
   bool identifies(ResourceObject resourceObject);
 }

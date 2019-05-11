@@ -6,14 +6,8 @@ class JsonApi {
   JsonApi({this.version, Map<String, Object> meta})
       : meta = meta == null ? null : Map.from(meta);
 
-  Map<String, Object> toJson() {
-    final json = <String, Object>{};
-    if (version != null) {
-      json['version'] = version;
-    }
-    if (meta != null) {
-      json['meta'] = meta;
-    }
-    return json;
-  }
+  Map<String, Object> toJson() => {
+        if (version != null) ...{'version': version},
+        if (meta != null) ...{'meta': meta},
+      };
 }
