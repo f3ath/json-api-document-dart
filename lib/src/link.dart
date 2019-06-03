@@ -1,4 +1,5 @@
 import 'package:json_api_document/src/decoding_exception.dart';
+import 'package:json_api_document/src/meta_property.dart';
 
 /// A JSON:API link
 /// https://jsonapi.org/format/#document-links
@@ -9,7 +10,7 @@ class Link {
     ArgumentError.checkNotNull(uri, 'uri');
   }
 
-  static Link fromJson(Object json) {
+  static Link decodeJson(Object json) {
     if (json is String) return Link(Uri.parse(json));
     if (json is Map) return LinkObject.fromJson(json);
     throw DecodingException('Can not decode Link from $json');
@@ -23,7 +24,7 @@ class Link {
     if (json == null) return {};
     if (json is Map) {
       return ({...json}..removeWhere((_, v) => v == null))
-          .map((k, v) => MapEntry(k.toString(), Link.fromJson(v)));
+          .map((k, v) => MapEntry(k.toString(), Link.decodeJson(v)));
     }
     throw DecodingException('Can not decode links map from $json');
   }
@@ -36,12 +37,11 @@ class Link {
 
 /// A JSON:API link object
 /// https://jsonapi.org/format/#document-links
-class LinkObject extends Link {
-  final Map<String, Object> meta;
+class LinkObject extends Link with MetaProperty {
 
-  LinkObject(Uri href, {Map<String, Object> meta})
-      : meta = Map.unmodifiable(meta ?? {}),
-        super(href);
+  LinkObject(Uri href, {Map<String, Object> meta}) : super(href) {
+    this.meta.addAll(meta ?? {});
+  }
 
   static LinkObject fromJson(Object json) {
     if (json is Map) {

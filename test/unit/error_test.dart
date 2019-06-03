@@ -7,7 +7,7 @@ import '../helper/recode_json.dart';
 void main() {
   group('Decode/Encode', () {
     test('a complete error object', () {
-      final json = {
+      final json = recodeJson({
         'id': 'my_error',
         'links': {'about': 'http://example.com/my_error'},
         'status': '403',
@@ -16,9 +16,9 @@ void main() {
         'detail': 'More details here',
         'source': {'pointer': '/data', 'parameter': 'foo'},
         'meta': {'foo': 'bar'}
-      };
+      });
 
-      final error = JsonApiError.fromJson(recodeJson(json));
+      final error = JsonApiError.decodeJson(json);
       expect(error, encodesToJson(json));
     });
 

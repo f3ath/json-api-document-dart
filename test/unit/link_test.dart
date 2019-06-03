@@ -7,19 +7,19 @@ import '../helper/recode_json.dart';
 void main() {
   group('Decode/Encode', () {
     test('a simple link', () {
-      final json = 'http://example.com';
+      final json = recodeJson('http://example.com');
 
-      final link = Link.fromJson(recodeJson(json));
+      final link = Link.decodeJson(json);
       expect(link, encodesToJson(json));
     });
 
     test('a link object', () {
-      final json = {
+      final json = recodeJson({
         'href': 'http://example.com',
         'meta': {'meh': 123}
-      };
+      });
 
-      final link = Link.fromJson(recodeJson(json));
+      final link = Link.decodeJson(json);
       expect(link, TypeMatcher<LinkObject>());
       expect(link, encodesToJson(json));
     });
