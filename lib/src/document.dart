@@ -34,7 +34,7 @@ class Document<Data extends PrimaryData> {
         if (data != null)
           ...data.toJson()
         else
-          if (errors != null) ...{'errors': errors.map(_errorToJson).toList()},
+          if (errors != null) ...{'errors': errors},
         if (meta != null) ...{'meta': meta},
         if (api != null) ...{'jsonapi': api},
       };

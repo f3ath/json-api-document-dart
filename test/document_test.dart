@@ -3,7 +3,7 @@ import 'package:json_api_document/parser.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
-import 'helper.dart';
+import 'helper/recode_json.dart';
 
 main() {
   final api = JsonApi(version: '1.0', meta: {'a': 'b'});

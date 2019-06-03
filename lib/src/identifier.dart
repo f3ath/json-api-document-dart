@@ -14,9 +14,10 @@ class Identifier {
 
   /// Neither [type] nor [id] can be null or empty.
   Identifier(this.type, this.id) {
-    // TODO: check for emptiness
-    ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(type, 'type');
+    ArgumentError.checkNotNull(id, 'id');
+    if (type.isEmpty) throw ArgumentError.value(type, 'type');
+    if (id.isEmpty) throw ArgumentError.value(id, 'id');
   }
 
   /// Returns true if the two identifiers have the same [type] and [id]
