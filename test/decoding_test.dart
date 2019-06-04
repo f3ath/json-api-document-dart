@@ -38,17 +38,5 @@ void main() {
       expect(doc.data.toResource().id, isNull);
     });
 
-    test('Can parse LinkObject', () {
-      final link1 = parser.parseLink({'href': '/foo'});
-      expect(link1, TypeMatcher<LinkObject>());
-      expect(link1.uri.toString(), '/foo');
-
-      final link2 = parser.parseLink({
-        'href': '/foo',
-        'meta': {'foo': 'bar'}
-      });
-      expect(link2, TypeMatcher<LinkObject>());
-      expect((link2 as LinkObject).meta['foo'], 'bar');
-    });
   });
 }

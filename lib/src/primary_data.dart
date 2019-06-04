@@ -10,6 +10,8 @@ abstract class PrimaryData {
   /// In Compound document this member contains the included resources
   final List<ResourceObject> included;
 
+  final Link self;
+
   /// For Compound document data returns true if the data is fully linked
   ///
   /// Details: http://jsonapi.org/format/#document-compound-documents
@@ -19,8 +21,6 @@ abstract class PrimaryData {
           identifies(resource) ||
           included
               .any((other) => other != resource && other.identifies(resource)));
-
-  final Link self;
 
   PrimaryData({this.self, Iterable<ResourceObject> included})
       : this.included =

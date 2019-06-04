@@ -1,3 +1,5 @@
+import 'package:json_api_document/json_api_document.dart';
+import 'package:json_api_document/src/decoding_exception.dart';
 import 'package:json_api_document/src/error.dart';
 import 'package:json_api_document/src/json_api.dart';
 import 'package:json_api_document/src/primary_data.dart';
@@ -30,6 +32,28 @@ class Document<Data extends PrimaryData> {
     ArgumentError.checkNotNull(meta, 'meta');
   }
 
+  static Document<Data> decodeJson<Data extends PrimaryData>(
+      Object json, Data decodePrimaryData(Object json)) {
+    if (json is Map) {
+      JsonApi api;
+      if (json.containsKey('jsonapi')) {
+        api = JsonApi.decodeJson(json['jsonapi']);
+      }
+      if (json.containsKey('errors')) {
+        final errors = json['errors'];
+        if (errors is List) {
+          return Document.error(errors.map(JsonApiError.decodeJson),
+              meta: json['meta'], api: api);
+        }
+      } else if (json.containsKey('data')) {
+        return Document(decodePrimaryData(json), meta: json['meta'], api: api);
+      } else {
+        return Document.empty(json['meta'], api: api);
+      }
+    }
+    throw DecodingException('Can not decode Document from $json');
+  }
+
   Map<String, Object> toJson() => {
         if (data != null)
           ...data.toJson()
@@ -38,25 +62,4 @@ class Document<Data extends PrimaryData> {
         if (meta != null) ...{'meta': meta},
         if (api != null) ...{'jsonapi': api},
       };
-
-  Map<String, Object> _errorToJson(JsonApiError error) {
-    final source = {
-      if (error.sourcePointer != null) ...{'pointer': error.sourcePointer},
-      if (error.sourceParameter != null) ...{
-        'parameter': error.sourceParameter
-      },
-    };
-    return {
-      if (error.id != null) ...{'id': error.id},
-      if (error.status != null) ...{'status': error.status},
-      if (error.code != null) ...{'code': error.code},
-      if (error.title != null) ...{'title': error.title},
-      if (error.detail != null) ...{'detail': error.detail},
-      if (error.meta.isNotEmpty != null) ...{'meta': error.meta},
-      if (error.about != null) ...{
-        'links': {'about': error.about}
-      },
-      if (source.isNotEmpty) ...{'source': source},
-    };
-  }
 }

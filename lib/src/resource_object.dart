@@ -1,8 +1,12 @@
+import 'package:json_api_document/src/decoding_exception.dart';
+import 'package:json_api_document/src/functions/decode_map.dart';
 import 'package:json_api_document/src/identifier.dart';
 import 'package:json_api_document/src/identifier_object.dart';
 import 'package:json_api_document/src/link.dart';
 import 'package:json_api_document/src/relationship.dart';
 import 'package:json_api_document/src/resource.dart';
+import 'package:json_api_document/src/to_many.dart';
+import 'package:json_api_document/src/to_one.dart';
 
 /// [ResourceObject] is a JSON representation of a [Resource].
 ///
@@ -40,6 +44,24 @@ class ResourceObject {
                 MapEntry(k, ToMany(v.map(IdentifierObject.fromIdentifier))))
           },
           meta: meta);
+
+  /// Decodes the `data` member of a JSON:API Document
+  static ResourceObject decodeJson(Object json) {
+    final mapOrNull = (_) => _ == null || _ is Map;
+    if (json is Map) {
+      final relationships = json['relationships'];
+      final attributes = json['attributes'];
+      final links = decodeMap(json['links'], Link.decodeJson);
+
+      if (mapOrNull(relationships) && mapOrNull(attributes)) {
+        return ResourceObject(json['type'], json['id'],
+            attributes: attributes,
+            relationships: decodeMap(relationships, Relationship.decodeJson),
+            self: links['self']);
+      }
+    }
+    throw DecodingException('Can not decode ResourceObject from $json');
+  }
 
   /// Returns the JSON object to be used in the `data` or `included` members
   /// of a JSON:API Document

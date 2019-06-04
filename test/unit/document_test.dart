@@ -3,7 +3,7 @@ import 'package:json_api_document/parser.dart';
 import 'package:json_matcher/json_matcher.dart';
 import 'package:test/test.dart';
 
-import 'helper/recode_json.dart';
+import '../helper/recode_json.dart';
 
 main() {
   final api = JsonApi(version: '1.0', meta: {'a': 'b'});
@@ -26,37 +26,34 @@ main() {
     group('empty', () {
       test('minimal', () {
         final doc = Document.empty({"foo": "bar"});
-        final json = {
+        final json = recodeJson({
           "meta": {"foo": "bar"}
-        };
+        });
         expect(doc, encodesToJson(json));
-        expect(
-            parser.parseEmptyDocument(recodeJson(json)), encodesToJson(json));
+        expect(Document.decodeJson(json), encodesToJson(json));
       });
 
       test('full', () {
         final doc = Document.empty(meta, api: api);
 
-        final json = {
+        final json = recodeJson({
           "meta": {"foo": "bar"},
           "jsonapi": {
             "version": "1.0",
             "meta": {"a": "b"}
           }
-        };
+        });
         expect(doc, encodesToJson(json));
-        expect(
-            parser.parseEmptyDocument(recodeJson(json)), encodesToJson(json));
+        expect(Document.decodeJson(json), encodesToJson(json));
       });
     });
 
     group('ToOne', () {
       test('minimal', () {
         final doc = Document(ToOne(null));
-        final json = {"data": null};
+        final json = recodeJson({"data": null});
         expect(doc, encodesToJson(json));
-        expect(
-            parser.parseToOneDocument(recodeJson(json)), encodesToJson(json));
+        expect(Document.decodeJson(json), encodesToJson(json));
       });
 
       test('full', () {
@@ -65,7 +62,7 @@ main() {
           meta: meta,
           api: api,
         );
-        final json = {
+        final json = recodeJson({
           "data": {
             "type": "apples",
             "id": "42",
@@ -87,20 +84,18 @@ main() {
             "self": "/self",
             "related": "/related",
           }
-        };
+        });
         expect(doc, encodesToJson(json));
-        expect(
-            parser.parseToOneDocument(recodeJson(json)), encodesToJson(json));
+        expect(Document.decodeJson(json), encodesToJson(json));
       });
     });
 
     group('ToMany', () {
       test('minimal', () {
         final doc = Document(ToMany([]));
-        final json = {"data": []};
+        final json = recodeJson({"data": []});
         expect(doc, encodesToJson(json));
-        expect(
-            parser.parseToManyDocument(recodeJson(json)), encodesToJson(json));
+        expect(Document.decodeJson(json), encodesToJson(json));
       });
 
       test('full', () {
@@ -110,7 +105,7 @@ main() {
           meta: meta,
           api: api,
         );
-        final json = {
+        final json = recodeJson({
           "data": [
             {
               "type": "apples",
@@ -131,26 +126,24 @@ main() {
             "prev": "/prev",
             "next": "/next",
           }
-        };
+        });
         expect(doc, encodesToJson(json));
-        expect(
-            parser.parseToManyDocument(recodeJson(json)), encodesToJson(json));
+        expect(Document.decodeJson(json), encodesToJson(json));
       });
     });
 
     group('Resource', () {
       test('minimal', () {
         final doc = Document(ResourceData(apple));
-        final json = {
+        final json = recodeJson({
           "data": {
             "type": "apples",
             "id": "42",
             "attributes": {"color": "red"}
           }
-        };
+        });
         expect(doc, encodesToJson(json));
-        expect(parser.parseResourceDocument(recodeJson(json)),
-            encodesToJson(json));
+        expect(Document.decodeJson(json), encodesToJson(json));
       });
 
       test('full', () {

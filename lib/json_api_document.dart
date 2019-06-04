@@ -11,3 +11,5 @@ export 'package:json_api_document/src/resource.dart';
 export 'package:json_api_document/src/resource_collection_data.dart';
 export 'package:json_api_document/src/resource_data.dart';
 export 'package:json_api_document/src/resource_object.dart';
+export 'package:json_api_document/src/to_many.dart';
+export 'package:json_api_document/src/to_one.dart';
