@@ -1,11 +1,11 @@
-Other JSON:API packages: [Client](https://pub.dartlang.org/packages/json_api) | [Server](https://pub.dartlang.org/packages/json_api_server)
-
+# The project has moved to [json_api](https://pub.dev/packages/json_api) ([GitHub](https://github.com/f3ath/json-api-dart))!
 ---
-# JSON:API Document
+
+## JSON:API Document
 [JSON:API](http://jsonapi.org) is a specification for building APIs in JSON. This library implements 
 the Document model and a Parser.
 
-## Document model
+### Document model
 The Document is a set of Dart classes describing the main JSON:API objects: Resources and Resource Identifiers, 
 Primary Data, Relationships, etc. Use it to produce a valid JSON:API Document.
 
@@ -47,7 +47,7 @@ It will produce the following output (formatted for clarity):
 }
 ```
 
-## Parser
+### Parser
 The Parser converts parsed JSON objects to Documents.
 
 Put this code to `hello_world_parse.dart`:
