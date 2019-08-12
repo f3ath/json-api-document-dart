@@ -1,6 +1,7 @@
 # The project has moved to [json_api](https://pub.dev/packages/json_api) ([GitHub](https://github.com/f3ath/json-api-dart))!
 ---
-
+---
+---
 ## JSON:API Document
 [JSON:API](http://jsonapi.org) is a specification for building APIs in JSON. This library implements 
 the Document model and a Parser.
